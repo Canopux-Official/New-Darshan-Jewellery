@@ -1,0 +1,244 @@
+import { motion } from 'framer-motion';
+import SectionLabel from '../ui/SectionLabel';
+import GoldDivider from '../ui/GoldDivider';
+
+const STORE_IMAGE =
+  'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=900&q=80';
+
+const storeDetails = [
+  {
+    icon: (
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+        <circle cx="12" cy="10" r="3" />
+      </svg>
+    ),
+    label: 'Address',
+    value: 'Shop No. 12, Main Bazaar\nAnand, Gujarat — 388001',
+  },
+  {
+    icon: (
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="10" />
+        <polyline points="12 6 12 12 16 14" />
+      </svg>
+    ),
+    label: 'Opening Hours',
+    value: 'Monday – Saturday: 10:00 AM – 8:00 PM\nSunday: 11:00 AM – 6:00 PM',
+  },
+  {
+    icon: (
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.63 3.18 2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 6 6l.81-.81a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+      </svg>
+    ),
+    label: 'Phone',
+    value: '+91 98765 43210',
+  },
+];
+
+export default function VisitStore() {
+  return (
+    <section
+      className="section-padding"
+      style={{ backgroundColor: 'var(--color-bg-alt)' }}
+    >
+      <div className="container">
+        <div
+          className="store-grid"
+          style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            gap: '80px',
+            alignItems: 'center',
+          }}
+        >
+          {/* Left — Image */}
+          <motion.div
+            initial={{ opacity: 0, x: -32 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 1, ease: 'easeInOut' }}
+            style={{
+              position: 'relative',
+              aspectRatio: '4/5',
+              overflow: 'hidden',
+            }}
+          >
+            <motion.img
+              src={STORE_IMAGE}
+              alt="Krishna Jewellers store"
+              loading="lazy"
+              decoding="async"
+              whileHover={{ scale: 1.03 }}
+              transition={{ duration: 0.9, ease: 'easeInOut' }}
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                display: 'block',
+              }}
+            />
+            {/* Gold corner accent */}
+            <div
+              style={{
+                position: 'absolute',
+                bottom: 0,
+                right: 0,
+                width: '80px',
+                height: '80px',
+                borderRight: '2px solid var(--color-gold)',
+                borderBottom: '2px solid var(--color-gold)',
+                pointerEvents: 'none',
+              }}
+            />
+          </motion.div>
+
+          {/* Right — Info */}
+          <div>
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              style={{ marginBottom: '20px' }}
+            >
+              <SectionLabel>Find Us</SectionLabel>
+            </motion.div>
+
+            <motion.h2
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.9, delay: 0.1, ease: 'easeInOut' }}
+              style={{
+                fontFamily: 'var(--font-heading)',
+                fontSize: 'clamp(2rem, 3.5vw, 3rem)',
+                fontWeight: 400,
+                color: 'var(--color-text)',
+                lineHeight: 1.12,
+                marginBottom: '28px',
+              }}
+            >
+              Visit Our
+              <br />
+              <span style={{ fontStyle: 'italic', color: 'var(--color-bronze)' }}>
+                Flagship Store
+              </span>
+            </motion.h2>
+
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              style={{ marginBottom: '40px' }}
+            >
+              <GoldDivider />
+            </motion.div>
+
+            {/* Store details */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
+              {storeDetails.map((detail, i) => (
+                <motion.div
+                  key={detail.label}
+                  initial={{ opacity: 0, x: 20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.7, delay: 0.3 + i * 0.1, ease: 'easeInOut' }}
+                  style={{ display: 'flex', gap: '20px', alignItems: 'flex-start' }}
+                >
+                  <div
+                    style={{
+                      color: 'var(--color-gold)',
+                      flexShrink: 0,
+                      marginTop: '2px',
+                    }}
+                  >
+                    {detail.icon}
+                  </div>
+                  <div>
+                    <p
+                      style={{
+                        fontFamily: 'var(--font-body)',
+                        fontSize: '0.5625rem',
+                        letterSpacing: '0.2em',
+                        textTransform: 'uppercase',
+                        color: 'var(--color-muted)',
+                        marginBottom: '6px',
+                      }}
+                    >
+                      {detail.label}
+                    </p>
+                    <p
+                      style={{
+                        fontFamily: 'var(--font-body)',
+                        fontSize: '0.875rem',
+                        color: 'var(--color-text)',
+                        lineHeight: 1.75,
+                        whiteSpace: 'pre-line',
+                      }}
+                    >
+                      {detail.value}
+                    </p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Google Maps button */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, delay: 0.65, ease: 'easeInOut' }}
+              style={{ marginTop: '48px' }}
+            >
+              <a
+                href="https://maps.google.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '10px',
+                  fontFamily: 'var(--font-body)',
+                  fontSize: '0.6875rem',
+                  letterSpacing: '0.18em',
+                  textTransform: 'uppercase',
+                  color: 'var(--color-text)',
+                  border: '1px solid var(--color-divider)',
+                  padding: '14px 28px',
+                  transition: 'border-color 0.3s, color 0.3s',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = 'var(--color-gold)';
+                  e.currentTarget.style.color = 'var(--color-gold)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = 'var(--color-divider)';
+                  e.currentTarget.style.color = 'var(--color-text)';
+                }}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
+                Open in Google Maps
+              </a>
+            </motion.div>
+          </div>
+        </div>
+      </div>
+
+      <style>{`
+        @media (max-width: 900px) {
+          .store-grid {
+            grid-template-columns: 1fr !important;
+            gap: 48px !important;
+          }
+        }
+      `}</style>
+    </section>
+  );
+}
