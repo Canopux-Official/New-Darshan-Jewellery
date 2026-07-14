@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion, type Variants } from 'framer-motion';
 import SectionLabel from '../ui/SectionLabel';
 import GoldDivider from '../ui/GoldDivider';
 import TextLink from '../ui/TextLink';
@@ -6,12 +6,12 @@ import TextLink from '../ui/TextLink';
 const STORY_IMAGE =
   'https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?w=900&q=80';
 
-const fadeUp = {
+const fadeUp: Variants = {
   hidden: { opacity: 0, y: 28 },
-  visible: (delay = 0) => ({
+  visible: (delay: number = 0) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.85, delay, ease: 'easeInOut' },
+    transition: { duration: 0.85, delay, ease: 'easeInOut' as const },
   }),
 };
 

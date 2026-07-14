@@ -1,11 +1,21 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import GoldDivider from '../ui/GoldDivider';
+import { useStoreSettings } from '../../context/StoreSettingsContext';
 
 const footerCollections = ['Gold Rings', 'Necklaces', 'Chains', 'Bangles', 'Bracelets', 'Earrings'];
 const quickLinks = ['Home', 'About Us', "Today's Rates", 'Gallery', 'Contact'];
 
 export default function Footer() {
+  const settings = useStoreSettings();
+  const nameParts = (settings.storeName || 'Krishna Jewellers').split(/\s+/);
+  const brandMain = nameParts[0] || 'Krishna';
+  const brandSub = nameParts.slice(1).join(' ') || 'Jewellers';
+
+  const socialLinks = [
+    { label: 'Instagram', href: settings.instagramUrl },
+    { label: 'Facebook', href: settings.facebookUrl },
+  ].filter((s) => !!s.href);
+
   return (
     <footer
       style={{
@@ -15,7 +25,6 @@ export default function Footer() {
       }}
     >
       <div className="container">
-        {/* Top Grid */}
         <div
           style={{
             display: 'grid',
@@ -25,7 +34,6 @@ export default function Footer() {
           }}
           className="footer-grid"
         >
-          {/* Brand */}
           <div>
             <div style={{ marginBottom: '24px' }}>
               <div
@@ -38,7 +46,7 @@ export default function Footer() {
                   textTransform: 'uppercase',
                 }}
               >
-                Krishna
+                {brandMain}
               </div>
               <div
                 style={{
@@ -50,7 +58,7 @@ export default function Footer() {
                   marginTop: '4px',
                 }}
               >
-                Jewellers
+                {brandSub}
               </div>
             </div>
             <p
@@ -64,33 +72,35 @@ export default function Footer() {
             >
               Three generations of craftsmanship. Each piece is a bridge between heritage and the modern world — designed to endure.
             </p>
-            {/* Social Icons */}
-            <div style={{ display: 'flex', gap: '16px', marginTop: '32px' }}>
-              {['Instagram', 'Facebook', 'Pinterest'].map((s) => (
-                <motion.a
-                  key={s}
-                  href="#"
-                  aria-label={s}
-                  whileHover={{ y: -2 }}
-                  transition={{ duration: 0.3 }}
-                  style={{
-                    fontFamily: 'var(--font-body)',
-                    fontSize: '0.625rem',
-                    letterSpacing: '0.18em',
-                    textTransform: 'uppercase',
-                    color: 'rgba(248,246,242,0.45)',
-                    borderBottom: '1px solid rgba(199,161,90,0.3)',
-                    paddingBottom: '2px',
-                    transition: 'color 0.3s',
-                  }}
-                >
-                  {s}
-                </motion.a>
-              ))}
-            </div>
+            {socialLinks.length > 0 && (
+              <div style={{ display: 'flex', gap: '16px', marginTop: '32px' }}>
+                {socialLinks.map((s) => (
+                  <motion.a
+                    key={s.label}
+                    href={s.href!}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={s.label}
+                    whileHover={{ y: -2 }}
+                    transition={{ duration: 0.3 }}
+                    style={{
+                      fontFamily: 'var(--font-body)',
+                      fontSize: '0.625rem',
+                      letterSpacing: '0.18em',
+                      textTransform: 'uppercase',
+                      color: 'rgba(248,246,242,0.45)',
+                      borderBottom: '1px solid rgba(199,161,90,0.3)',
+                      paddingBottom: '2px',
+                      transition: 'color 0.3s',
+                    }}
+                  >
+                    {s.label}
+                  </motion.a>
+                ))}
+              </div>
+            )}
           </div>
 
-          {/* Quick Links */}
           <div>
             <p
               style={{
@@ -124,7 +134,6 @@ export default function Footer() {
             </nav>
           </div>
 
-          {/* Collections */}
           <div>
             <p
               style={{
@@ -158,7 +167,6 @@ export default function Footer() {
             </nav>
           </div>
 
-          {/* Contact */}
           <div>
             <p
               style={{
@@ -174,9 +182,9 @@ export default function Footer() {
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
               {[
-                { label: 'Address', value: 'Shop No. 12, Main Bazaar\nAnand, Gujarat — 388001' },
-                { label: 'Phone', value: '+91 98765 43210' },
-                { label: 'Hours', value: 'Mon – Sat: 10am – 8pm\nSunday: 11am – 6pm' },
+                { label: 'Address', value: settings.address },
+                { label: 'Phone', value: settings.phone },
+                { label: 'Hours', value: `Mon – Sat: ${settings.weekdayHours}\nSunday: ${settings.sundayHours}` },
               ].map((item) => (
                 <div key={item.label}>
                   <p
@@ -208,7 +216,6 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Divider + Copyright */}
         <div style={{ borderTop: '1px solid rgba(221,215,207,0.15)', paddingBlock: '28px' }}>
           <div
             style={{
@@ -227,7 +234,7 @@ export default function Footer() {
                 letterSpacing: '0.08em',
               }}
             >
-              © {new Date().getFullYear()} Krishna Jewellers. All rights reserved.
+              © {new Date().getFullYear()} {settings.storeName}. All rights reserved.
             </p>
             <p
               style={{

@@ -2,12 +2,14 @@ import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useScrolled } from '../../hooks/useScrolled';
+import { useSearch } from '../../context/SearchContext';
 import { NAV_LINKS } from '../../utils/constants';
 
 export default function Navbar() {
   const scrolled = useScrolled(60);
   const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
+  const { openSearch } = useSearch();
 
   return (
     <>
@@ -110,6 +112,7 @@ export default function Navbar() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
             <button
               aria-label="Search"
+              onClick={openSearch}
               style={{
                 background: 'none',
                 border: 'none',

@@ -1,11 +1,58 @@
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import SectionLabel from '../ui/SectionLabel';
 import GoldDivider from '../ui/GoldDivider';
-import { FEATURED_PRODUCTS } from '../../utils/constants';
-import type { Product } from '../../types';
+import { publicProductsService } from '../../services/publicApi';
+import { resolveMediaUrl } from '../../utils/cloudinary';
+
+interface FeaturedItem {
+  id: string;
+  slug: string;
+  name: string;
+  category: string;
+  purity: string;
+  weight: string;
+  price?: string;
+  image: string;
+  isNewArrival?: boolean;
+  isSoldOut?: boolean;
+}
+
+function mapProduct(p: any): FeaturedItem {
+  const raw =
+    Array.isArray(p.images) && p.images.length > 0
+      ? typeof p.images[0] === 'string'
+        ? p.images[0]
+        : p.images[0]?.url
+      : '';
+  return {
+    id: p.id,
+    slug: p.slug,
+    name: p.name,
+    category: p.category?.name || p.category || '',
+    purity: p.purity,
+    weight: p.weight,
+    price: p.price,
+    image: resolveMediaUrl(raw),
+    isNewArrival: p.isNewArrival,
+    isSoldOut: p.isSoldOut,
+  };
+}
 
 export default function FeaturedProducts() {
+  const [products, setProducts] = useState<FeaturedItem[]>([]);
+
+  useEffect(() => {
+    publicProductsService
+      .getFeatured()
+      .then((res) => {
+        const list = Array.isArray(res) ? res : res.data || [];
+        setProducts(list.map(mapProduct));
+      })
+      .catch(() => setProducts([]));
+  }, []);
+
   return (
     <section
       className="section-padding"
@@ -57,7 +104,7 @@ export default function FeaturedProducts() {
             gap: '2px',
           }}
         >
-          {FEATURED_PRODUCTS.map((product, i) => (
+          {products.map((product, i) => (
             <ProductCard key={product.id} product={product} index={i} large={i === 0 || i === 4} />
           ))}
         </div>
@@ -111,7 +158,7 @@ export default function FeaturedProducts() {
 }
 
 interface ProductCardProps {
-  product: Product;
+  product: FeaturedItem;
   index: number;
   large?: boolean;
 }
@@ -132,8 +179,7 @@ function ProductCard({ product, index, large }: ProductCardProps) {
         background: 'var(--color-bg-alt)',
       }}
     >
-      <Link to={`/product/${product.id}`} style={{ display: 'block', height: '100%' }}>
-        {/* Image */}
+      <Link to={`/products/${product.slug}`} style={{ display: 'block', height: '100%' }}>
         <div style={{ position: 'relative', height: '100%', overflow: 'hidden' }}>
           <motion.img
             src={product.image}
@@ -150,8 +196,33 @@ function ProductCard({ product, index, large }: ProductCardProps) {
             }}
           />
 
-          {/* New Arrival badge */}
-          {product.isNewArrival && (
+          {product.isSoldOut && (
+            <div
+              style={{
+                position: 'absolute',
+                top: '20px',
+                right: '20px',
+                padding: '5px 12px',
+                border: '1px solid rgba(248,246,242,0.5)',
+                backgroundColor: 'rgba(24,24,24,0.7)',
+                backdropFilter: 'blur(4px)',
+              }}
+            >
+              <span
+                style={{
+                  fontFamily: 'var(--font-body)',
+                  fontSize: '0.5625rem',
+                  letterSpacing: '0.2em',
+                  textTransform: 'uppercase',
+                  color: '#F8F6F2',
+                }}
+              >
+                Sold Out
+              </span>
+            </div>
+          )}
+
+          {product.isNewArrival && !product.isSoldOut && (
             <div
               style={{
                 position: 'absolute',
@@ -177,7 +248,6 @@ function ProductCard({ product, index, large }: ProductCardProps) {
             </div>
           )}
 
-          {/* Overlay — appears on hover */}
           <div
             className="product-overlay"
             style={{

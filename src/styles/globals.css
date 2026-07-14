@@ -18,8 +18,8 @@
   --color-white: #FFFFFF;
 
   /* Typography */
-  --font-heading: 'Cormorant Garamond', Georgia, serif;
-  --font-body: 'Inter', system-ui, sans-serif;
+  --font-heading: 'DM Serif Display', Georgia, serif;
+  --font-body: 'Manrope', system-ui, sans-serif;
 
   /* Spacing scale (8px base) */
   --space-1: 8px;
@@ -120,6 +120,28 @@ button {
   width: 100%;
   height: 1px;
   background-color: var(--color-divider);
+}
+
+/* ─── Admin variables ──────────────────────────────────────────── */
+:root {
+  --admin-sidebar-w: 256px;
+  --admin-sidebar-collapsed: 64px;
+  --admin-topbar-h: 64px;
+  --admin-bg: #F5F4F1;
+  --admin-card: #FFFFFF;
+  --admin-border: #EAEAE7;
+  --admin-text: #1A1918;
+  --admin-text-2: #6B6966;
+  --admin-text-3: #A8A5A0;
+  --admin-sidebar-bg: #0E0E0D;
+  --admin-sidebar-border: rgba(255,255,255,0.06);
+  --admin-sidebar-hover: rgba(255,255,255,0.05);
+  --admin-sidebar-active-bg: rgba(199,161,90,0.1);
+  --admin-sidebar-active-text: #C7A15A;
+  --admin-success: #16A34A;
+  --admin-warning: #D97706;
+  --admin-danger: #DC2626;
+  --admin-info: #2563EB;
 }
 
 /* ─── Swiper overrides ─────────────────────────────────────────── */

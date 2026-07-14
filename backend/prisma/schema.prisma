@@ -1,0 +1,193 @@
+// Prisma schema for Krishna Jewellers Admin
+// Phase 5: Cloudinary + StoreSettings
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum Role {
+  ADMIN
+  SUPER_ADMIN
+}
+
+enum Purity {
+  KARAT_24
+  KARAT_22
+  KARAT_18
+  KARAT_14
+}
+
+enum OfferStatus {
+  ACTIVE
+  SCHEDULED
+  EXPIRED
+}
+
+model AdminUser {
+  id           String        @id @default(cuid())
+  email        String        @unique
+  passwordHash String
+  name         String
+  role         Role          @default(ADMIN)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  activities   ActivityLog[]
+
+  @@map("admin_users")
+}
+
+model Category {
+  id        String    @id @default(cuid())
+  name      String
+  slug      String    @unique
+  isActive  Boolean   @default(true)
+  products  Product[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@map("categories")
+}
+
+model Product {
+  id           String         @id @default(cuid())
+  slug         String         @unique
+  name         String
+  categoryId   String
+  category     Category       @relation(fields: [categoryId], references: [id])
+  purity       Purity
+  weight       String
+  weightGrams  Float
+  price        String?
+  priceValue   Float?
+  description  String         @db.Text
+  makingStyle  String?
+  isNewArrival Boolean        @default(false)
+  isFeatured   Boolean        @default(false)
+  isAvailable  Boolean        @default(true)
+  isSoldOut    Boolean        @default(false)
+  isHidden     Boolean        @default(false)
+  images       ProductImage[]
+  tags         String[]       @default([])
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+
+  @@map("products")
+}
+
+model ProductImage {
+  id         String  @id @default(cuid())
+  productId  String
+  product    Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  url        String
+  publicId   String?
+  width      Int?
+  height     Int?
+  order      Int     @default(0)
+  isFeatured Boolean @default(false)
+
+  @@map("product_images")
+}
+
+model HeroBanner {
+  id        String   @id @default(cuid())
+  title     String
+  subtitle  String?
+  imageUrl  String
+  publicId  String?
+  isActive  Boolean  @default(true)
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("hero_banners")
+}
+
+model GoldRate {
+  id        String   @id @default(cuid())
+  gold24k   Float
+  gold22k   Float
+  gold18k   Float
+  silver    Float
+  source    String   @default("manual") // "manual" | "api" — ready for future Gold API
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("gold_rates")
+}
+
+model GalleryImage {
+  id        String   @id @default(cuid())
+  url       String
+  publicId  String?
+  alt       String?
+  width     Int?
+  height    Int?
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+
+  @@map("gallery_images")
+}
+
+model Testimonial {
+  id         String   @id @default(cuid())
+  name       String
+  city       String
+  quote      String   @db.Text
+  rating     Int      @default(5)
+  isApproved Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@map("testimonials")
+}
+
+model Offer {
+  id          String      @id @default(cuid())
+  title       String
+  description String      @db.Text
+  status      OfferStatus @default(ACTIVE)
+  startDate   DateTime
+  endDate     DateTime
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  @@map("offers")
+}
+
+model ActivityLog {
+  id        String     @id @default(cuid())
+  type      String
+  action    String
+  detail    String
+  userId    String?
+  user      AdminUser? @relation(fields: [userId], references: [id], onDelete: SetNull)
+  createdAt DateTime   @default(now())
+
+  @@map("activity_logs")
+}
+
+// Singleton-style store configuration (one row)
+model StoreSettings {
+  id             String   @id @default(cuid())
+  storeName      String   @default("Krishna Jewellers")
+  adminName      String   @default("Store Admin")
+  email          String   @default("admin@krishnajewellers.in")
+  phone          String   @default("+91 98765 43210")
+  whatsapp       String   @default("919876543210")
+  address        String   @default("12, Heritage Lane, Ahmedabad, Gujarat 380001")
+  weekdayHours   String   @default("10:00 AM – 8:00 PM")
+  sundayHours    String   @default("11:00 AM – 6:00 PM")
+  instagramUrl   String?
+  facebookUrl    String?
+  googleMapsUrl  String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@map("store_settings")
+}

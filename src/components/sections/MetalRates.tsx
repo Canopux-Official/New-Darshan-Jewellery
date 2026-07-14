@@ -1,15 +1,37 @@
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import SectionLabel from '../ui/SectionLabel';
-import { METAL_RATES } from '../../utils/constants';
+import { publicRatesService } from '../../services/publicApi';
 
 const metalIcons: Record<string, string> = {
-  '24K Gold': 'Au',
-  '22K Gold': 'Au',
-  '18K Gold': 'Au',
-  Silver: 'Ag',
+  '24K Gold': 'Au', '22K Gold': 'Au', '18K Gold': 'Au', Silver: 'Ag',
 };
 
+interface RateCard { label: string; karat: string | null; ratePerGram: string; lastUpdated: string; }
+
+function buildRateCards(data: any, lastUpdated: string): RateCard[] {
+  const fmt = (n: number) => `₹${n.toLocaleString('en-IN')}`;
+  const updatedStr = lastUpdated
+    ? new Date(lastUpdated).toLocaleString('en-IN', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true })
+    : 'Not yet updated';
+  return [
+    { label: '24K Gold', karat: '24K', ratePerGram: fmt(data.gold24k), lastUpdated: updatedStr },
+    { label: '22K Gold', karat: '22K', ratePerGram: fmt(data.gold22k), lastUpdated: updatedStr },
+    { label: '18K Gold', karat: '18K', ratePerGram: fmt(data.gold18k), lastUpdated: updatedStr },
+    { label: 'Silver',   karat: null,  ratePerGram: fmt(data.silver),  lastUpdated: updatedStr },
+  ];
+}
+
 export default function MetalRates() {
+  const [rates, setRates] = useState<RateCard[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    publicRatesService.getCurrent()
+      .then((data) => setRates(buildRateCards(data, data.lastUpdated || '')))
+      .catch(() => {/* keep empty — shows skeleton */})
+      .finally(() => setLoading(false));
+  }, []);
   return (
     <section
       style={{
@@ -74,7 +96,15 @@ export default function MetalRates() {
             border: '1px solid rgba(221,215,207,0.12)',
           }}
         >
-          {METAL_RATES.map((rate, i) => (
+          {loading
+            ? Array.from({ length: 4 }).map((_, i) => (
+                <div key={i} style={{ background: 'rgba(24,24,24,0.98)', padding: '48px 40px', minHeight: '220px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                  <div style={{ width: '36px', height: '36px', borderRadius: '50%', border: '1px solid rgba(199,161,90,0.15)' }} />
+                  <div style={{ width: '60%', height: '10px', backgroundColor: 'rgba(255,255,255,0.05)', borderRadius: '4px' }} />
+                  <div style={{ width: '80%', height: '40px', backgroundColor: 'rgba(255,255,255,0.06)', borderRadius: '4px' }} />
+                </div>
+              ))
+            : rates.map((rate, i) => (
             <motion.div
               key={rate.label}
               initial={{ opacity: 0, y: 24 }}

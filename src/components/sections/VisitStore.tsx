@@ -1,45 +1,51 @@
 import { motion } from 'framer-motion';
 import SectionLabel from '../ui/SectionLabel';
 import GoldDivider from '../ui/GoldDivider';
+import { useStoreSettings } from '../../context/StoreSettingsContext';
 
 const STORE_IMAGE =
   'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=900&q=80';
 
-const storeDetails = [
-  {
-    icon: (
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-        <circle cx="12" cy="10" r="3" />
-      </svg>
-    ),
-    label: 'Address',
-    value: 'Shop No. 12, Main Bazaar\nAnand, Gujarat — 388001',
-  },
-  {
-    icon: (
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="12" r="10" />
-        <polyline points="12 6 12 12 16 14" />
-      </svg>
-    ),
-    label: 'Opening Hours',
-    value: 'Monday – Saturday: 10:00 AM – 8:00 PM\nSunday: 11:00 AM – 6:00 PM',
-  },
-  {
-    icon: (
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.63 3.18 2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 6 6l.81-.81a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
-      </svg>
-    ),
-    label: 'Phone',
-    value: '+91 98765 43210',
-  },
-];
-
 export default function VisitStore() {
+  const settings = useStoreSettings();
+
+  const storeDetails = [
+    {
+      icon: (
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+          <circle cx="12" cy="10" r="3" />
+        </svg>
+      ),
+      label: 'Address',
+      value: settings.address,
+    },
+    {
+      icon: (
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="12" cy="12" r="10" />
+          <polyline points="12 6 12 12 16 14" />
+        </svg>
+      ),
+      label: 'Opening Hours',
+      value: `Monday – Saturday: ${settings.weekdayHours}\nSunday: ${settings.sundayHours}`,
+    },
+    {
+      icon: (
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.63 3.18 2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 6 6l.81-.81a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+        </svg>
+      ),
+      label: 'Phone',
+      value: settings.phone,
+    },
+  ];
+
+  const mapsUrl = settings.googleMapsUrl || 'https://maps.google.com';
+
   return (
     <section
+      id="visit"
       className="section-padding"
       style={{ backgroundColor: 'var(--color-bg-alt)' }}
     >
@@ -53,7 +59,6 @@ export default function VisitStore() {
             alignItems: 'center',
           }}
         >
-          {/* Left — Image */}
           <motion.div
             initial={{ opacity: 0, x: -32 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -67,7 +72,7 @@ export default function VisitStore() {
           >
             <motion.img
               src={STORE_IMAGE}
-              alt="Krishna Jewellers store"
+              alt={`${settings.storeName} store`}
               loading="lazy"
               decoding="async"
               whileHover={{ scale: 1.03 }}
@@ -79,7 +84,6 @@ export default function VisitStore() {
                 display: 'block',
               }}
             />
-            {/* Gold corner accent */}
             <div
               style={{
                 position: 'absolute',
@@ -94,7 +98,6 @@ export default function VisitStore() {
             />
           </motion.div>
 
-          {/* Right — Info */}
           <div>
             <motion.div
               initial={{ opacity: 0, y: 16 }}
@@ -137,7 +140,6 @@ export default function VisitStore() {
               <GoldDivider />
             </motion.div>
 
-            {/* Store details */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
               {storeDetails.map((detail, i) => (
                 <motion.div
@@ -186,7 +188,6 @@ export default function VisitStore() {
               ))}
             </div>
 
-            {/* Google Maps button */}
             <motion.div
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -195,7 +196,7 @@ export default function VisitStore() {
               style={{ marginTop: '48px' }}
             >
               <a
-                href="https://maps.google.com"
+                href={mapsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{
