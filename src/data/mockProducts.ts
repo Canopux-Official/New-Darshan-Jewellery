@@ -21,8 +21,8 @@ const IMG = {
 export const PRODUCTS: Product[] = [
   // ─── Gold Rings ──────────────────────────────────────
   {
-    id: 'r1', slug: 'sunburst-solitaire-ring',
-    name: 'Sunburst Solitaire Ring', category: 'Gold Rings', categorySlug: 'gold-rings',
+    id: 'r1', slug: 'floral-gold-ring',
+    name: 'Floral Gold Ring', category: 'Gold Rings', categorySlug: 'gold-rings',
     purity: '22K', weight: '4.2g', weightGrams: 4.2, price: '₹28,566', priceValue: 28566,
     images: IMG.ring,
     description: 'A radiant sunburst design set with a central stone, finished in 22K gold. The textured band catches light beautifully at every angle.',
@@ -73,18 +73,18 @@ export const PRODUCTS: Product[] = [
 
   // ─── Necklaces ───────────────────────────────────────
   {
-    id: 'n1', slug: 'heritage-polki-necklace',
-    name: 'Heritage Polki Necklace', category: 'Necklaces', categorySlug: 'necklaces',
+    id: 'n1', slug: 'traditional-gold-necklace',
+    name: 'Traditional Gold Necklace', category: 'Gold Necklaces', categorySlug: 'gold-necklaces',
     purity: '22K', weight: '22.5g', weightGrams: 22.5, price: '₹1,53,225', priceValue: 153225,
     images: IMG.necklace,
-    description: 'A statement polki necklace with uncut diamonds set in 22K gold. The irregular surfaces of polki diamonds give an antique, heirloom quality.',
-    makingStyle: 'Traditional polki setting',
+    description: 'A traditional gold necklace finished in 22K gold. A statement piece for weddings and festivals.',
+    makingStyle: 'Hand-finished traditional work',
     isNewArrival: false, isFeatured: true, isAvailable: true,
-    tags: ['necklaces', 'polki', 'bridal', 'statement'],
+    tags: ['necklaces', 'traditional', 'bridal', 'statement'],
   },
   {
-    id: 'n2', slug: 'temple-haram',
-    name: 'Traditional Temple Haram', category: 'Necklaces', categorySlug: 'necklaces',
+    id: 'n2', slug: 'classic-bridal-haram',
+    name: 'Classic Bridal Haram', category: 'Gold Necklaces', categorySlug: 'gold-necklaces',
     purity: '22K', weight: '45.0g', weightGrams: 45.0, price: '₹3,06,450', priceValue: 306450,
     images: IMG.necklace.slice().reverse(),
     description: 'A long traditional haram inspired by temple jewellery, featuring Lakshmi coins and floral motifs. A centrepiece for weddings and festivals.',
@@ -94,7 +94,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'n3', slug: 'floral-gold-necklace',
-    name: 'Floral Gold Necklace', category: 'Necklaces', categorySlug: 'necklaces',
+    name: 'Floral Gold Necklace', category: 'Gold Necklaces', categorySlug: 'gold-necklaces',
     purity: '22K', weight: '18.3g', weightGrams: 18.3, price: '₹1,24,603', priceValue: 124603,
     images: IMG.necklace,
     description: 'A layered floral necklace with petal motifs graduating in size. Versatile enough for festive occasions and formal evenings alike.',
@@ -104,7 +104,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'n4', slug: 'diamond-cut-necklace',
-    name: 'Diamond Cut Necklace', category: 'Necklaces', categorySlug: 'necklaces',
+    name: 'Diamond Cut Necklace', category: 'Gold Necklaces', categorySlug: 'gold-necklaces',
     purity: '18K', weight: '14.8g', weightGrams: 14.8, price: '₹82,388', priceValue: 82388,
     images: IMG.necklace.slice().reverse(),
     description: 'A contemporary necklace featuring diamond-cut links that catch and scatter light. Refined enough for everyday luxury.',
@@ -114,7 +114,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'n5', slug: 'layered-rani-haar',
-    name: 'Layered Rani Haar', category: 'Necklaces', categorySlug: 'necklaces',
+    name: 'Layered Rani Haar', category: 'Gold Necklaces', categorySlug: 'gold-necklaces',
     purity: '22K', weight: '52.0g', weightGrams: 52.0, price: '₹3,54,120', priceValue: 354120,
     images: IMG.necklace,
     description: 'A multi-layered rani haar with intricate medallion pendants in 22K gold. A grand statement piece for weddings and sangeet ceremonies.',
@@ -125,18 +125,18 @@ export const PRODUCTS: Product[] = [
 
   // ─── Chains ──────────────────────────────────────────
   {
-    id: 'c1', slug: 'figaro-chain',
-    name: 'Figaro Chain', category: 'Chains', categorySlug: 'chains',
+    id: 'c1', slug: 'lightweight-daily-wear-chain',
+    name: 'Lightweight Daily Wear Chain', category: 'Gold Chains', categorySlug: 'gold-chains',
     purity: '22K', weight: '11.3g', weightGrams: 11.3, price: '₹76,943', priceValue: 76943,
     images: IMG.chain,
-    description: 'A classic figaro pattern chain in 22K gold. Three small links followed by one elongated link — a timeless Italian design adapted for Indian gold.',
+    description: 'A lightweight daily wear chain in 22K gold — comfortable for everyday use and ideal with or without a pendant.',
     makingStyle: 'Machine-woven, hand-finished',
     isNewArrival: false, isFeatured: false, isAvailable: true,
-    tags: ['chains', 'figaro', 'classic'],
+    tags: ['chains', 'daily-wear', 'classic'],
   },
   {
     id: 'c2', slug: 'singapore-chain',
-    name: 'Singapore Chain', category: 'Chains', categorySlug: 'chains',
+    name: 'Singapore Chain', category: 'Gold Chains', categorySlug: 'gold-chains',
     purity: '22K', weight: '8.6g', weightGrams: 8.6, price: '₹58,558', priceValue: 58558,
     images: IMG.chain.slice().reverse(),
     description: 'A twisted herringbone pattern gives this chain a distinctive look. Light, flexible and ideal for everyday wear with or without a pendant.',
@@ -146,7 +146,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'c3', slug: 'box-chain',
-    name: 'Box Chain', category: 'Chains', categorySlug: 'chains',
+    name: 'Box Chain', category: 'Gold Chains', categorySlug: 'gold-chains',
     purity: '18K', weight: '7.2g', weightGrams: 7.2, price: '₹40,068', priceValue: 40068,
     images: IMG.chain,
     description: 'Square links connected at right angles create a clean, geometric chain. Pairs beautifully with a minimal pendant.',
@@ -156,7 +156,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'c4', slug: 'rope-chain',
-    name: 'Classic Rope Chain', category: 'Chains', categorySlug: 'chains',
+    name: 'Classic Rope Chain', category: 'Gold Chains', categorySlug: 'gold-chains',
     purity: '22K', weight: '14.5g', weightGrams: 14.5, price: '₹98,755', priceValue: 98755,
     images: IMG.chain.slice().reverse(),
     description: 'A thick, textured rope chain in 22K gold. The twisted segments create a rich, luxurious appearance that stands beautifully on its own.',
@@ -167,8 +167,8 @@ export const PRODUCTS: Product[] = [
 
   // ─── Bangles ─────────────────────────────────────────
   {
-    id: 'b1', slug: 'maharani-bangle-set',
-    name: 'Maharani Bangle Set', category: 'Bangles', categorySlug: 'bangles',
+    id: 'b1', slug: 'elegant-gold-bangles',
+    name: 'Elegant Gold Bangles', category: 'Bangles', categorySlug: 'bangles',
     purity: '22K', weight: '32.0g', weightGrams: 32.0, price: '₹2,17,984', priceValue: 217984,
     images: IMG.bangle,
     description: 'A set of six bangles with a carved Maharani pattern in 22K gold. Worn as a set, they create a rich, layered sound and visual rhythm.',
@@ -251,8 +251,8 @@ export const PRODUCTS: Product[] = [
 
   // ─── Earrings ─────────────────────────────────────────
   {
-    id: 'e1', slug: 'classic-jhumka-earrings',
-    name: 'Classic Jhumka Earrings', category: 'Earrings', categorySlug: 'earrings',
+    id: 'e1', slug: 'designer-earrings',
+    name: 'Designer Earrings', category: 'Earrings', categorySlug: 'earrings',
     purity: '22K', weight: '6.1g', weightGrams: 6.1, price: '₹41,543', priceValue: 41543,
     images: IMG.earring,
     description: 'A pair of traditional jhumkas with a beaded border and small hanging pearls at the base. A timeless design that never goes out of fashion.',
@@ -367,14 +367,14 @@ export const PRODUCTS: Product[] = [
 
   // ─── Bridal Collection ───────────────────────────────
   {
-    id: 'bc1', slug: 'bridal-choker-set',
-    name: 'Bridal Choker Set', category: 'Bridal Collection', categorySlug: 'bridal-collection',
+    id: 'bc1', slug: 'wedding-choker',
+    name: 'Wedding Choker', category: 'Bridal Collection', categorySlug: 'bridal-collection',
     purity: '22K', weight: '65.0g', weightGrams: 65.0, price: '₹4,42,650', priceValue: 442650,
     images: IMG.bridal,
-    description: 'A complete bridal choker set comprising necklace, earrings and maang tikka in 22K gold with kundan stone work. Made to order in 4–6 weeks.',
-    makingStyle: 'Kundan setting, hand-finished',
+    description: 'A bridal wedding choker in 22K gold — crafted to be the centrepiece of your most sacred day.',
+    makingStyle: 'Hand-finished bridal work',
     isNewArrival: false, isFeatured: true, isAvailable: true,
-    tags: ['bridal', 'choker', 'set', 'kundan'],
+    tags: ['bridal', 'choker', 'wedding'],
   },
   {
     id: 'bc2', slug: 'polki-bridal-set',
@@ -419,14 +419,14 @@ export const PRODUCTS: Product[] = [
     tags: ['temple', 'necklace', 'lakshmi', 'south-indian'],
   },
   {
-    id: 't2', slug: 'goddess-lakshmi-pendant',
-    name: 'Goddess Lakshmi Pendant', category: 'Temple Jewellery', categorySlug: 'temple-jewellery',
+    id: 't2', slug: 'temple-design-pendant',
+    name: 'Temple Design Pendant', category: 'Temple Jewellery', categorySlug: 'temple-jewellery',
     purity: '22K', weight: '8.5g', weightGrams: 8.5, price: '₹57,893', priceValue: 57893,
     images: IMG.temple.slice().reverse(),
-    description: 'A detailed Goddess Lakshmi pendant in 22K gold with ruby and emerald accents. A sacred piece meant to bring blessings to its wearer.',
-    makingStyle: 'Lost-wax casting, stone setting',
+    description: 'A temple design pendant in 22K gold — a sacred piece meant to bring blessings to its wearer.',
+    makingStyle: 'Lost-wax casting, hand-finished',
     isNewArrival: true, isFeatured: false, isAvailable: true,
-    tags: ['temple', 'pendant', 'lakshmi', 'religious'],
+    tags: ['temple', 'pendant', 'religious'],
   },
   {
     id: 't3', slug: 'temple-earring-set',
@@ -473,24 +473,36 @@ export const PRODUCTS: Product[] = [
 
   // ─── Coins ───────────────────────────────────────────
   {
-    id: 'co1', slug: 'lakshmi-gold-coin-5g',
-    name: 'Lakshmi Gold Coin 5g', category: 'Coins', categorySlug: 'coins',
+    id: 'co1', slug: 'gold-coin',
+    name: 'Gold Coin', category: 'Coins', categorySlug: 'coins',
     purity: '24K', weight: '5.0g', weightGrams: 5.0, price: '₹37,100', priceValue: 37100,
     images: IMG.coin,
-    description: 'A 24K investment-grade gold coin featuring Goddess Lakshmi on the obverse. Presented in a tamper-proof card. Perfect for Dhanteras and Akshaya Tritiya.',
+    description: 'A 24K investment-grade gold coin. Presented in a tamper-proof card — ideal for festivals, gifts and savings.',
     makingStyle: 'Minted, tamper-proof packaging',
     isNewArrival: false, isFeatured: true, isAvailable: true,
-    tags: ['coins', 'lakshmi', '24k', 'investment', 'gift'],
+    tags: ['coins', '24k', 'investment', 'gift'],
   },
   {
-    id: 'co2', slug: 'lakshmi-gold-coin-10g',
-    name: 'Lakshmi Gold Coin 10g', category: 'Coins', categorySlug: 'coins',
+    id: 'co2', slug: 'gold-coin-10g',
+    name: 'Gold Coin 10g', category: 'Coins', categorySlug: 'coins',
     purity: '24K', weight: '10.0g', weightGrams: 10.0, price: '₹74,200', priceValue: 74200,
     images: IMG.coin.slice().reverse(),
     description: 'A 10g 24K gold coin featuring Goddess Lakshmi. An auspicious gift for weddings, housewarmings and milestone occasions.',
     makingStyle: 'Minted, tamper-proof packaging',
     isNewArrival: false, isFeatured: false, isAvailable: true,
     tags: ['coins', 'lakshmi', '24k', 'investment'],
+  },
+
+  // ─── Silver Collection ───────────────────────────────
+  {
+    id: 's1', slug: 'silver-anklet',
+    name: 'Silver Anklet', category: 'Silver Collection', categorySlug: 'silver-collection',
+    purity: '22K', weight: '18.0g', weightGrams: 18.0, price: '₹1,692', priceValue: 1692,
+    images: IMG.bracelet,
+    description: 'An elegant silver anklet with a delicate link pattern — lightweight, comfortable, and perfect for everyday wear.',
+    makingStyle: 'Machine-woven, polished finish',
+    isNewArrival: true, isFeatured: true, isAvailable: true,
+    tags: ['silver', 'anklet', 'daily-wear'],
   },
 ];
 

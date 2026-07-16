@@ -1,7 +1,6 @@
 import { motion, type Variants } from 'framer-motion';
 import SectionLabel from '../ui/SectionLabel';
 import GoldDivider from '../ui/GoldDivider';
-import TextLink from '../ui/TextLink';
 
 const STORY_IMAGE =
   'https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?w=900&q=80';
@@ -91,9 +90,7 @@ export default function BrandStory() {
                 marginBottom: '20px',
               }}
             >
-              Founded in 1987 by Shri Rameshbhai Patel, Krishna Jewellers began as a small 
-              workshop in the heart of Anand. What started as one craftsman's dream has grown 
-              into a legacy trusted by generations of families across Gujarat.
+              Located in the heart of Ghasipura, New Darshan Jewellery has become a trusted destination for beautifully crafted gold and silver jewellery. With a commitment to purity, quality, and customer satisfaction, we offer collections for weddings, festivals, everyday elegance, and life's special moments.
             </motion.p>
 
             <motion.p
@@ -110,26 +107,15 @@ export default function BrandStory() {
                 marginBottom: '48px',
               }}
             >
-              Every piece we create carries the weight of that tradition — hallmarked for purity, 
-              shaped by hand, and designed to outlive the moment it was made for.
+              Our focus is on timeless craftsmanship, transparent pricing, and building long-term relationships with every customer who visits our showroom.
             </motion.p>
-
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.3 }}
-              custom={0.55}
-              variants={fadeUp}
-            >
-              <TextLink to="/about">Discover Our Heritage →</TextLink>
-            </motion.div>
 
             {/* Stats row */}
             <motion.div
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, amount: 0.3 }}
-              custom={0.65}
+              custom={0.55}
               variants={fadeUp}
               style={{
                 display: 'flex',
@@ -140,8 +126,8 @@ export default function BrandStory() {
               }}
             >
               {[
-                { value: '37+', label: 'Years of Craft' },
-                { value: '12k+', label: 'Families Served' },
+                { value: 'Local', label: 'Ghasipura Store' },
+                { value: 'Trusted', label: 'By Families' },
                 { value: '100%', label: 'BIS Hallmarked' },
               ].map((stat) => (
                 <div key={stat.label}>

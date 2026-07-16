@@ -3,13 +3,16 @@ import * as bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
 
+const STORE_ADDRESS =
+  'New Darshan Jewellery\nMain Road\nNear Thana Chhak\nGhasipura\nAnandapur\nKeonjhar\nOdisha – 758015';
+
 async function main() {
   console.log('🌱 Seeding database...');
 
   // ─── Admin User ──────────────────────────────────────────────
   const email = process.env.ADMIN_EMAIL || 'admin@krishnajewellers.in';
   const password = process.env.ADMIN_PASSWORD || 'Admin@1234';
-  const name = process.env.ADMIN_NAME || 'Rameshbhai Patel';
+  const name = process.env.ADMIN_NAME || 'Store Admin';
 
   const existing = await prisma.adminUser.findUnique({ where: { email } });
   if (!existing) {
@@ -22,25 +25,27 @@ async function main() {
 
   // ─── Categories ──────────────────────────────────────────────
   const categories = [
+    { name: 'Bridal Collection', slug: 'bridal-collection' },
+    { name: 'Gold Necklaces', slug: 'gold-necklaces' },
+    { name: 'Gold Chains', slug: 'gold-chains' },
     { name: 'Gold Rings', slug: 'gold-rings' },
-    { name: 'Necklaces', slug: 'necklaces' },
-    { name: 'Chains', slug: 'chains' },
     { name: 'Bangles', slug: 'bangles' },
     { name: 'Bracelets', slug: 'bracelets' },
     { name: 'Earrings', slug: 'earrings' },
     { name: 'Pendants', slug: 'pendants' },
-    { name: 'Mangalsutra', slug: 'mangalsutra' },
-    { name: 'Bridal Collection', slug: 'bridal-collection' },
     { name: 'Temple Jewellery', slug: 'temple-jewellery' },
-    { name: 'Kids Collection', slug: 'kids-collection', isActive: false },
+    { name: 'Mangalsutra', slug: 'mangalsutra' },
+    { name: 'Silver Collection', slug: 'silver-collection' },
+    { name: 'Kids Collection', slug: 'kids-collection' },
+    { name: 'Daily Wear Collection', slug: 'daily-wear-collection' },
     { name: 'Coins', slug: 'coins' },
   ];
 
   for (const cat of categories) {
     await prisma.category.upsert({
       where: { slug: cat.slug },
-      update: {},
-      create: { name: cat.name, slug: cat.slug, isActive: cat.isActive ?? true },
+      update: { name: cat.name, isActive: true },
+      create: { name: cat.name, slug: cat.slug, isActive: true },
     });
   }
   console.log(`✅ ${categories.length} categories seeded`);
@@ -52,22 +57,28 @@ async function main() {
     console.log('✅ Initial gold rates seeded');
   }
 
-  // ─── Store Settings ──────────────────────────────────────────
-  const settingsCount = await prisma.storeSettings.count();
-  if (settingsCount === 0) {
-    await prisma.storeSettings.create({
-      data: {
-        storeName: 'Krishna Jewellers',
-        adminName: name,
-        email,
-        phone: '+91 98765 43210',
-        whatsapp: '919876543210',
-        address: '12, Heritage Lane, Ahmedabad, Gujarat 380001',
-        weekdayHours: '10:00 AM – 8:00 PM',
-        sundayHours: '11:00 AM – 6:00 PM',
-        googleMapsUrl: 'https://maps.google.com',
-      },
+  // ─── Store Settings (always update branding) ─────────────────
+  const existingSettings = await prisma.storeSettings.findFirst();
+  const settingsData = {
+    storeName: 'New Darshan Jewellery',
+    adminName: name,
+    email,
+    phone: '+91 98765 43210',
+    whatsapp: '919876543210',
+    address: STORE_ADDRESS,
+    weekdayHours: '10:00 AM – 9:00 PM',
+    sundayHours: '10:00 AM – 9:00 PM',
+    googleMapsUrl: 'https://maps.google.com',
+  };
+
+  if (existingSettings) {
+    await prisma.storeSettings.update({
+      where: { id: existingSettings.id },
+      data: settingsData,
     });
+    console.log('✅ Store settings updated');
+  } else {
+    await prisma.storeSettings.create({ data: settingsData });
     console.log('✅ Store settings seeded');
   }
 
@@ -99,18 +110,16 @@ async function main() {
     console.log('✅ Gallery images seeded');
   }
 
-  // ─── Testimonials ────────────────────────────────────────────
-  const testimonialCount = await prisma.testimonial.count();
-  if (testimonialCount === 0) {
-    await prisma.testimonial.createMany({
-      data: [
-        { name: 'Meera Patel', city: 'Ahmedabad', quote: "The necklace I purchased for my daughter's wedding was beyond exquisite.", rating: 5, isApproved: true },
-        { name: 'Priya Sharma', city: 'Mumbai', quote: 'What sets Krishna Jewellers apart is not just the quality of gold, but the artistry.', rating: 5, isApproved: true },
-        { name: 'Sunita Desai', city: 'Surat', quote: 'Three generations of our family have trusted Krishna Jewellers.', rating: 5, isApproved: true },
-      ],
-    });
-    console.log('✅ Testimonials seeded');
-  }
+  // ─── Testimonials (refresh branding quotes) ──────────────────
+  await prisma.testimonial.deleteMany();
+  await prisma.testimonial.createMany({
+    data: [
+      { name: 'Priyanka Mishra', city: 'Ghasipura', quote: 'Beautiful jewellery collection and very polite staff. Highly recommended.', rating: 5, isApproved: true },
+      { name: 'Satyabrata Nayak', city: 'Anandapur', quote: 'Excellent craftsmanship and transparent pricing. We purchased our wedding jewellery here.', rating: 5, isApproved: true },
+      { name: 'Ananya Das', city: 'Keonjhar', quote: 'Trusted jewellery shop in Ghasipura with a wide variety of designs.', rating: 5, isApproved: true },
+    ],
+  });
+  console.log('✅ Testimonials seeded');
 
   // ─── Offers ──────────────────────────────────────────────────
   const offerCount = await prisma.offer.count();
@@ -128,16 +137,16 @@ async function main() {
   const productCount = await prisma.product.count();
   if (productCount === 0) {
     const ringsCategory = await prisma.category.findUnique({ where: { slug: 'gold-rings' } });
-    const necklacesCategory = await prisma.category.findUnique({ where: { slug: 'necklaces' } });
+    const necklacesCategory = await prisma.category.findUnique({ where: { slug: 'gold-necklaces' } });
     if (ringsCategory) {
       const ring = await prisma.product.create({
-        data: { slug: 'sunburst-solitaire-ring', name: 'Sunburst Solitaire Ring', categoryId: ringsCategory.id, purity: Purity.KARAT_22, weight: '4.2g', weightGrams: 4.2, price: '₹28,566', priceValue: 28566, description: 'A radiant sunburst design set with a central stone in 22K gold.', makingStyle: 'Machine-finished with hand engraving', isNewArrival: true, isFeatured: true, isAvailable: true },
+        data: { slug: 'floral-gold-ring', name: 'Floral Gold Ring', categoryId: ringsCategory.id, purity: Purity.KARAT_22, weight: '4.2g', weightGrams: 4.2, price: '₹28,566', priceValue: 28566, description: 'A radiant floral design set in 22K gold.', makingStyle: 'Machine-finished with hand engraving', isNewArrival: true, isFeatured: true, isAvailable: true },
       });
       await prisma.productImage.create({ data: { productId: ring.id, url: 'https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=600&q=80', order: 0 } });
     }
     if (necklacesCategory) {
       const necklace = await prisma.product.create({
-        data: { slug: 'heritage-polki-necklace', name: 'Heritage Polki Necklace', categoryId: necklacesCategory.id, purity: Purity.KARAT_22, weight: '22.5g', weightGrams: 22.5, price: '₹1,53,225', priceValue: 153225, description: 'A statement polki necklace with uncut diamonds in 22K gold.', makingStyle: 'Traditional polki setting', isFeatured: true, isAvailable: true },
+        data: { slug: 'traditional-gold-necklace', name: 'Traditional Gold Necklace', categoryId: necklacesCategory.id, purity: Purity.KARAT_22, weight: '22.5g', weightGrams: 22.5, price: '₹1,53,225', priceValue: 153225, description: 'A traditional gold necklace finished in 22K gold.', makingStyle: 'Hand-finished traditional work', isFeatured: true, isAvailable: true },
       });
       await prisma.productImage.create({ data: { productId: necklace.id, url: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=600&q=80', order: 0 } });
     }

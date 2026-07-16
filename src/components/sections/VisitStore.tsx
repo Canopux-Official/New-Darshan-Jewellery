@@ -28,7 +28,7 @@ export default function VisitStore() {
         </svg>
       ),
       label: 'Opening Hours',
-      value: `Monday – Saturday: ${settings.weekdayHours}\nSunday: ${settings.sundayHours}`,
+      value: `Monday – Sunday\n${settings.weekdayHours}`,
     },
     {
       icon: (

@@ -15,12 +15,13 @@ export interface PublicStoreSettings {
 }
 
 const DEFAULTS: PublicStoreSettings = {
-  storeName: 'Krishna Jewellers',
+  storeName: 'New Darshan Jewellery',
   phone: '+91 98765 43210',
   whatsapp: '919876543210',
-  address: '12, Heritage Lane, Ahmedabad, Gujarat 380001',
-  weekdayHours: '10:00 AM – 8:00 PM',
-  sundayHours: '11:00 AM – 6:00 PM',
+  address:
+    'New Darshan Jewellery\nMain Road\nNear Thana Chhak\nGhasipura\nAnandapur\nKeonjhar\nOdisha – 758015',
+  weekdayHours: '10:00 AM – 9:00 PM',
+  sundayHours: '10:00 AM – 9:00 PM',
 };
 
 const StoreSettingsContext = createContext<PublicStoreSettings>(DEFAULTS);

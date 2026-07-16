@@ -1,8 +1,7 @@
 import { motion } from 'framer-motion';
-import TextLink from '../ui/TextLink';
+import { Link } from 'react-router-dom';
 
-const HERO_IMAGE =
-  'https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?w=1800&q=85';
+const HERO_IMAGE = '/New-Darshan-Jewellery-Hero.png';
 
 export default function Hero() {
   return (
@@ -29,7 +28,7 @@ export default function Hero() {
       >
         <img
           src={HERO_IMAGE}
-          alt="Exquisite gold jewellery — Krishna Jewellers"
+          alt="Exquisite gold jewellery — New Darshan Jewellery"
           loading="eager"
           decoding="async"
           style={{
@@ -47,7 +46,7 @@ export default function Hero() {
           position: 'absolute',
           inset: 0,
           background:
-            'linear-gradient(105deg, rgba(24,24,24,0.62) 0%, rgba(24,24,24,0.28) 55%, rgba(24,24,24,0.1) 100%)',
+            'linear-gradient(105deg, rgba(24,24,24,0.72) 0%, rgba(24,24,24,0.42) 40%, rgba(24,24,24,0.18) 70%, rgba(24,24,24,0.08) 100%)',
           zIndex: 1,
         }}
       />
@@ -84,7 +83,7 @@ export default function Hero() {
               color: 'var(--color-gold)',
             }}
           >
-            Est. 1987 · Anand, Gujarat
+            Ghasipura · Keonjhar · Odisha
           </span>
         </motion.div>
 
@@ -97,17 +96,18 @@ export default function Hero() {
           <h1
             style={{
               fontFamily: 'var(--font-heading)',
-              fontSize: 'clamp(3rem, 7vw, 5.5rem)',
+              fontSize: 'clamp(2.6rem, 6.5vw, 5rem)',
               fontWeight: 400,
               lineHeight: 1.08,
               color: '#F8F6F2',
               letterSpacing: '0.04em',
               marginBottom: '8px',
+              textShadow: '0 2px 28px rgba(0,0,0,0.55), 0 1px 8px rgba(0,0,0,0.4)',
             }}
           >
-            Krishna
+            New Darshan
             <br />
-            <span style={{ fontStyle: 'italic', fontWeight: 300 }}>Jewellers</span>
+            <span style={{ fontStyle: 'italic', fontWeight: 300 }}>Jewellery</span>
           </h1>
         </motion.div>
 
@@ -121,14 +121,15 @@ export default function Hero() {
             fontSize: 'clamp(1.2rem, 2.5vw, 1.6rem)',
             fontWeight: 300,
             fontStyle: 'italic',
-            color: 'rgba(248,246,242,0.82)',
+            color: 'rgba(248,246,242,0.92)',
             marginBottom: '28px',
             marginTop: '16px',
+            textShadow: '0 2px 22px rgba(0,0,0,0.5), 0 1px 6px rgba(0,0,0,0.35)',
           }}
         >
-          Crafted with tradition.
+          Elegance Crafted.
           <br />
-          Worn for generations.
+          Trust Earned.
         </motion.p>
 
         {/* Description */}
@@ -140,24 +141,46 @@ export default function Hero() {
             fontFamily: 'var(--font-body)',
             fontSize: '0.875rem',
             lineHeight: 1.85,
-            color: 'rgba(248,246,242,0.62)',
+            color: 'rgba(248,246,242,0.78)',
             maxWidth: '420px',
             marginBottom: '48px',
+            textShadow: '0 2px 18px rgba(0,0,0,0.45), 0 1px 4px rgba(0,0,0,0.3)',
           }}
         >
-          For over three decades, we have woven gold into the moments that matter most — 
-          celebrations, milestones, and quiet expressions of love.
+          Premium Gold & Silver Jewellery
+          <br />
+          for Every Celebration.
         </motion.p>
 
-        {/* CTA text link */}
+        {/* CTA */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, delay: 1.15, ease: 'easeInOut' }}
         >
-          <TextLink to="/collections" light>
+          <Link
+            to="/collections"
+            style={{
+              display: 'inline-block',
+              fontFamily: 'var(--font-body)',
+              fontSize: '0.8125rem',
+              letterSpacing: '0.18em',
+              textTransform: 'uppercase',
+              color: '#181818',
+              backgroundColor: 'var(--color-gold)',
+              padding: '14px 28px',
+              textDecoration: 'none',
+              transition: 'opacity 0.3s, transform 0.3s',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.opacity = '0.9';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.opacity = '1';
+            }}
+          >
             Explore Collections →
-          </TextLink>
+          </Link>
         </motion.div>
       </div>
 

@@ -28,7 +28,7 @@ export class CloudinaryService {
     const cloudName = (this.config.get<string>('CLOUDINARY_CLOUD_NAME') || '').trim();
     const apiKey = (this.config.get<string>('CLOUDINARY_API_KEY') || '').trim();
     const apiSecret = (this.config.get<string>('CLOUDINARY_API_SECRET') || '').trim();
-    this.baseFolder = this.config.get<string>('CLOUDINARY_FOLDER') || 'krishna-jewellers';
+    this.baseFolder = this.config.get<string>('CLOUDINARY_FOLDER') || 'new-darshan-jewellery';
 
     if (cloudName && apiKey && apiSecret) {
       cloudinary.config({ cloud_name: cloudName, api_key: apiKey, api_secret: apiSecret, secure: true });

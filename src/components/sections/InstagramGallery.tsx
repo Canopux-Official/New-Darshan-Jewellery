@@ -18,7 +18,7 @@ export default function InstagramGallery() {
             transition={{ duration: 0.8 }}
             style={{ marginBottom: '12px' }}
           >
-            <SectionLabel>@krishna.jewellers</SectionLabel>
+            <SectionLabel>@newdarshanjewellery</SectionLabel>
           </motion.div>
           <motion.h2
             initial={{ opacity: 0, y: 24 }}

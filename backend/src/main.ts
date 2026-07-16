@@ -27,7 +27,7 @@ async function bootstrap() {
 
   const port = process.env.PORT || 3001;
   await app.listen(port);
-  console.log(`\n🚀 Krishna Jewellers API running on http://localhost:${port}/api/v1`);
+  console.log(`\n🚀 New Darshan Jewellery API running on http://localhost:${port}/api/v1`);
   console.log(`☁️  Image storage: Cloudinary`);
 }
 bootstrap();

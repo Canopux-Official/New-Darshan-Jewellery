@@ -51,7 +51,7 @@ export default function Navbar() {
                   textTransform: 'uppercase',
                 }}
               >
-                Krishna
+                New Darshan
               </span>
               <span
                 style={{
@@ -64,7 +64,7 @@ export default function Navbar() {
                   marginTop: '3px',
                 }}
               >
-                Jewellers
+                Jewellery
               </span>
             </div>
           </Link>

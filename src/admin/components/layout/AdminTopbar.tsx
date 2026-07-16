@@ -125,7 +125,7 @@ export default function AdminTopbar({ collapsed, onMobileMenuOpen }: AdminTopbar
           <div style={{ width: '26px', height: '26px', borderRadius: '6px', backgroundColor: 'var(--color-gold)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.6875rem', fontWeight: 600, color: '#fff' }}>RP</span>
           </div>
-          <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.8125rem', fontWeight: 500, color: 'var(--admin-text)' }}>Rameshbhai</p>
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.8125rem', fontWeight: 500, color: 'var(--admin-text)' }}>Admin</p>
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--admin-text-3)" strokeWidth="2"><polyline points="6 9 12 15 18 9" /></svg>
         </div>
       </div>

@@ -58,7 +58,7 @@ export default function AdminSidebar({ collapsed, onToggle, mobileOpen, onMobile
       >
         {/* Gold K mark */}
         <div style={{ width: '28px', height: '28px', backgroundColor: 'var(--color-gold)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, borderRadius: '4px' }}>
-          <span style={{ fontFamily: 'var(--font-heading)', fontSize: '1rem', color: '#fff', fontWeight: 500, lineHeight: 1 }}>K</span>
+          <span style={{ fontFamily: 'var(--font-heading)', fontSize: '1rem', color: '#fff', fontWeight: 500, lineHeight: 1 }}>N</span>
         </div>
         <AnimatePresence>
           {!collapsed && (
@@ -67,7 +67,7 @@ export default function AdminSidebar({ collapsed, onToggle, mobileOpen, onMobile
               transition={{ duration: 0.2 }}
               style={{ overflow: 'hidden', whiteSpace: 'nowrap' }}
             >
-              <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.8125rem', fontWeight: 600, color: '#F8F6F2', lineHeight: 1.2 }}>Krishna</p>
+              <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.8125rem', fontWeight: 600, color: '#F8F6F2', lineHeight: 1.2 }}>New Darshan</p>
               <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.5625rem', letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--color-gold)', marginTop: '1px' }}>Admin</p>
             </motion.div>
           )}

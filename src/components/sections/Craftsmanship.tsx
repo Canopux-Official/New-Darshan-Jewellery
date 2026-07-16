@@ -75,12 +75,29 @@ export default function Craftsmanship() {
                 lineHeight: 1.1,
               }}
             >
-              Designed To Become
+              Every Ornament
               <br />
               <span style={{ fontStyle: 'italic', color: 'var(--color-gold)' }}>
-                Tomorrow's Heirlooms
+                Tells A Story
               </span>
             </motion.h2>
+
+            <motion.p
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.9, delay: 0.25, ease: 'easeInOut' }}
+              style={{
+                fontFamily: 'var(--font-body)',
+                fontSize: '0.9375rem',
+                lineHeight: 1.85,
+                color: 'rgba(248,246,242,0.65)',
+                maxWidth: '560px',
+                marginTop: '24px',
+              }}
+            >
+              From timeless gold necklaces to elegant bangles and carefully crafted bridal collections, every piece reflects our commitment to purity, craftsmanship and trust.
+            </motion.p>
           </div>
         </div>
       </div>

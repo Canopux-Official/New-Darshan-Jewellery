@@ -67,10 +67,10 @@ export const galleryImages: AdminGalleryImage[] = [
 
 // ─── Testimonials ──────────────────────────────────────────────
 export const adminTestimonials: AdminTestimonial[] = [
-  { id: 't1', name: 'Meera Patel', city: 'Ahmedabad', quote: 'The necklace I purchased for my daughter\'s wedding was beyond exquisite.', rating: 5, isApproved: true, createdAt: '2026-06-15' },
-  { id: 't2', name: 'Priya Sharma', city: 'Mumbai', quote: 'What sets Krishna Jewellers apart is not just the quality of gold, but the artistry.', rating: 5, isApproved: true, createdAt: '2026-06-10' },
-  { id: 't3', name: 'Sunita Desai', city: 'Surat', quote: 'Three generations of our family have trusted Krishna Jewellers.', rating: 5, isApproved: true, createdAt: '2026-05-28' },
-  { id: 't4', name: 'Rina Joshi', city: 'Vadodara', quote: 'The bridal set was exquisite and the service was so personal and warm.', rating: 4, isApproved: false, createdAt: '2026-07-12' },
+  { id: 't1', name: 'Priyanka Mishra', city: 'Ghasipura', quote: 'Beautiful jewellery collection and very polite staff. Highly recommended.', rating: 5, isApproved: true, createdAt: '2026-06-15' },
+  { id: 't2', name: 'Satyabrata Nayak', city: 'Anandapur', quote: 'Excellent craftsmanship and transparent pricing. We purchased our wedding jewellery here.', rating: 5, isApproved: true, createdAt: '2026-06-10' },
+  { id: 't3', name: 'Ananya Das', city: 'Keonjhar', quote: 'Trusted jewellery shop in Ghasipura with a wide variety of designs.', rating: 5, isApproved: true, createdAt: '2026-05-28' },
+  { id: 't4', name: 'Rina Mohanty', city: 'Anandapur', quote: 'The bridal set was exquisite and the service was so personal and warm.', rating: 4, isApproved: false, createdAt: '2026-07-12' },
 ];
 
 // ─── Offers ────────────────────────────────────────────────────
@@ -83,24 +83,24 @@ export const offers: Offer[] = [
 
 // ─── Activity ──────────────────────────────────────────────────
 export const recentActivity: Activity[] = [
-  { id: 'a1', type: 'product', action: 'Product added', detail: 'Bridal Kundan Ring added to Gold Rings', timestamp: '14 Jul, 9:42 AM' },
+  { id: 'a1', type: 'product', action: 'Product added', detail: 'Floral Gold Ring added to Gold Rings', timestamp: '14 Jul, 9:42 AM' },
   { id: 'a2', type: 'rate', action: 'Rates updated', detail: '24K: ₹7,420 · 22K: ₹6,803', timestamp: '14 Jul, 10:00 AM' },
   { id: 'a3', type: 'gallery', action: 'Gallery uploaded', detail: '3 new images added to gallery', timestamp: '13 Jul, 4:15 PM' },
   { id: 'a4', type: 'offer', action: 'Offer activated', detail: '"Akshaya Tritiya Special" is now live', timestamp: '13 Jul, 11:00 AM' },
-  { id: 'a5', type: 'testimonial', action: 'Review pending', detail: 'New review from Rina Joshi awaiting approval', timestamp: '12 Jul, 7:30 PM' },
-  { id: 'a6', type: 'product', action: 'Product hidden', detail: 'Temple Necklace Set marked as hidden', timestamp: '12 Jul, 2:00 PM' },
+  { id: 'a5', type: 'testimonial', action: 'Review pending', detail: 'New review from Rina Mohanty awaiting approval', timestamp: '12 Jul, 7:30 PM' },
+  { id: 'a6', type: 'product', action: 'Product hidden', detail: 'Temple Design Pendant marked as hidden', timestamp: '12 Jul, 2:00 PM' },
 ];
 
 // ─── Settings ──────────────────────────────────────────────────
 export const defaultSettings: StoreSettings = {
-  adminName: 'Rameshbhai Patel',
-  email: 'admin@krishnajewellers.in',
-  storeName: 'Krishna Jewellers',
-  address: 'Shop No. 12, Main Bazaar, Anand, Gujarat — 388001',
+  adminName: 'Store Admin',
+  email: 'admin@newdarshanjewellery.in',
+  storeName: 'New Darshan Jewellery',
+  address: 'New Darshan Jewellery\nMain Road\nNear Thana Chhak\nGhasipura\nAnandapur\nKeonjhar\nOdisha – 758015',
   phone: '+91 98765 43210',
   whatsapp: '919876543210',
-  weekdayHours: '10:00 AM – 8:00 PM',
-  sundayHours: '11:00 AM – 6:00 PM',
+  weekdayHours: '10:00 AM – 9:00 PM',
+  sundayHours: '10:00 AM – 9:00 PM',
   instagramUrl: '',
   facebookUrl: '',
   googleMapsUrl: '',

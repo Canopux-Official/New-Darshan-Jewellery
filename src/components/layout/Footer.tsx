@@ -2,14 +2,15 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useStoreSettings } from '../../context/StoreSettingsContext';
 
-const footerCollections = ['Gold Rings', 'Necklaces', 'Chains', 'Bangles', 'Bracelets', 'Earrings'];
+const footerCollections = ['Bridal Collection', 'Gold Necklaces', 'Bangles', 'Earrings', 'Temple Jewellery', 'Silver Collection'];
 const quickLinks = ['Home', 'About Us', "Today's Rates", 'Gallery', 'Contact'];
 
 export default function Footer() {
   const settings = useStoreSettings();
-  const nameParts = (settings.storeName || 'Krishna Jewellers').split(/\s+/);
-  const brandMain = nameParts[0] || 'Krishna';
-  const brandSub = nameParts.slice(1).join(' ') || 'Jewellers';
+  const storeName = settings.storeName || 'New Darshan Jewellery';
+  const nameParts = storeName.split(/\s+/);
+  const brandMain = nameParts.length >= 3 ? nameParts.slice(0, -1).join(' ') : (nameParts[0] || 'New Darshan');
+  const brandSub = nameParts.length >= 3 ? nameParts[nameParts.length - 1] : (nameParts.slice(1).join(' ') || 'Jewellery');
 
   const socialLinks = [
     { label: 'Instagram', href: settings.instagramUrl },
@@ -70,7 +71,7 @@ export default function Footer() {
                 maxWidth: '280px',
               }}
             >
-              Three generations of craftsmanship. Each piece is a bridge between heritage and the modern world — designed to endure.
+              Premium gold and silver jewellery from Ghasipura, Keonjhar — crafted with purity, trust, and care for every celebration.
             </p>
             {socialLinks.length > 0 && (
               <div style={{ display: 'flex', gap: '16px', marginTop: '32px' }}>
@@ -184,7 +185,7 @@ export default function Footer() {
               {[
                 { label: 'Address', value: settings.address },
                 { label: 'Phone', value: settings.phone },
-                { label: 'Hours', value: `Mon – Sat: ${settings.weekdayHours}\nSunday: ${settings.sundayHours}` },
+                { label: 'Hours', value: `Monday – Sunday\n${settings.weekdayHours}` },
               ].map((item) => (
                 <div key={item.label}>
                   <p
@@ -234,7 +235,8 @@ export default function Footer() {
                 letterSpacing: '0.08em',
               }}
             >
-              © {new Date().getFullYear()} {settings.storeName}. All rights reserved.
+              © {new Date().getFullYear()} New Darshan Jewellery.
+              All Rights Reserved.
             </p>
             <p
               style={{
@@ -244,7 +246,7 @@ export default function Footer() {
                 letterSpacing: '0.08em',
               }}
             >
-              BIS Hallmarked · ISO Certified · Est. 1987
+              Ghasipura · Keonjhar · Odisha
             </p>
           </div>
         </div>

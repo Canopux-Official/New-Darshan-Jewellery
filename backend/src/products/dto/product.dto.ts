@@ -103,7 +103,7 @@ export class ProductQueryDto {
   @IsOptional() @IsString() order?: 'asc' | 'desc';
   @IsOptional() @Type(() => Number) @IsNumber() page?: number = 1;
   @IsOptional() @Type(() => Number) @IsNumber() limit?: number = 10;
-  @IsOptional() @IsBoolean() @Transform(({ value }) => value === 'true') featured?: boolean;
-  @IsOptional() @IsBoolean() @Transform(({ value }) => value === 'true') available?: boolean;
-  @IsOptional() @IsBoolean() @Transform(({ value }) => value === 'true') newArrival?: boolean;
+  @IsOptional() @IsBoolean() @Transform(({ value }) => value === 'true' || value === true) featured?: boolean;
+  @IsOptional() @IsBoolean() @Transform(({ value }) => value === 'true' || value === true) available?: boolean;
+  @IsOptional() @IsBoolean() @Transform(({ value }) => value === 'true' || value === true) newArrival?: boolean;
 }
