@@ -4,8 +4,9 @@ import Breadcrumb from '../components/ui/Breadcrumb';
 import GoldDivider from '../components/ui/GoldDivider';
 import CollectionMasonry from '../components/collection/CollectionMasonry';
 import { COLLECTIONS } from '../data/mockCollections';
+import { STORE_PHOTOS } from '../data/storeImages';
 
-const HERO_IMAGE = 'https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?w=1800&q=85';
+const HERO_IMAGE = STORE_PHOTOS.showroom;
 
 export default function CollectionsPage() {
   return (

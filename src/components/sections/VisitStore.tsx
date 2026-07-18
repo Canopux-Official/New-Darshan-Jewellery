@@ -2,9 +2,9 @@ import { motion } from 'framer-motion';
 import SectionLabel from '../ui/SectionLabel';
 import GoldDivider from '../ui/GoldDivider';
 import { useStoreSettings } from '../../context/StoreSettingsContext';
+import { STORE_PHOTOS } from '../../data/storeImages';
 
-const STORE_IMAGE =
-  'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=900&q=80';
+const STORE_IMAGE = STORE_PHOTOS.findUs;
 
 export default function VisitStore() {
   const settings = useStoreSettings();

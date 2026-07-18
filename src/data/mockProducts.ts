@@ -1,21 +1,24 @@
 import type { Product } from '../types';
+import { STORE_PHOTOS } from './storeImages';
 
-const u = (id: string, w = 800) => `https://images.unsplash.com/photo-${id}?w=${w}&q=80`;
+const P = STORE_PHOTOS.products;
+const C = STORE_PHOTOS.collections;
 
-// ─── Image pools per category ───────────────────────────────────
+// ─── Image pools per category (original store photos) ───────────
 const IMG = {
-  ring:       [u('1605100804763-247f67b3557e'), u('1543294001-f7cd5d7fb516'), u('1506630448388-4e683c67ddb0')],
-  necklace:   [u('1599643478518-a784e5dc4c8f'), u('1535632066927-ab7c9ab60908'), u('1515562141207-7a88fb7ce338')],
-  chain:      [u('1515562141207-7a88fb7ce338'), u('1617038260897-41a1f14a8ca0'), u('1599643478518-a784e5dc4c8f')],
-  bangle:     [u('1611591437281-460bfbe1220a'), u('1617038260897-41a1f14a8ca0'), u('1573408301185-9519f94de11e')],
-  bracelet:   [u('1573408301185-9519f94de11e'), u('1506630448388-4e683c67ddb0'), u('1611591437281-460bfbe1220a')],
-  earring:    [u('1630019852942-f89202989a59'), u('1506630448388-4e683c67ddb0'), u('1617038260897-41a1f14a8ca0')],
-  pendant:    [u('1543294001-f7cd5d7fb516'), u('1605100804763-247f67b3557e'), u('1617038260897-41a1f14a8ca0')],
-  mangal:     [u('1599643478518-a784e5dc4c8f'), u('1617038260897-41a1f14a8ca0'), u('1535632066927-ab7c9ab60908')],
-  bridal:     [u('1583391733956-6c78276477e2'), u('1610375461246-83df859d849d'), u('1535632066927-ab7c9ab60908')],
-  temple:     [u('1535632066927-ab7c9ab60908'), u('1599643478518-a784e5dc4c8f'), u('1617038260897-41a1f14a8ca0')],
-  kids:       [u('1506630448388-4e683c67ddb0'), u('1630019852942-f89202989a59'), u('1605100804763-247f67b3557e')],
-  coin:       [u('1617038260897-41a1f14a8ca0'), u('1605100804763-247f67b3557e'), u('1515562141207-7a88fb7ce338')],
+  ring:       [P.circularNecklace, P.floralRing, P.designerEarrings],
+  necklace:   [P.traditionalNecklace, P.bridalHaram, P.floralNecklace],
+  chain:      [P.dailyChain, C.goldChains, P.silverChains],
+  bangle:     [P.elegantBangles, P.banglesWall, C.bangles],
+  bracelet:   [P.kidsBracelet, P.silverBracelets, C.bracelets],
+  earring:    [P.designerEarrings, P.jhumkaDisplay, P.ornateEarrings],
+  pendant:    [P.templePendant, P.circularNecklace, P.floralNecklace],
+  mangal:     [P.floralNecklace, P.traditionalNecklace, P.bridalHaram],
+  bridal:     [P.weddingChoker, P.bridalHaram, P.traditionalNecklace],
+  temple:     [P.templePendant, P.bridalHaram, P.circularNecklace],
+  kids:       [P.kidsBracelet, P.designerEarrings, P.dailyChain],
+  coin:       [P.circularNecklace, P.templePendant, P.dailyChain],
+  silver:     [P.silverBracelets, P.silverChains, P.kidsBracelet],
 };
 
 export const PRODUCTS: Product[] = [
@@ -498,7 +501,7 @@ export const PRODUCTS: Product[] = [
     id: 's1', slug: 'silver-anklet',
     name: 'Silver Anklet', category: 'Silver Collection', categorySlug: 'silver-collection',
     purity: '22K', weight: '18.0g', weightGrams: 18.0, price: '₹1,692', priceValue: 1692,
-    images: IMG.bracelet,
+    images: IMG.silver,
     description: 'An elegant silver anklet with a delicate link pattern — lightweight, comfortable, and perfect for everyday wear.',
     makingStyle: 'Machine-woven, polished finish',
     isNewArrival: true, isFeatured: true, isAvailable: true,

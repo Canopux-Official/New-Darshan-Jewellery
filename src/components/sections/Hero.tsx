@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { useStoreSettings } from '../../context/StoreSettingsContext';
 
 const HERO_IMAGE = '/New-Darshan-Jewellery-Hero.png';
 
@@ -191,7 +192,7 @@ export default function Hero() {
         transition={{ duration: 1, delay: 1.8 }}
         style={{
           position: 'absolute',
-          bottom: '40px',
+          bottom: '52px',
           left: '50%',
           transform: 'translateX(-50%)',
           zIndex: 2,
@@ -212,7 +213,7 @@ export default function Hero() {
         >
           Scroll
         </span>
-        <div style={{ position: 'relative', width: '1px', height: '48px', background: 'rgba(248,246,242,0.2)', overflow: 'hidden' }}>
+        <div style={{ position: 'relative', width: '1px', height: '36px', background: 'rgba(248,246,242,0.2)', overflow: 'hidden' }}>
           <motion.div
             animate={{ y: ['-100%', '200%'] }}
             transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
@@ -227,6 +228,92 @@ export default function Hero() {
           />
         </div>
       </motion.div>
+
+      {/* Closing notice ribbon */}
+      <HeroNoticeRibbon />
     </section>
+  );
+}
+
+function HeroNoticeRibbon() {
+  const settings = useStoreSettings();
+  const hours = settings.weekdayHours || '10:00 AM – 9:00 PM';
+  const notices = [
+    'Closed on the last Sunday of every month',
+    `Open Monday – Sunday · ${hours}`,
+  ];
+
+  return (
+    <>
+      <div
+        className="hero-notice-ribbon"
+        style={{
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          zIndex: 3,
+          height: '36px',
+          backgroundColor: 'rgba(14, 14, 13, 0.88)',
+          borderTop: '1px solid rgba(199, 161, 90, 0.35)',
+          overflow: 'hidden',
+          display: 'flex',
+          alignItems: 'center',
+        }}
+      >
+        <div className="hero-notice-track">
+          {[0, 1].map((copy) => (
+            <div key={copy} className="hero-notice-group" aria-hidden={copy === 1}>
+              {Array.from({ length: 4 }).map((_, i) =>
+                notices.map((text) => (
+                  <span key={`${copy}-${i}-${text}`} className="hero-notice-item">
+                    <span className="hero-notice-dot" />
+                    {text}
+                  </span>
+                )),
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <style>{`
+        .hero-notice-track {
+          display: flex;
+          width: max-content;
+          animation: hero-notice-marquee 36s linear infinite;
+        }
+        .hero-notice-group {
+          display: flex;
+          flex-shrink: 0;
+        }
+        .hero-notice-item {
+          display: inline-flex;
+          align-items: center;
+          gap: 12px;
+          padding: 0 40px;
+          font-family: var(--font-body);
+          font-size: 0.625rem;
+          letter-spacing: 0.2em;
+          text-transform: uppercase;
+          color: rgba(248, 246, 242, 0.72);
+          white-space: nowrap;
+        }
+        .hero-notice-dot {
+          width: 4px;
+          height: 4px;
+          border-radius: 50%;
+          background: var(--color-gold);
+          flex-shrink: 0;
+        }
+        @keyframes hero-notice-marquee {
+          from { transform: translateX(0); }
+          to { transform: translateX(-50%); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .hero-notice-track { animation: none; }
+        }
+      `}</style>
+    </>
   );
 }

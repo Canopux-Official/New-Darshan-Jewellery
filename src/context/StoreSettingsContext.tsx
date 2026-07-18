@@ -16,8 +16,8 @@ export interface PublicStoreSettings {
 
 const DEFAULTS: PublicStoreSettings = {
   storeName: 'New Darshan Jewellery',
-  phone: '+91 98765 43210',
-  whatsapp: '919876543210',
+  phone: '+91-9078333946',
+  whatsapp: '919078333946',
   address:
     'New Darshan Jewellery\nMain Road\nNear Thana Chhak\nGhasipura\nAnandapur\nKeonjhar\nOdisha – 758015',
   weekdayHours: '10:00 AM – 9:00 PM',

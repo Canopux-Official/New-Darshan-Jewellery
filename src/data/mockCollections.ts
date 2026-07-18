@@ -1,6 +1,7 @@
 import type { Collection } from '../types';
+import { STORE_PHOTOS } from './storeImages';
 
-const u = (id: string, w = 900) => `https://images.unsplash.com/photo-${id}?w=${w}&q=80`;
+const C = STORE_PHOTOS.collections;
 
 export const COLLECTIONS: Collection[] = [
   {
@@ -10,8 +11,8 @@ export const COLLECTIONS: Collection[] = [
     shortDescription: 'Heirlooms for the most precious day.',
     description:
       'Our bridal sets are crafted to be the centrepiece of the most sacred moments. Each piece — from layered haars to wedding chokers — is finished with care and hallmarked for purity.',
-    image: u('1583391733956-6c78276477e2'),
-    bannerImage: u('1583391733956-6c78276477e2', 1800),
+    image: C.bridal,
+    bannerImage: C.bridal,
     productCount: 4,
     size: 'large',
   },
@@ -22,8 +23,8 @@ export const COLLECTIONS: Collection[] = [
     shortDescription: 'From delicate chains to statement haars.',
     description:
       'Our gold necklace collection spans everyday elegance to showstopping bridal pieces — available in 22K and 18K gold.',
-    image: u('1599643478518-a784e5dc4c8f'),
-    bannerImage: u('1599643478518-a784e5dc4c8f', 1800),
+    image: C.goldNecklaces,
+    bannerImage: C.goldNecklaces,
     productCount: 5,
     size: 'medium',
   },
@@ -34,8 +35,8 @@ export const COLLECTIONS: Collection[] = [
     shortDescription: 'Every link, hallmarked for purity.',
     description:
       'Classic and lightweight gold chains suited for daily wear or as the base for pendants — available in 22K and 18K gold.',
-    image: u('1515562141207-7a88fb7ce338'),
-    bannerImage: u('1515562141207-7a88fb7ce338', 1800),
+    image: C.goldChains,
+    bannerImage: C.goldChains,
     productCount: 4,
     size: 'small',
   },
@@ -46,8 +47,8 @@ export const COLLECTIONS: Collection[] = [
     shortDescription: 'Timeless designs for every finger.',
     description:
       'From slender everyday bands to ornate bridal rings, our gold ring collection complements every occasion.',
-    image: u('1605100804763-247f67b3557e'),
-    bannerImage: u('1605100804763-247f67b3557e', 1800),
+    image: C.goldRings,
+    bannerImage: C.goldRings,
     productCount: 5,
     size: 'small',
   },
@@ -58,8 +59,8 @@ export const COLLECTIONS: Collection[] = [
     shortDescription: 'Stacked traditions, set in gold.',
     description:
       'Worn as a set or as a single statement piece, our bangles range from slender plain gold to intricately engraved designs.',
-    image: u('1611591437281-460bfbe1220a'),
-    bannerImage: u('1611591437281-460bfbe1220a', 1800),
+    image: C.bangles,
+    bannerImage: C.bangles,
     productCount: 4,
     size: 'medium',
   },
@@ -70,8 +71,8 @@ export const COLLECTIONS: Collection[] = [
     shortDescription: 'Refined designs for the wrist.',
     description:
       'From twisted rope bracelets to delicate link chains, our bracelet collection bridges traditional craft and contemporary elegance.',
-    image: u('1573408301185-9519f94de11e'),
-    bannerImage: u('1573408301185-9519f94de11e', 1800),
+    image: C.bracelets,
+    bannerImage: C.bracelets,
     productCount: 4,
     size: 'small',
   },
@@ -82,8 +83,8 @@ export const COLLECTIONS: Collection[] = [
     shortDescription: 'Jhumkas, studs, drops & designer styles.',
     description:
       'Our earring collection celebrates Indian jewellery craft — from classic jhumkas to contemporary designer pieces for daily wear.',
-    image: u('1630019852942-f89202989a59'),
-    bannerImage: u('1630019852942-f89202989a59', 1800),
+    image: C.earrings,
+    bannerImage: C.earrings,
     productCount: 5,
     size: 'tall',
   },
@@ -94,8 +95,8 @@ export const COLLECTIONS: Collection[] = [
     shortDescription: 'Meaningful motifs in gold.',
     description:
       'Religious and contemporary motifs — temple designs, floral and geometric pendants — each crafted in 22K and 18K gold.',
-    image: u('1543294001-f7cd5d7fb516'),
-    bannerImage: u('1543294001-f7cd5d7fb516', 1800),
+    image: C.pendants,
+    bannerImage: C.pendants,
     productCount: 3,
     size: 'small',
   },
@@ -106,8 +107,8 @@ export const COLLECTIONS: Collection[] = [
     shortDescription: 'Divine heritage, crafted in gold.',
     description:
       'Rooted in tradition, our temple jewellery collection draws inspiration from sacred iconography rendered in lustrous 22K gold.',
-    image: u('1535632066927-ab7c9ab60908'),
-    bannerImage: u('1535632066927-ab7c9ab60908', 1800),
+    image: C.temple,
+    bannerImage: C.temple,
     productCount: 3,
     size: 'tall',
   },
@@ -118,8 +119,8 @@ export const COLLECTIONS: Collection[] = [
     shortDescription: 'A sacred bond, worn with grace.',
     description:
       'Our mangalsutra collection honours tradition while offering designs that suit the modern woman — from classic black bead styles to contemporary pendants.',
-    image: u('1617038260897-41a1f14a8ca0'),
-    bannerImage: u('1617038260897-41a1f14a8ca0', 1800),
+    image: C.mangalsutra,
+    bannerImage: C.mangalsutra,
     productCount: 3,
     size: 'medium',
   },
@@ -130,8 +131,8 @@ export const COLLECTIONS: Collection[] = [
     shortDescription: 'Elegant silver for everyday and festive wear.',
     description:
       'From anklets to earrings and festive pieces, our silver collection offers quality craftsmanship at approachable prices.',
-    image: u('1573408301185-9519f94de11e'),
-    bannerImage: u('1573408301185-9519f94de11e', 1800),
+    image: C.silver,
+    bannerImage: C.silver,
     productCount: 3,
     size: 'small',
   },
@@ -142,8 +143,8 @@ export const COLLECTIONS: Collection[] = [
     shortDescription: 'Pure gold, crafted for little ones.',
     description:
       'Lightweight and carefully finished for safe daily wear — bangles, bracelets, pendants and earrings perfect for naming ceremonies and festivals.',
-    image: u('1506630448388-4e683c67ddb0'),
-    bannerImage: u('1506630448388-4e683c67ddb0', 1800),
+    image: C.kids,
+    bannerImage: C.kids,
     productCount: 3,
     size: 'small',
   },
@@ -154,8 +155,8 @@ export const COLLECTIONS: Collection[] = [
     shortDescription: 'Lightweight pieces for every day.',
     description:
       'Comfortable, elegant daily wear jewellery designed for modern lifestyles — chains, earrings, rings and more.',
-    image: u('1515562141207-7a88fb7ce338'),
-    bannerImage: u('1515562141207-7a88fb7ce338', 1800),
+    image: C.dailyWear,
+    bannerImage: C.dailyWear,
     productCount: 4,
     size: 'medium',
   },
@@ -166,8 +167,8 @@ export const COLLECTIONS: Collection[] = [
     shortDescription: '24K investment-grade gold coins.',
     description:
       'Our gold coins are struck in 24K purity and available in popular denominations — ideal as gifts or as a form of savings.',
-    image: u('1617038260897-41a1f14a8ca0'),
-    bannerImage: u('1617038260897-41a1f14a8ca0', 1800),
+    image: C.coins,
+    bannerImage: C.coins,
     productCount: 2,
     size: 'small',
   },
