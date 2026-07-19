@@ -5,13 +5,6 @@ interface ProductGridProps {
   products: Product[];
 }
 
-// Cycle of span patterns for editorial rhythm
-const SPAN_PATTERN: Array<'normal' | 'tall' | 'wide' | 'normal'> = [
-  'normal', 'tall', 'normal', 'normal',
-  'wide', 'normal', 'normal', 'tall',
-  'normal', 'normal', 'normal', 'normal',
-];
-
 export default function ProductGrid({ products }: ProductGridProps) {
   if (products.length === 0) {
     return (
@@ -52,41 +45,26 @@ export default function ProductGrid({ products }: ProductGridProps) {
         style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(3, 1fr)',
-          gridAutoRows: '340px',
-          gap: '3px',
+          gap: '28px 20px',
+          alignItems: 'start',
         }}
       >
-        {products.map((product, i) => {
-          const span = SPAN_PATTERN[i % SPAN_PATTERN.length];
-          return (
-            <ProductCard
-              key={product.id}
-              product={product}
-              index={i}
-              gridSpan={span}
-            />
-          );
-        })}
+        {products.map((product, i) => (
+          <ProductCard key={product.id} product={product} index={i} />
+        ))}
       </div>
 
       <style>{`
         @media (max-width: 900px) {
           .product-grid {
             grid-template-columns: repeat(2, 1fr) !important;
-            grid-auto-rows: 280px !important;
-          }
-          /* Disable wide spans on tablet */
-          .product-grid > * {
-            grid-column: span 1 !important;
+            gap: 24px 16px !important;
           }
         }
         @media (max-width: 540px) {
           .product-grid {
             grid-template-columns: 1fr !important;
-            grid-auto-rows: 360px !important;
-          }
-          .product-grid > * {
-            grid-row: span 1 !important;
+            gap: 28px !important;
           }
         }
       `}</style>

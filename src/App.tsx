@@ -19,6 +19,12 @@ const HomePage = lazy(() => import('./pages/HomePage'));
 const CollectionsPage = lazy(() => import('./pages/CollectionsPage'));
 const CollectionDetailPage = lazy(() => import('./pages/CollectionDetailPage'));
 const ProductDetailPage = lazy(() => import('./pages/ProductDetailPage'));
+const GalleryPage = lazy(() => import('./pages/GalleryPage'));
+const AboutPage = lazy(() => import('./pages/AboutPage'));
+const RatesPage = lazy(() => import('./pages/RatesPage'));
+const ContactPage = lazy(() => import('./pages/ContactPage'));
+const PrivacyPolicyPage = lazy(() => import('./pages/PrivacyPolicyPage'));
+const TermsOfServicePage = lazy(() => import('./pages/TermsOfServicePage'));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
 
 const AdminLogin = lazy(() => import('./admin/pages/AdminLogin'));
@@ -62,6 +68,12 @@ function AnimatedRoutes() {
           <Route path="/collections" element={<CollectionsPage />} />
           <Route path="/collections/:slug" element={<CollectionDetailPage />} />
           <Route path="/products/:slug" element={<ProductDetailPage />} />
+          <Route path="/gallery" element={<GalleryPage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/rates" element={<RatesPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+          <Route path="/terms-of-service" element={<TermsOfServicePage />} />
           <Route path="/404" element={<NotFoundPage />} />
         </Route>
 

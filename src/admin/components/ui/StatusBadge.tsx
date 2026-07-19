@@ -18,7 +18,8 @@ const CONFIG: Record<Variant, { bg: string; color: string; dot: string; defaultL
 };
 
 export default function StatusBadge({ variant, label }: StatusBadgeProps) {
-  const c = CONFIG[variant];
+  const key = (variant || 'inactive').toLowerCase() as Variant;
+  const c = CONFIG[key] ?? CONFIG.inactive;
   return (
     <span
       style={{

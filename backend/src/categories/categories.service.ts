@@ -7,8 +7,9 @@ import { ActivityLogService } from '../activity-log/activity-log.service';
 export class CategoriesService {
   constructor(private prisma: PrismaService, private activityLog: ActivityLogService) {}
 
-  async findAll() {
+  async findAll(activeOnly = false) {
     const categories = await this.prisma.category.findMany({
+      where: activeOnly ? { isActive: true } : undefined,
       orderBy: { name: 'asc' },
       include: { _count: { select: { products: true } } },
     });

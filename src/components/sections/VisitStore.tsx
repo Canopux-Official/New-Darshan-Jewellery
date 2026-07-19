@@ -5,6 +5,10 @@ import { useStoreSettings } from '../../context/StoreSettingsContext';
 import { STORE_PHOTOS } from '../../data/storeImages';
 
 const STORE_IMAGE = STORE_PHOTOS.findUs;
+const STORE_LAT = 21.213185;
+const STORE_LNG = 86.114279;
+const STORE_PIN = `${STORE_LAT},${STORE_LNG}`;
+const MAP_EMBED_URL = `https://maps.google.com/maps?q=${STORE_PIN}&z=17&output=embed`;
 
 export default function VisitStore() {
   const settings = useStoreSettings();
@@ -40,8 +44,6 @@ export default function VisitStore() {
       value: settings.phone,
     },
   ];
-
-  const mapsUrl = settings.googleMapsUrl || 'https://maps.google.com';
 
   return (
     <section
@@ -187,49 +189,37 @@ export default function VisitStore() {
                 </motion.div>
               ))}
             </div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7, delay: 0.65, ease: 'easeInOut' }}
-              style={{ marginTop: '48px' }}
-            >
-              <a
-                href={mapsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '10px',
-                  fontFamily: 'var(--font-body)',
-                  fontSize: '0.6875rem',
-                  letterSpacing: '0.18em',
-                  textTransform: 'uppercase',
-                  color: 'var(--color-text)',
-                  border: '1px solid var(--color-divider)',
-                  padding: '14px 28px',
-                  transition: 'border-color 0.3s, color 0.3s',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = 'var(--color-gold)';
-                  e.currentTarget.style.color = 'var(--color-gold)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = 'var(--color-divider)';
-                  e.currentTarget.style.color = 'var(--color-text)';
-                }}
-              >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                  <circle cx="12" cy="10" r="3" />
-                </svg>
-                Open in Google Maps
-              </a>
-            </motion.div>
           </div>
         </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.15 }}
+          transition={{ duration: 0.85, delay: 0.1 }}
+          style={{
+            marginTop: 72,
+            width: '100%',
+            height: 420,
+            border: '1px solid var(--color-divider)',
+            overflow: 'hidden',
+            backgroundColor: 'var(--color-bg)',
+          }}
+        >
+          <iframe
+            title="New Darshan Jewellery location"
+            src={MAP_EMBED_URL}
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            style={{
+              width: '100%',
+              height: '100%',
+              border: 0,
+              display: 'block',
+            }}
+            allowFullScreen
+          />
+        </motion.div>
       </div>
 
       <style>{`

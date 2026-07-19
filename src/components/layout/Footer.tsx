@@ -2,8 +2,24 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useStoreSettings } from '../../context/StoreSettingsContext';
 
-const footerCollections = ['Bridal Collection', 'Gold Necklaces', 'Bangles', 'Earrings', 'Temple Jewellery', 'Silver Collection'];
-const quickLinks = ['Home', 'About Us', "Today's Rates", 'Gallery', 'Contact'];
+const footerCollections = [
+  { label: 'Bridal Collection', href: '/collections/bridal-collection' },
+  { label: 'Gold Necklaces', href: '/collections/gold-necklaces' },
+  { label: 'Bangles', href: '/collections/bangles' },
+  { label: 'Gold Pendants', href: '/collections/gold-pendants' },
+  { label: 'Silver Bracelets', href: '/collections/silver-bracelets' },
+];
+const quickLinks = [
+  { label: 'Home', href: '/' },
+  { label: 'About Us', href: '/about' },
+  { label: "Today's Rates", href: '/rates' },
+  { label: 'Gallery', href: '/gallery' },
+  { label: 'Contact', href: '/contact' },
+];
+const legalLinks = [
+  { label: 'Privacy Policy', href: '/privacy-policy' },
+  { label: 'Terms of Service', href: '/terms-of-service' },
+];
 
 export default function Footer() {
   const settings = useStoreSettings();
@@ -118,8 +134,8 @@ export default function Footer() {
             <nav style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
               {quickLinks.map((l) => (
                 <Link
-                  key={l}
-                  to="/"
+                  key={l.label}
+                  to={l.href}
                   style={{
                     fontFamily: 'var(--font-body)',
                     fontSize: '0.8125rem',
@@ -129,7 +145,7 @@ export default function Footer() {
                   onMouseEnter={(e) => (e.currentTarget.style.color = '#F8F6F2')}
                   onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(248,246,242,0.55)')}
                 >
-                  {l}
+                  {l.label}
                 </Link>
               ))}
             </nav>
@@ -151,8 +167,8 @@ export default function Footer() {
             <nav style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
               {footerCollections.map((c) => (
                 <Link
-                  key={c}
-                  to="/collections"
+                  key={c.label}
+                  to={c.href}
                   style={{
                     fontFamily: 'var(--font-body)',
                     fontSize: '0.8125rem',
@@ -162,7 +178,7 @@ export default function Footer() {
                   onMouseEnter={(e) => (e.currentTarget.style.color = '#F8F6F2')}
                   onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(248,246,242,0.55)')}
                 >
-                  {c}
+                  {c.label}
                 </Link>
               ))}
             </nav>
@@ -224,7 +240,7 @@ export default function Footer() {
               justifyContent: 'space-between',
               alignItems: 'center',
               flexWrap: 'wrap',
-              gap: '12px',
+              gap: '16px',
             }}
           >
             <p
@@ -238,16 +254,36 @@ export default function Footer() {
               © {new Date().getFullYear()} New Darshan Jewellery.
               All Rights Reserved.
             </p>
-            <p
-              style={{
-                fontFamily: 'var(--font-body)',
-                fontSize: '0.6875rem',
-                color: 'rgba(248,246,242,0.2)',
-                letterSpacing: '0.08em',
-              }}
-            >
-              Ghasipura · Keonjhar · Odisha
-            </p>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '20px', flexWrap: 'wrap' }}>
+              {legalLinks.map((l) => (
+                <Link
+                  key={l.href}
+                  to={l.href}
+                  style={{
+                    fontFamily: 'var(--font-body)',
+                    fontSize: '0.6875rem',
+                    color: 'rgba(248,246,242,0.35)',
+                    letterSpacing: '0.08em',
+                    textDecoration: 'none',
+                    transition: 'color 0.25s',
+                  }}
+                  onMouseEnter={(e) => (e.currentTarget.style.color = 'rgba(248,246,242,0.7)')}
+                  onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(248,246,242,0.35)')}
+                >
+                  {l.label}
+                </Link>
+              ))}
+              <p
+                style={{
+                  fontFamily: 'var(--font-body)',
+                  fontSize: '0.6875rem',
+                  color: 'rgba(248,246,242,0.2)',
+                  letterSpacing: '0.08em',
+                }}
+              >
+                Ghasipura · Keonjhar · Odisha
+              </p>
+            </div>
           </div>
         </div>
       </div>

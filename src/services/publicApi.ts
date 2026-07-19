@@ -44,6 +44,20 @@ export const publicBannersService = {
   getActive: () => publicApi.get('/banners', { params: { active: 'true' } }).then((r) => r.data),
 };
 
+export const publicOffersService = {
+  getActive: () =>
+    publicApi.get('/offers', { params: { public: 'true' } }).then((r) => r.data as PublicOffer[]),
+};
+
+export interface PublicOffer {
+  id: string;
+  title: string;
+  description: string;
+  status: string;
+  startDate: string;
+  endDate: string;
+}
+
 /** Build WhatsApp enquiry URL from store settings + product */
 export function buildWhatsAppEnquiry(
   whatsapp: string,

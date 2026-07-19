@@ -16,6 +16,8 @@ export interface Collection {
   productCount: number;
   /** Controls masonry grid sizing on Collections page */
   size: 'large' | 'medium' | 'tall' | 'small';
+  /** How the image fills its frame — use contain for full jewellery visibility */
+  imageFit?: 'cover' | 'contain';
 }
 
 // ─── Products ──────────────────────────────────────────────────

@@ -6,37 +6,36 @@ import type { Product } from '../../types';
 interface ProductCardProps {
   product: Product;
   index?: number;
-  /** Controls grid spanning — passed from ProductGrid */
-  gridSpan?: 'wide' | 'tall' | 'normal';
 }
 
-export default function ProductCard({ product, index = 0, gridSpan = 'normal' }: ProductCardProps) {
-  const aspectRatio =
-    gridSpan === 'tall' ? '2 / 3' : gridSpan === 'wide' ? '16 / 9' : '3 / 4';
-
+export default function ProductCard({ product, index = 0 }: ProductCardProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.1 }}
       transition={{ duration: 0.75, delay: (index % 4) * 0.07, ease: 'easeInOut' }}
-      style={{
-        gridColumn: gridSpan === 'wide' ? 'span 2' : 'span 1',
-        gridRow: gridSpan === 'tall' ? 'span 2' : 'span 1',
-      }}
       className="product-card-root"
+      style={{
+        width: '100%',
+        minWidth: 0,
+        display: 'flex',
+        flexDirection: 'column',
+      }}
     >
       <Link
         to={`/products/${product.slug}`}
-        style={{ display: 'block', textDecoration: 'none' }}
+        style={{ display: 'flex', flexDirection: 'column', textDecoration: 'none', height: '100%' }}
       >
-        {/* Image container */}
+        {/* Image container — uniform 3:4 frame */}
         <div
           style={{
             position: 'relative',
             overflow: 'hidden',
-            aspectRatio,
+            width: '100%',
+            aspectRatio: '3 / 4',
             backgroundColor: 'var(--color-bg-alt)',
+            flexShrink: 0,
           }}
         >
           <motion.img
@@ -44,12 +43,15 @@ export default function ProductCard({ product, index = 0, gridSpan = 'normal' }:
             alt={product.name}
             loading="lazy"
             decoding="async"
-            whileHover={{ scale: 1.05 }}
+            whileHover={{ scale: 1.04 }}
             transition={{ duration: 0.85, ease: 'easeInOut' }}
             style={{
+              position: 'absolute',
+              inset: 0,
               width: '100%',
               height: '100%',
               objectFit: 'cover',
+              objectPosition: 'center center',
               display: 'block',
             }}
           />
@@ -63,6 +65,7 @@ export default function ProductCard({ product, index = 0, gridSpan = 'normal' }:
               display: 'flex',
               flexDirection: 'column',
               gap: '6px',
+              zIndex: 2,
             }}
           >
             {product.isNewArrival && <Badge variant="newArrival">New Arrival</Badge>}
@@ -82,6 +85,7 @@ export default function ProductCard({ product, index = 0, gridSpan = 'normal' }:
               flexDirection: 'column',
               justifyContent: 'flex-end',
               padding: '24px',
+              zIndex: 1,
             }}
           >
             <div
@@ -137,7 +141,7 @@ export default function ProductCard({ product, index = 0, gridSpan = 'normal' }:
         </div>
 
         {/* Text below image */}
-        <div style={{ paddingTop: '14px', paddingBottom: '4px' }}>
+        <div style={{ paddingTop: '14px', paddingBottom: '4px', minWidth: 0 }}>
           <p
             style={{
               fontFamily: 'var(--font-body)',
@@ -157,6 +161,11 @@ export default function ProductCard({ product, index = 0, gridSpan = 'normal' }:
               fontWeight: 400,
               color: 'var(--color-text)',
               lineHeight: 1.25,
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              display: '-webkit-box',
+              WebkitLineClamp: 2,
+              WebkitBoxOrient: 'vertical',
             }}
           >
             {product.name}

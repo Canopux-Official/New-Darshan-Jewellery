@@ -11,7 +11,7 @@ export const adminProducts: AdminProduct[] = [
   { id: 'r1', slug: 'sunburst-solitaire-ring', name: 'Sunburst Solitaire Ring', category: 'Gold Rings', categorySlug: 'gold-rings', purity: '22K', weight: '4.2g', price: '₹28,566', images: [u('1605100804763-247f67b3557e')], description: 'A radiant sunburst design in 22K gold.', makingStyle: 'Hand engraved', isNewArrival: true, isFeatured: true, isAvailable: true, isHidden: false, createdAt: '2026-06-01', updatedAt: '2026-07-10' },
   { id: 'n1', slug: 'heritage-polki-necklace', name: 'Heritage Polki Necklace', category: 'Necklaces', categorySlug: 'necklaces', purity: '22K', weight: '22.5g', price: '₹1,53,225', images: [u('1599643478518-a784e5dc4c8f')], description: 'A statement polki necklace with uncut diamonds.', makingStyle: 'Traditional polki', isNewArrival: false, isFeatured: true, isAvailable: true, isHidden: false, createdAt: '2026-05-15', updatedAt: '2026-07-08' },
   { id: 'b1', slug: 'maharani-bangle-set', name: 'Maharani Bangle Set', category: 'Bangles', categorySlug: 'bangles', purity: '22K', weight: '32.0g', price: '₹2,17,984', images: [u('1611591437281-460bfbe1220a')], description: 'A set of six bangles in 22K gold.', makingStyle: 'Die-struck', isNewArrival: true, isFeatured: true, isAvailable: true, isHidden: false, createdAt: '2026-06-20', updatedAt: '2026-07-12' },
-  { id: 'e1', slug: 'classic-jhumka-earrings', name: 'Classic Jhumka Earrings', category: 'Earrings', categorySlug: 'earrings', purity: '22K', weight: '6.1g', price: '₹41,543', images: [u('1630019852942-f89202989a59')], description: 'Traditional jhumkas with beaded border.', makingStyle: 'Hand-crafted', isNewArrival: false, isFeatured: true, isAvailable: true, isHidden: false, createdAt: '2026-04-10', updatedAt: '2026-07-01' },
+  { id: 'e1', slug: 'classic-jhumka-earrings', name: 'Classic Jhumka Earrings', category: 'Gold Earrings', categorySlug: 'earrings', purity: '22K', weight: '6.1g', price: '₹41,543', images: [u('1630019852942-f89202989a59')], description: 'Traditional jhumkas with beaded border.', makingStyle: 'Hand-crafted', isNewArrival: false, isFeatured: true, isAvailable: true, isHidden: false, createdAt: '2026-04-10', updatedAt: '2026-07-01' },
   { id: 'br1', slug: 'twisted-rope-bracelet', name: 'Twisted Rope Bracelet', category: 'Bracelets', categorySlug: 'bracelets', purity: '18K', weight: '8.8g', price: '₹48,972', images: [u('1573408301185-9519f94de11e')], description: 'A bold twisted rope bracelet in 18K gold.', makingStyle: 'Rope-twist', isNewArrival: true, isFeatured: true, isAvailable: true, isHidden: false, createdAt: '2026-07-01', updatedAt: '2026-07-13' },
   { id: 'bc1', slug: 'bridal-choker-set', name: 'Bridal Choker Set', category: 'Bridal Collection', categorySlug: 'bridal-collection', purity: '22K', weight: '65.0g', price: '₹4,42,650', images: [u('1583391733956-6c78276477e2')], description: 'Complete bridal choker set.', makingStyle: 'Kundan setting', isNewArrival: false, isFeatured: true, isAvailable: true, isHidden: false, createdAt: '2026-03-01', updatedAt: '2026-07-05' },
   { id: 'c1', slug: 'figaro-chain', name: 'Figaro Chain', category: 'Chains', categorySlug: 'chains', purity: '22K', weight: '11.3g', price: '₹76,943', images: [u('1515562141207-7a88fb7ce338')], description: 'Classic figaro pattern chain in 22K gold.', makingStyle: 'Machine-woven', isNewArrival: false, isFeatured: false, isAvailable: true, isHidden: false, createdAt: '2026-02-14', updatedAt: '2026-06-20' },
@@ -22,18 +22,20 @@ export const adminProducts: AdminProduct[] = [
 
 // ─── Categories ────────────────────────────────────────────────
 export const adminCategories: AdminCategory[] = [
-  { id: 'rings', name: 'Gold Rings', slug: 'gold-rings', productCount: 5, isActive: true, createdAt: '2026-01-01' },
-  { id: 'necklaces', name: 'Necklaces', slug: 'necklaces', productCount: 5, isActive: true, createdAt: '2026-01-01' },
-  { id: 'chains', name: 'Chains', slug: 'chains', productCount: 4, isActive: true, createdAt: '2026-01-01' },
-  { id: 'bangles', name: 'Bangles', slug: 'bangles', productCount: 4, isActive: true, createdAt: '2026-01-01' },
-  { id: 'bracelets', name: 'Bracelets', slug: 'bracelets', productCount: 4, isActive: true, createdAt: '2026-01-01' },
-  { id: 'earrings', name: 'Earrings', slug: 'earrings', productCount: 5, isActive: true, createdAt: '2026-01-01' },
-  { id: 'pendants', name: 'Pendants', slug: 'pendants', productCount: 3, isActive: true, createdAt: '2026-01-01' },
-  { id: 'mangalsutra', name: 'Mangalsutra', slug: 'mangalsutra', productCount: 3, isActive: true, createdAt: '2026-01-01' },
   { id: 'bridal', name: 'Bridal Collection', slug: 'bridal-collection', productCount: 4, isActive: true, createdAt: '2026-01-01' },
-  { id: 'temple', name: 'Temple Jewellery', slug: 'temple-jewellery', productCount: 3, isActive: true, createdAt: '2026-01-01' },
+  { id: 'necklaces', name: 'Gold Necklaces', slug: 'gold-necklaces', productCount: 5, isActive: true, createdAt: '2026-01-01' },
+  { id: 'chains', name: 'Gold Chains', slug: 'gold-chains', productCount: 4, isActive: true, createdAt: '2026-01-01' },
+  { id: 'bangles', name: 'Bangles', slug: 'bangles', productCount: 7, isActive: true, createdAt: '2026-01-01' },
+  { id: 'bracelets', name: 'Gold Bracelets', slug: 'gold-bracelets', productCount: 4, isActive: true, createdAt: '2026-01-01' },
+  { id: 'earrings', name: 'Gold Earrings', slug: 'earrings', productCount: 7, isActive: true, createdAt: '2026-01-01' },
+  { id: 'pendants', name: 'Gold Pendants', slug: 'gold-pendants', productCount: 5, isActive: true, createdAt: '2026-01-01' },
+  { id: 'silver', name: 'Silver Bracelets', slug: 'silver-bracelets', productCount: 3, isActive: true, createdAt: '2026-01-01' },
+  { id: 'rings', name: 'Gold Rings', slug: 'gold-rings', productCount: 5, isActive: false, createdAt: '2026-01-01' },
+  { id: 'temple', name: 'Temple Jewellery', slug: 'temple-jewellery', productCount: 3, isActive: false, createdAt: '2026-01-01' },
+  { id: 'mangalsutra', name: 'Mangalsutra', slug: 'mangalsutra', productCount: 3, isActive: false, createdAt: '2026-01-01' },
   { id: 'kids', name: 'Kids Collection', slug: 'kids-collection', productCount: 3, isActive: false, createdAt: '2026-03-01' },
-  { id: 'coins', name: 'Coins', slug: 'coins', productCount: 2, isActive: true, createdAt: '2026-02-01' },
+  { id: 'daily', name: 'Daily Wear Collection', slug: 'daily-wear-collection', productCount: 0, isActive: false, createdAt: '2026-03-01' },
+  { id: 'coins', name: 'Coins', slug: 'coins', productCount: 2, isActive: false, createdAt: '2026-02-01' },
 ];
 
 // ─── Banners ───────────────────────────────────────────────────

@@ -28,21 +28,37 @@ export default function CollectionHero({ collection }: CollectionHeroProps) {
         <img
           src={collection.bannerImage}
           alt={collection.name}
-          style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 35%', display: 'block' }}
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            objectPosition: 'center center',
+            display: 'block',
+          }}
         />
       </motion.div>
 
-      {/* Overlay */}
+      {/* Overlay — darker at top so fixed navbar stays readable */}
       <div
         style={{
           position: 'absolute',
           inset: 0,
-          background: 'linear-gradient(180deg, rgba(24,24,24,0.15) 0%, rgba(24,24,24,0.72) 100%)',
+          background:
+            'linear-gradient(180deg, rgba(24,24,24,0.55) 0%, rgba(24,24,24,0.2) 35%, rgba(24,24,24,0.72) 100%)',
         }}
       />
 
       {/* Content */}
-      <div className="container" style={{ position: 'relative', zIndex: 1, paddingBottom: '56px', width: '100%' }}>
+      <div
+        className="container"
+        style={{
+          position: 'relative',
+          zIndex: 1,
+          paddingTop: 'calc(var(--navbar-height) + 24px)',
+          paddingBottom: '56px',
+          width: '100%',
+        }}
+      >
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}

@@ -12,7 +12,10 @@ export class CategoriesController {
 
   @Public()
   @Get()
-  findAll() { return this.categoriesService.findAll(); }
+  findAllPublic() { return this.categoriesService.findAll(true); }
+
+  @Get('admin/all')
+  findAllAdmin() { return this.categoriesService.findAll(false); }
 
   @Public()
   @Get(':id')

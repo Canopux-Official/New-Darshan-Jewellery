@@ -5,6 +5,7 @@ import CollectionHero from '../components/collection/CollectionHero';
 import FilterBar from '../components/filter/FilterBar';
 import ProductGrid from '../components/product/ProductGrid';
 import { publicProductsService, publicCategoriesService } from '../services/publicApi';
+import { getCollectionBySlug } from '../data/mockCollections';
 import { applyFilters } from '../utils/filters';
 import { DEFAULT_FILTERS } from '../types';
 import type { FilterState, Product, Collection } from '../types';
@@ -64,16 +65,17 @@ export default function CollectionDetailPage() {
           setNotFound(true);
           return;
         }
+        const mock = getCollectionBySlug(slug);
         setCollection({
           id: cat.id,
           name: cat.name,
           slug: cat.slug,
-          shortDescription: `Explore our ${cat.name} collection.`,
-          description: `Timeless designs in our ${cat.name} collection, crafted for every celebration.`,
-          image: '',
-          bannerImage: '',
+          shortDescription: mock?.shortDescription || `Explore our ${cat.name} collection.`,
+          description: mock?.description || `Timeless designs in our ${cat.name} collection, crafted for every celebration.`,
+          image: mock?.image || '',
+          bannerImage: mock?.bannerImage || mock?.image || '',
           productCount: res.total || (res.data || []).length,
-          size: 'large',
+          size: mock?.size || 'large',
         } as Collection);
         setAllProducts((res.data || []).map(mapApiProduct));
       })
@@ -100,9 +102,7 @@ export default function CollectionDetailPage() {
 
   return (
     <PageTransition>
-      <div style={{ paddingTop: 'var(--navbar-height)' }}>
-        <CollectionHero collection={{ ...collection, productCount: filteredProducts.length || collection.productCount }} />
-      </div>
+      <CollectionHero collection={{ ...collection, productCount: filteredProducts.length || collection.productCount }} />
 
       <FilterBar filters={filters} onChange={setFilters} resultCount={filteredProducts.length} />
 

@@ -14,7 +14,7 @@ export default function CollectionMasonry({ collections }: CollectionMasonryProp
         style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(4, 1fr)',
-          gridAutoRows: '260px',
+          gridAutoRows: '280px',
           gap: '3px',
         }}
       >
@@ -25,14 +25,14 @@ export default function CollectionMasonry({ collections }: CollectionMasonryProp
 
       <style>{`
         @media (max-width: 1024px) {
-          .col-masonry { grid-template-columns: repeat(3, 1fr) !important; grid-auto-rows: 220px !important; }
+          .col-masonry { grid-template-columns: repeat(3, 1fr) !important; grid-auto-rows: 240px !important; }
         }
         @media (max-width: 768px) {
-          .col-masonry { grid-template-columns: repeat(2, 1fr) !important; grid-auto-rows: 200px !important; }
+          .col-masonry { grid-template-columns: repeat(2, 1fr) !important; grid-auto-rows: 220px !important; }
           .col-masonry > * { grid-column: span 1 !important; grid-row: span 1 !important; }
         }
         @media (max-width: 480px) {
-          .col-masonry { grid-template-columns: 1fr !important; grid-auto-rows: 260px !important; }
+          .col-masonry { grid-template-columns: 1fr !important; grid-auto-rows: 280px !important; }
         }
       `}</style>
     </>
@@ -73,7 +73,13 @@ function CollectionMasonryCard({ collection, index }: { collection: Collection; 
             decoding="async"
             whileHover={{ scale: 1.05 }}
             transition={{ duration: 0.85, ease: 'easeInOut' }}
-            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              objectPosition: 'center center',
+              display: 'block',
+            }}
           />
 
           {/* Gradient overlay */}
@@ -124,6 +130,9 @@ function CollectionMasonryCard({ collection, index }: { collection: Collection; 
       <style>{`
         .cm-card:hover .cm-sub { opacity: 1 !important; transform: translateY(0) !important; }
         .cm-card:hover .cm-title { transform: translateY(0) !important; }
+        @media (max-width: 768px) {
+          .cm-card .cm-title { font-size: 1.375rem !important; }
+        }
       `}</style>
     </motion.div>
   );

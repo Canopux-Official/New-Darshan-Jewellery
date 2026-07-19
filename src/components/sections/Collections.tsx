@@ -84,6 +84,7 @@ export default function Collections() {
           style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(3, 1fr)',
+            gridAutoRows: 'minmax(0, auto)',
             gap: '2px',
           }}
         >
@@ -102,23 +103,28 @@ interface CollectionCardProps {
 }
 
 function CollectionCard({ collection, index }: CollectionCardProps) {
+  const isLarge = collection.size === 'large';
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.8, delay: index * 0.08, ease: 'easeInOut' }}
+      style={isLarge ? { gridColumn: 'span 2', gridRow: 'span 2' } : undefined}
     >
       <Link
         to={`/collections/${collection.slug}`}
-        style={{ display: 'block', textDecoration: 'none' }}
+        style={{ display: 'block', textDecoration: 'none', height: '100%' }}
       >
         <div
           className="collection-card"
           style={{
             position: 'relative',
             overflow: 'hidden',
-            aspectRatio: '3 / 4',
+            aspectRatio: isLarge ? undefined : '3 / 4',
+            height: isLarge ? '100%' : undefined,
+            minHeight: isLarge ? '100%' : undefined,
             cursor: 'pointer',
           }}
         >
@@ -133,6 +139,7 @@ function CollectionCard({ collection, index }: CollectionCardProps) {
               width: '100%',
               height: '100%',
               objectFit: 'cover',
+              objectPosition: 'center center',
               display: 'block',
             }}
           />
@@ -156,7 +163,7 @@ function CollectionCard({ collection, index }: CollectionCardProps) {
               bottom: 0,
               left: 0,
               right: 0,
-              padding: '32px 24px',
+              padding: isLarge ? '40px 32px' : '32px 24px',
             }}
           >
             <p
@@ -178,7 +185,7 @@ function CollectionCard({ collection, index }: CollectionCardProps) {
             <h3
               style={{
                 fontFamily: 'var(--font-heading)',
-                fontSize: '1.625rem',
+                fontSize: isLarge ? '2.25rem' : '1.625rem',
                 fontWeight: 400,
                 color: '#F8F6F2',
                 lineHeight: 1.1,
@@ -209,6 +216,10 @@ function CollectionCard({ collection, index }: CollectionCardProps) {
         @media (max-width: 500px) {
           .collections-grid {
             grid-template-columns: 1fr !important;
+          }
+          .collections-grid > * {
+            grid-column: span 1 !important;
+            grid-row: span 1 !important;
           }
         }
       `}</style>

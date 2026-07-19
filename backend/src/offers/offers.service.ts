@@ -7,7 +7,25 @@ import { OfferStatus } from '@prisma/client';
 export class OffersService {
   constructor(private prisma: PrismaService) {}
 
-  findAll() { return this.prisma.offer.findMany({ orderBy: { createdAt: 'desc' } }); }
+  findAll(status?: OfferStatus) {
+    return this.prisma.offer.findMany({
+      where: status ? { status } : undefined,
+      orderBy: { createdAt: 'desc' },
+    });
+  }
+
+  /** Active offers currently within their date window (for public site). */
+  findPublicActive() {
+    const now = new Date();
+    return this.prisma.offer.findMany({
+      where: {
+        status: OfferStatus.ACTIVE,
+        startDate: { lte: now },
+        endDate: { gte: now },
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+  }
 
   async findOne(id: string) {
     const offer = await this.prisma.offer.findUnique({ where: { id } });
@@ -16,7 +34,14 @@ export class OffersService {
   }
 
   create(dto: CreateOfferDto) {
-    return this.prisma.offer.create({ data: { ...dto, status: (dto.status as OfferStatus) ?? OfferStatus.ACTIVE, startDate: new Date(dto.startDate), endDate: new Date(dto.endDate) } });
+    return this.prisma.offer.create({
+      data: {
+        ...dto,
+        status: (dto.status as OfferStatus) ?? OfferStatus.ACTIVE,
+        startDate: new Date(dto.startDate),
+        endDate: new Date(dto.endDate),
+      },
+    });
   }
 
   async update(id: string, dto: UpdateOfferDto) {

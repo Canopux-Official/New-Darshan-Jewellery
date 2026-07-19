@@ -1,11 +1,24 @@
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import SectionLabel from '../ui/SectionLabel';
 import { TESTIMONIALS } from '../../utils/constants';
 
+const AUTO_SWIPE_MS = 5000;
+
 export default function Testimonials() {
   const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
   const testimonial = TESTIMONIALS[active];
+
+  const goNext = useCallback(() => {
+    setActive((i) => (i + 1) % TESTIMONIALS.length);
+  }, []);
+
+  useEffect(() => {
+    if (paused || TESTIMONIALS.length <= 1) return;
+    const id = window.setInterval(goNext, AUTO_SWIPE_MS);
+    return () => window.clearInterval(id);
+  }, [paused, goNext, active]);
 
   return (
     <section
@@ -18,6 +31,14 @@ export default function Testimonials() {
             maxWidth: '900px',
             marginInline: 'auto',
             textAlign: 'center',
+          }}
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+          onFocusCapture={() => setPaused(true)}
+          onBlurCapture={(e) => {
+            if (!e.currentTarget.contains(e.relatedTarget as Node | null)) {
+              setPaused(false);
+            }
           }}
         >
           {/* Label */}

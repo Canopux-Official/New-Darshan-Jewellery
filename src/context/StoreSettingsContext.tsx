@@ -22,6 +22,7 @@ const DEFAULTS: PublicStoreSettings = {
     'New Darshan Jewellery\nMain Road\nNear Thana Chhak\nGhasipura\nAnandapur\nKeonjhar\nOdisha – 758015',
   weekdayHours: '10:00 AM – 9:00 PM',
   sundayHours: '10:00 AM – 9:00 PM',
+  googleMapsUrl: 'https://www.google.com/maps?q=21.213185,86.114279',
 };
 
 const StoreSettingsContext = createContext<PublicStoreSettings>(DEFAULTS);
@@ -42,7 +43,7 @@ export function StoreSettingsProvider({ children }: { children: ReactNode }) {
           sundayHours: data.sundayHours || DEFAULTS.sundayHours,
           instagramUrl: data.instagramUrl,
           facebookUrl: data.facebookUrl,
-          googleMapsUrl: data.googleMapsUrl,
+          googleMapsUrl: data.googleMapsUrl || DEFAULTS.googleMapsUrl,
           email: data.email,
         }),
       )

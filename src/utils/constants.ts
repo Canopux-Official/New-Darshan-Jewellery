@@ -22,23 +22,22 @@ const C = STORE_PHOTOS.collections;
 export const COLLECTIONS: Collection[] = [
   { id: 'bridal', name: 'Bridal Collection', slug: 'bridal-collection', shortDescription: 'Heirlooms for your most sacred day.', description: '', image: C.bridal, bannerImage: C.bridal, productCount: 4, size: 'large' },
   { id: 'necklaces', name: 'Gold Necklaces', slug: 'gold-necklaces', shortDescription: 'Heritage necklaces crafted in 22K gold.', description: '', image: C.goldNecklaces, bannerImage: C.goldNecklaces, productCount: 5, size: 'medium' },
-  { id: 'chains', name: 'Gold Chains', slug: 'gold-chains', shortDescription: 'Classic chains woven with precision.', description: '', image: C.goldChains, bannerImage: C.goldChains, productCount: 4, size: 'small' },
-  { id: 'rings', name: 'Gold Rings', slug: 'gold-rings', shortDescription: 'Timeless gold rings for every occasion.', description: '', image: C.goldRings, bannerImage: C.goldRings, productCount: 5, size: 'medium' },
-  { id: 'bangles', name: 'Bangles', slug: 'bangles', shortDescription: 'Intricately designed bangle sets.', description: '', image: C.bangles, bannerImage: C.bangles, productCount: 4, size: 'small' },
-  { id: 'earrings', name: 'Earrings', slug: 'earrings', shortDescription: 'Traditional and modern gold earrings.', description: '', image: C.earrings, bannerImage: C.earrings, productCount: 5, size: 'large' },
+  { id: 'chains', name: 'Gold Chains', slug: 'gold-chains', shortDescription: 'Classic chains woven with precision.', description: '', image: C.goldChains, bannerImage: C.goldChains, productCount: 7, size: 'small' },
+  { id: 'bangles', name: 'Bangles', slug: 'bangles', shortDescription: 'Intricately designed bangle sets.', description: '', image: C.bangles, bannerImage: C.bangles, productCount: 7, size: 'small' },
+  { id: 'bracelets', name: 'Gold Bracelets', slug: 'gold-bracelets', shortDescription: 'Refined designs for the wrist.', description: '', image: C.bracelets, bannerImage: C.bracelets, productCount: 7, size: 'medium' },
+  { id: 'earrings', name: 'Gold Earrings', slug: 'earrings', shortDescription: 'Traditional and modern gold earrings.', description: '', image: C.earrings, bannerImage: C.earrings, productCount: 7, size: 'small' },
+  { id: 'pendants', name: 'Gold Pendants', slug: 'gold-pendants', shortDescription: 'Meaningful motifs in gold.', description: '', image: C.pendants, bannerImage: C.pendants, productCount: 5, size: 'small' },
+  { id: 'silver', name: 'Silver Bracelets', slug: 'silver-bracelets', shortDescription: 'Elegant silver for everyday wear.', description: '', image: C.silver, bannerImage: C.silver, productCount: 3, size: 'medium' },
 ];
 
 const P = STORE_PHOTOS.products;
 
 export const FEATURED_PRODUCTS: Product[] = [
-  { id: 'p1', slug: 'floral-gold-ring', name: 'Floral Gold Ring', category: 'Gold Rings', categorySlug: 'gold-rings', weight: '4.2g', weightGrams: 4.2, purity: '22K', price: '₹28,556', images: [P.floralRing], description: 'A radiant floral design in 22K gold.', isNewArrival: true, isAvailable: true },
   { id: 'p2', slug: 'traditional-gold-necklace', name: 'Traditional Gold Necklace', category: 'Gold Necklaces', categorySlug: 'gold-necklaces', weight: '22.5g', weightGrams: 22.5, purity: '22K', price: '₹1,53,075', images: [P.traditionalNecklace], description: 'A statement traditional necklace.', isAvailable: true },
-  { id: 'p3', slug: 'kids-gold-bracelet', name: 'Kids Gold Bracelet', category: 'Kids Collection', categorySlug: 'kids-collection', weight: '8.8g', weightGrams: 8.8, purity: '22K', price: '₹48,972', images: [P.kidsBracelet], description: 'A lightweight kids bracelet.', isNewArrival: true, isAvailable: true },
-  { id: 'p4', slug: 'designer-earrings', name: 'Designer Earrings', category: 'Earrings', categorySlug: 'earrings', weight: '6.1g', weightGrams: 6.1, purity: '22K', price: '₹41,521', images: [P.designerEarrings], description: 'Elegant designer earrings.', isAvailable: true },
-  { id: 'p5', slug: 'elegant-gold-bangles', name: 'Elegant Gold Bangles', category: 'Bangles', categorySlug: 'bangles', weight: '32.0g', weightGrams: 32, purity: '22K', price: '₹2,17,760', images: [P.elegantBangles], description: 'A set of elegant bangles in 22K gold.', isNewArrival: true, isAvailable: true },
-  { id: 'p6', slug: 'lightweight-daily-wear-chain', name: 'Lightweight Daily Wear Chain', category: 'Gold Chains', categorySlug: 'gold-chains', weight: '11.3g', weightGrams: 11.3, purity: '22K', price: '₹76,919', images: [P.dailyChain], description: 'A lightweight daily wear chain.', isAvailable: true },
-  { id: 'p7', slug: 'temple-design-pendant', name: 'Temple Design Pendant', category: 'Pendants', categorySlug: 'pendants', weight: '3.4g', weightGrams: 3.4, purity: '22K', price: '₹18,921', images: [P.templePendant], description: 'A temple-inspired pendant.', isAvailable: true },
-  { id: 'p8', slug: 'wedding-choker', name: 'Wedding Choker', category: 'Bridal Collection', categorySlug: 'bridal-collection', weight: '5.9g', weightGrams: 5.9, purity: '22K', price: '₹62,340', images: [P.weddingChoker], description: 'A bridal wedding choker.', isNewArrival: true, isAvailable: true },
+  { id: 'p4', slug: 'sunburst-drop-earrings', name: 'Sunburst Drop Earrings', category: 'Gold Earrings', categorySlug: 'earrings', weight: '9.6g', weightGrams: 9.6, purity: '22K', price: '₹65,376', images: [P.earringsSunburst], description: 'Ornate circular drop earrings with latkan fringe in 22K gold.', isAvailable: true },
+  { id: 'p5', slug: 'red-gold-pair-bangles', name: 'Red & Gold Pair Bangles', category: 'Bangles', categorySlug: 'bangles', weight: '40.0g', weightGrams: 40, purity: '22K', price: '₹2,72,400', images: [P.banglesRedGoldPairs], description: 'Traditional red and gold pair bangles with ornate gold bands.', isNewArrival: true, isAvailable: true },
+  { id: 'p6', slug: 'wheat-braid-chain', name: 'Wheat Braid Chain', category: 'Gold Chains', categorySlug: 'gold-chains', weight: '16.0g', weightGrams: 16, purity: '22K', price: '₹1,08,960', images: [P.chainWheatBraid], description: 'A bold wheat-braid chain in 22K gold.', isAvailable: true },
+  { id: 'p8', slug: 'classic-bridal-set', name: 'Classic Bridal Set', category: 'Bridal Collection', categorySlug: 'bridal-collection', weight: '72.0g', weightGrams: 72, purity: '22K', price: '₹4,90,320', images: [P.bridalBibSet], description: 'A classic bridal necklace set with matching earrings.', isNewArrival: true, isAvailable: true },
 ];
 
 export const TESTIMONIALS: Testimonial[] = [

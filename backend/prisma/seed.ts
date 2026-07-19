@@ -10,45 +10,71 @@ async function main() {
   console.log('🌱 Seeding database...');
 
   // ─── Admin User ──────────────────────────────────────────────
-  const email = process.env.ADMIN_EMAIL || 'admin@krishnajewellers.in';
+  const email = process.env.ADMIN_EMAIL || 'admin@newdarshanjewellery.in';
   const password = process.env.ADMIN_PASSWORD || 'Admin@1234';
   const name = process.env.ADMIN_NAME || 'Store Admin';
 
+  const passwordHash = await bcrypt.hash(password, 10);
   const existing = await prisma.adminUser.findUnique({ where: { email } });
   if (!existing) {
-    const passwordHash = await bcrypt.hash(password, 10);
     await prisma.adminUser.create({ data: { email, passwordHash, name } });
     console.log(`✅ Admin user created: ${email}`);
   } else {
-    console.log(`ℹ️  Admin user already exists: ${email}`);
+    await prisma.adminUser.update({
+      where: { email },
+      data: { passwordHash, name },
+    });
+    console.log(`✅ Admin user updated: ${email}`);
+  }
+
+  // Remove legacy login email if present
+  const legacy = await prisma.adminUser.findUnique({
+    where: { email: 'admin@krishnajewellers.in' },
+  });
+  if (legacy) {
+    await prisma.adminUser.delete({ where: { email: 'admin@krishnajewellers.in' } });
+    console.log('✅ Removed legacy admin@krishnajewellers.in');
   }
 
   // ─── Categories ──────────────────────────────────────────────
-  const categories = [
+  const activeCategories = [
     { name: 'Bridal Collection', slug: 'bridal-collection' },
     { name: 'Gold Necklaces', slug: 'gold-necklaces' },
     { name: 'Gold Chains', slug: 'gold-chains' },
-    { name: 'Gold Rings', slug: 'gold-rings' },
     { name: 'Bangles', slug: 'bangles' },
-    { name: 'Bracelets', slug: 'bracelets' },
-    { name: 'Earrings', slug: 'earrings' },
-    { name: 'Pendants', slug: 'pendants' },
-    { name: 'Temple Jewellery', slug: 'temple-jewellery' },
-    { name: 'Mangalsutra', slug: 'mangalsutra' },
-    { name: 'Silver Collection', slug: 'silver-collection' },
-    { name: 'Kids Collection', slug: 'kids-collection' },
-    { name: 'Daily Wear Collection', slug: 'daily-wear-collection' },
-    { name: 'Coins', slug: 'coins' },
+    { name: 'Gold Bracelets', slug: 'gold-bracelets' },
+    { name: 'Gold Earrings', slug: 'earrings' },
+    { name: 'Gold Pendants', slug: 'gold-pendants' },
+    { name: 'Silver Bracelets', slug: 'silver-bracelets' },
   ];
 
-  for (const cat of categories) {
+  const inactiveSlugs = [
+    'gold-rings',
+    'pendants',
+    'bracelets',
+    'temple-jewellery',
+    'mangalsutra',
+    'silver-collection',
+    'kids-collection',
+    'daily-wear-collection',
+    'coins',
+  ];
+
+  for (const cat of activeCategories) {
     await prisma.category.upsert({
       where: { slug: cat.slug },
       update: { name: cat.name, isActive: true },
       create: { name: cat.name, slug: cat.slug, isActive: true },
     });
   }
-  console.log(`✅ ${categories.length} categories seeded`);
+
+  for (const slug of inactiveSlugs) {
+    await prisma.category.updateMany({
+      where: { slug },
+      data: { isActive: false },
+    });
+  }
+  console.log(`✅ ${activeCategories.length} active categories seeded (${inactiveSlugs.length} deactivated)`);
 
   // ─── Gold Rates ──────────────────────────────────────────────
   const rateCount = await prisma.goldRate.count();
