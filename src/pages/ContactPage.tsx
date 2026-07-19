@@ -3,8 +3,10 @@ import PageTransition from '../components/ui/PageTransition';
 import Breadcrumb from '../components/ui/Breadcrumb';
 import SectionLabel from '../components/ui/SectionLabel';
 import GoldDivider from '../components/ui/GoldDivider';
+import PageMeta from '../components/seo/PageMeta';
 import { useStoreSettings } from '../context/StoreSettingsContext';
 import { STORE_PHOTOS } from '../data/storeImages';
+import { STATIC_PAGE_META } from '../utils/seo';
 
 const HERO_IMAGE = STORE_PHOTOS.findUs;
 const STORE_LAT = 21.213185;
@@ -53,6 +55,11 @@ export default function ContactPage() {
 
   return (
     <PageTransition>
+      <PageMeta
+        title={STATIC_PAGE_META.contact.title}
+        description={STATIC_PAGE_META.contact.description}
+        path={STATIC_PAGE_META.contact.path}
+      />
       <section
         style={{
           position: 'relative',

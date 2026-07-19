@@ -5,6 +5,7 @@ import AdminButton from '../components/ui/AdminButton';
 import FormField from '../components/ui/FormField';
 import { settingsService, type StoreSettings as ApiSettings } from '../services/settings.service';
 import { useToast } from '../context/ToastContext';
+import { useAuth } from '../context/AuthContext';
 import type { StoreSettings } from '../types/admin';
 
 const EMPTY: StoreSettings = {
@@ -105,6 +106,7 @@ function fromApi(data: ApiSettings): StoreSettings {
 
 export default function AdminSettings() {
   const toast = useToast();
+  const { refreshUser } = useAuth();
   const [settings, setSettings] = useState<StoreSettings>(EMPTY);
   const [saved, setSaved] = useState<StoreSettings>(EMPTY);
   const [loading, setLoading] = useState(true);
@@ -132,6 +134,7 @@ export default function AdminSettings() {
       const mapped = fromApi(updated);
       setSettings(mapped);
       setSaved(mapped);
+      await refreshUser();
       toast.success('Settings saved');
     } catch {
       toast.error('Failed to save settings');

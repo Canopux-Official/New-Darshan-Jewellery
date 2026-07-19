@@ -3,14 +3,18 @@ import PageTransition from '../components/ui/PageTransition';
 import Breadcrumb from '../components/ui/Breadcrumb';
 import GoldDivider from '../components/ui/GoldDivider';
 import CollectionMasonry from '../components/collection/CollectionMasonry';
+import PageMeta from '../components/seo/PageMeta';
 import { COLLECTIONS } from '../data/mockCollections';
 import { STORE_PHOTOS } from '../data/storeImages';
+import { STATIC_PAGE_META } from '../utils/seo';
 
 const HERO_IMAGE = STORE_PHOTOS.showroom;
 
 export default function CollectionsPage() {
+  const meta = STATIC_PAGE_META.collections;
   return (
     <PageTransition>
+      <PageMeta title={meta.title} description={meta.description} path={meta.path} />
       {/* ── Hero ── */}
       <section
         style={{

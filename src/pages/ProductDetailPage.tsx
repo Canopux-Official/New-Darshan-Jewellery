@@ -6,9 +6,11 @@ import Breadcrumb from '../components/ui/Breadcrumb';
 import ProductGallery from '../components/product/ProductGallery';
 import RelatedProducts from '../components/product/RelatedProducts';
 import GoldDivider from '../components/ui/GoldDivider';
+import PageMeta from '../components/seo/PageMeta';
 import { publicProductsService, buildWhatsAppEnquiry } from '../services/publicApi';
 import { useStoreSettings } from '../context/StoreSettingsContext';
 import { resolveMediaUrl } from '../utils/cloudinary';
+import { buildProductJsonLd, pageTitle, truncateMeta } from '../utils/seo';
 
 const INFO_SECTIONS = [
   {
@@ -99,6 +101,25 @@ export default function ProductDetailPage() {
 
   return (
     <PageTransition>
+      <PageMeta
+        title={pageTitle(`${product.name}${product.purity ? ` — ${product.purity}` : ''}`)}
+        description={truncateMeta(
+          product.description ||
+            `${product.name}${product.purity ? ` in ${product.purity}` : ''}${product.weight ? `, ${product.weight}` : ''} at New Darshan Jewellery, Ghasipura, Keonjhar.`,
+        )}
+        path={`/products/${product.slug}`}
+        image={images[0]}
+        type="product"
+        jsonLd={buildProductJsonLd({
+          name: product.name,
+          description: product.description,
+          images,
+          purity: product.purity,
+          weight: product.weight,
+          priceValue: product.priceValue,
+          slug: product.slug,
+        })}
+      />
       <div style={{ paddingTop: 'var(--navbar-height)', backgroundColor: 'var(--color-bg)' }}>
         <div className="container" style={{ paddingTop: '32px', paddingBottom: '40px' }}>
           <Breadcrumb

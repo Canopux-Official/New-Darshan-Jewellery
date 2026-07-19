@@ -3,13 +3,17 @@ import PageTransition from '../components/ui/PageTransition';
 import Breadcrumb from '../components/ui/Breadcrumb';
 import BrandStory from '../components/sections/BrandStory';
 import VisitStore from '../components/sections/VisitStore';
+import PageMeta from '../components/seo/PageMeta';
 import { STORE_PHOTOS } from '../data/storeImages';
+import { STATIC_PAGE_META } from '../utils/seo';
 
 const HERO_IMAGE = STORE_PHOTOS.findUs;
 
 export default function AboutPage() {
+  const meta = STATIC_PAGE_META.about;
   return (
     <PageTransition>
+      <PageMeta title={meta.title} description={meta.description} path={meta.path} />
       <section
         style={{
           position: 'relative',

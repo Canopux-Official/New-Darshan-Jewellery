@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import AdminSidebar from './AdminSidebar';
 import AdminTopbar from './AdminTopbar';
 import ProtectedRoute from './ProtectedRoute';
+import PageMeta from '../../../components/seo/PageMeta';
 import { useSidebar } from '../../hooks/useSidebar';
 
 export default function AdminLayout() {
@@ -15,6 +16,7 @@ export default function AdminLayout() {
   return (
     <ProtectedRoute>
     <div style={{ minHeight: '100vh', backgroundColor: 'var(--admin-bg)', fontFamily: 'var(--font-body)' }}>
+      <PageMeta title="Admin | New Darshan Jewellery" description="Store admin panel." path="/admin" noindex />
       <AdminSidebar
         collapsed={collapsed}
         onToggle={toggle}

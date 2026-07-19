@@ -2,6 +2,7 @@ import { useState, type FormEvent } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
+import PageMeta from '../../components/seo/PageMeta';
 
 export default function AdminLogin() {
   const [email, setEmail] = useState('');
@@ -31,6 +32,7 @@ export default function AdminLogin() {
 
   return (
     <div style={{ minHeight: '100vh', backgroundColor: 'var(--admin-sidebar-bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px', fontFamily: 'var(--font-body)' }}>
+      <PageMeta title="Admin Login | New Darshan Jewellery" description="Store admin login." path="/admin/login" noindex />
       {/* Subtle background texture */}
       <div style={{ position: 'fixed', inset: 0, backgroundImage: 'radial-gradient(circle at 30% 40%, rgba(199,161,90,0.04) 0%, transparent 60%), radial-gradient(circle at 70% 70%, rgba(199,161,90,0.03) 0%, transparent 50%)', pointerEvents: 'none' }} />
 

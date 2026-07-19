@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import PageTransition from '../components/ui/PageTransition';
 import Breadcrumb from '../components/ui/Breadcrumb';
+import PageMeta from '../components/seo/PageMeta';
 import {
   GALLERY_FILTERS,
   getGalleryByCategory,
@@ -9,6 +10,7 @@ import {
   type GalleryItem,
 } from '../data/galleryImages';
 import { STORE_PHOTOS } from '../data/storeImages';
+import { STATIC_PAGE_META } from '../utils/seo';
 
 const HERO_IMAGE = STORE_PHOTOS.showroom;
 
@@ -43,6 +45,11 @@ export default function GalleryPage() {
 
   return (
     <PageTransition>
+      <PageMeta
+        title={STATIC_PAGE_META.gallery.title}
+        description={STATIC_PAGE_META.gallery.description}
+        path={STATIC_PAGE_META.gallery.path}
+      />
       {/* Hero */}
       <section
         style={{

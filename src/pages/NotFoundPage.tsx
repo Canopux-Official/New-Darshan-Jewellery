@@ -1,7 +1,10 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import PageMeta from '../components/seo/PageMeta';
+import { STATIC_PAGE_META } from '../utils/seo';
 
 export default function NotFoundPage() {
+  const meta = STATIC_PAGE_META.notFound;
   return (
     <div
       style={{
@@ -15,6 +18,7 @@ export default function NotFoundPage() {
         padding: '40px 24px',
       }}
     >
+      <PageMeta title={meta.title} description={meta.description} path={meta.path} noindex />
       <motion.p
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}

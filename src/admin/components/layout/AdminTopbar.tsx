@@ -1,14 +1,26 @@
 import { useState } from 'react';
 import { useSearch } from '../../../context/SearchContext';
+import { useAuth } from '../../context/AuthContext';
 
 interface AdminTopbarProps {
   collapsed: boolean;
   onMobileMenuOpen: () => void;
 }
 
+function getInitials(name: string): string {
+  const parts = name.trim().split(/\s+/).filter(Boolean);
+  if (parts.length === 0) return 'AD';
+  if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+  return `${parts[0][0]}${parts[parts.length - 1][0]}`.toUpperCase();
+}
+
 export default function AdminTopbar({ collapsed, onMobileMenuOpen }: AdminTopbarProps) {
   const [notifOpen, setNotifOpen] = useState(false);
   const { openSearch } = useSearch();
+  const { user } = useAuth();
+
+  const displayName = user?.name?.trim() || 'Admin';
+  const initials = getInitials(displayName);
 
   const today = new Date().toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
   const sidebarW = collapsed ? 'var(--admin-sidebar-collapsed)' : 'var(--admin-sidebar-w)';
@@ -118,14 +130,18 @@ export default function AdminTopbar({ collapsed, onMobileMenuOpen }: AdminTopbar
         </div>
 
         {/* Admin avatar */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '5px 10px', borderRadius: '8px', border: '1px solid var(--admin-border)', cursor: 'pointer', transition: 'background-color 0.2s' }}
-          onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--admin-bg)'}
-          onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+        <div
+          style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '5px 10px', borderRadius: '8px', border: '1px solid var(--admin-border)', cursor: 'pointer', transition: 'background-color 0.2s' }}
+          onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'var(--admin-bg)')}
+          onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
+          title={user?.email || displayName}
         >
           <div style={{ width: '26px', height: '26px', borderRadius: '6px', backgroundColor: 'var(--color-gold)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.6875rem', fontWeight: 600, color: '#fff' }}>RP</span>
+            <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.6875rem', fontWeight: 600, color: '#fff' }}>{initials}</span>
           </div>
-          <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.8125rem', fontWeight: 500, color: 'var(--admin-text)' }}>Admin</p>
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.8125rem', fontWeight: 500, color: 'var(--admin-text)', maxWidth: 140, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+            {displayName}
+          </p>
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--admin-text-3)" strokeWidth="2"><polyline points="6 9 12 15 18 9" /></svg>
         </div>
       </div>

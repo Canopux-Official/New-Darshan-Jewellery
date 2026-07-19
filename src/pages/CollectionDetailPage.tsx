@@ -4,12 +4,14 @@ import PageTransition from '../components/ui/PageTransition';
 import CollectionHero from '../components/collection/CollectionHero';
 import FilterBar from '../components/filter/FilterBar';
 import ProductGrid from '../components/product/ProductGrid';
+import PageMeta from '../components/seo/PageMeta';
 import { publicProductsService, publicCategoriesService } from '../services/publicApi';
 import { getCollectionBySlug } from '../data/mockCollections';
 import { applyFilters } from '../utils/filters';
 import { DEFAULT_FILTERS } from '../types';
 import type { FilterState, Product, Collection } from '../types';
 import { resolveMediaUrl } from '../utils/cloudinary';
+import { pageTitle, truncateMeta } from '../utils/seo';
 import { motion } from 'framer-motion';
 
 function mapApiProduct(p: any): Product {
@@ -102,6 +104,14 @@ export default function CollectionDetailPage() {
 
   return (
     <PageTransition>
+      <PageMeta
+        title={pageTitle(`${collection.name} — Ghasipura, Keonjhar`)}
+        description={truncateMeta(
+          `${collection.shortDescription} Shop ${collection.name.toLowerCase()} at New Darshan Jewellery, Ghasipura, Keonjhar, Odisha.`,
+        )}
+        path={`/collections/${collection.slug}`}
+        image={collection.bannerImage || collection.image}
+      />
       <CollectionHero collection={{ ...collection, productCount: filteredProducts.length || collection.productCount }} />
 
       <FilterBar filters={filters} onChange={setFilters} resultCount={filteredProducts.length} />

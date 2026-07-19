@@ -2,13 +2,17 @@ import { motion } from 'framer-motion';
 import PageTransition from '../components/ui/PageTransition';
 import Breadcrumb from '../components/ui/Breadcrumb';
 import MetalRates from '../components/sections/MetalRates';
+import PageMeta from '../components/seo/PageMeta';
 import { STORE_PHOTOS } from '../data/storeImages';
+import { STATIC_PAGE_META } from '../utils/seo';
 
 const HERO_IMAGE = STORE_PHOTOS.showroom;
 
 export default function RatesPage() {
+  const meta = STATIC_PAGE_META.rates;
   return (
     <PageTransition>
+      <PageMeta title={meta.title} description={meta.description} path={meta.path} />
       <section
         style={{
           position: 'relative',
