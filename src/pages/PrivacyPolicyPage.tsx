@@ -56,7 +56,7 @@ export default function PrivacyPolicyPage() {
             title: 'Contact',
             body: (
               <p>
-                For privacy-related questions, contact New Darshan Jewellery, Near Thana Chhak, Ghasipura, Anandapur, Keonjhar, Odisha – 758015, or call{' '}
+                For privacy-related questions, contact New Darshan Jewellery, Thana Chhak, Ghasipura, Anandapur, Keonjhar, Odisha – 758015, or call{' '}
                 <a href="tel:+919078333946" style={{ color: 'var(--color-bronze)' }}>
                   +91-9078333946
                 </a>

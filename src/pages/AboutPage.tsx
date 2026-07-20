@@ -5,12 +5,14 @@ import BrandStory from '../components/sections/BrandStory';
 import VisitStore from '../components/sections/VisitStore';
 import PageMeta from '../components/seo/PageMeta';
 import { STORE_PHOTOS } from '../data/storeImages';
+import { useStoreSettings } from '../context/StoreSettingsContext';
 import { STATIC_PAGE_META } from '../utils/seo';
 
 const HERO_IMAGE = STORE_PHOTOS.findUs;
 
 export default function AboutPage() {
   const meta = STATIC_PAGE_META.about;
+  const { showBrandStory, showVisitStore } = useStoreSettings();
   return (
     <PageTransition>
       <PageMeta title={meta.title} description={meta.description} path={meta.path} />
@@ -98,8 +100,8 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <BrandStory />
-      <VisitStore />
+      {showBrandStory && <BrandStory />}
+      {showVisitStore && <VisitStore />}
     </PageTransition>
   );
 }

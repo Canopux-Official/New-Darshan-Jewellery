@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useStoreSettings } from '../../context/StoreSettingsContext';
 
-const HERO_IMAGE = '/New-Darshan-Jewellery-Hero.png';
+const HERO_IMAGE = '/Hero-New_upscayl_3x_ultrasharp.png';
 
 export default function Hero() {
   return (
@@ -43,13 +43,13 @@ export default function Hero() {
         />
       </motion.div>
 
-      {/* Dark overlay */}
+      {/* Dark overlay — stronger on text side for contrast */}
       <div
         style={{
           position: 'absolute',
           inset: 0,
           background:
-            'linear-gradient(105deg, rgba(24,24,24,0.72) 0%, rgba(24,24,24,0.42) 40%, rgba(24,24,24,0.18) 70%, rgba(24,24,24,0.08) 100%)',
+            'linear-gradient(105deg, rgba(24,24,24,0.62) 0%, rgba(24,24,24,0.34) 38%, rgba(24,24,24,0.12) 68%, rgba(24,24,24,0.04) 100%)',
           zIndex: 1,
         }}
       />
@@ -76,14 +76,23 @@ export default function Hero() {
             marginBottom: '32px',
           }}
         >
-          <div style={{ width: '40px', height: '1px', background: 'var(--color-gold)' }} />
+          <div
+            style={{
+              width: '40px',
+              height: '1px',
+              background: 'var(--color-gold)',
+              boxShadow: '0 1px 6px rgba(0,0,0,0.45)',
+            }}
+          />
           <span
             style={{
               fontFamily: 'var(--font-body)',
-              fontSize: '0.625rem',
+              fontSize: '0.6875rem',
               letterSpacing: '0.28em',
               textTransform: 'uppercase',
-              color: 'var(--color-gold)',
+              color: '#E8C97A',
+              fontWeight: 500,
+              textShadow: '0 1px 10px rgba(0,0,0,0.65), 0 0 1px rgba(0,0,0,0.8)',
             }}
           >
             Ghasipura · Keonjhar · Odisha
@@ -105,7 +114,7 @@ export default function Hero() {
               color: '#F8F6F2',
               letterSpacing: '0.04em',
               marginBottom: '8px',
-              textShadow: '0 2px 28px rgba(0,0,0,0.55), 0 1px 8px rgba(0,0,0,0.4)',
+              textShadow: '0 2px 20px rgba(0,0,0,0.45), 0 1px 6px rgba(0,0,0,0.35)',
             }}
           >
             New Darshan
@@ -124,10 +133,10 @@ export default function Hero() {
             fontSize: 'clamp(1.2rem, 2.5vw, 1.6rem)',
             fontWeight: 300,
             fontStyle: 'italic',
-            color: 'rgba(248,246,242,0.92)',
+            color: 'rgba(248,246,242,0.95)',
             marginBottom: '28px',
             marginTop: '16px',
-            textShadow: '0 2px 22px rgba(0,0,0,0.5), 0 1px 6px rgba(0,0,0,0.35)',
+            textShadow: '0 2px 16px rgba(0,0,0,0.42), 0 1px 5px rgba(0,0,0,0.3)',
           }}
         >
           Elegance Crafted.
@@ -144,10 +153,10 @@ export default function Hero() {
             fontFamily: 'var(--font-body)',
             fontSize: '0.875rem',
             lineHeight: 1.85,
-            color: 'rgba(248,246,242,0.78)',
+            color: 'rgba(248,246,242,0.88)',
             maxWidth: '420px',
             marginBottom: '48px',
-            textShadow: '0 2px 18px rgba(0,0,0,0.45), 0 1px 4px rgba(0,0,0,0.3)',
+            textShadow: '0 2px 14px rgba(0,0,0,0.4), 0 1px 4px rgba(0,0,0,0.28)',
           }}
         >
           Premium Gold & Silver Jewellery
@@ -261,7 +270,7 @@ export default function Hero() {
 
 function HeroNoticeRibbon() {
   const settings = useStoreSettings();
-  const hours = settings.weekdayHours || '10:00 AM – 9:00 PM';
+  const hours = settings.weekdayHours || '10:00 AM – 8:30 PM';
   const notices = [
     'Closed on the last Sunday of every month',
     `Open Monday – Sunday · ${hours}`,

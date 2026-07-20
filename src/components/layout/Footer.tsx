@@ -33,6 +33,12 @@ export default function Footer() {
     { label: 'Facebook', href: settings.facebookUrl },
   ].filter((s) => !!s.href);
 
+  const visibleQuickLinks = quickLinks.filter((l) => {
+    if (l.href === '/rates') return settings.showRates;
+    if (l.href === '/gallery') return settings.showGallery;
+    return true;
+  });
+
   return (
     <footer
       style={{
@@ -132,7 +138,7 @@ export default function Footer() {
               Quick Links
             </p>
             <nav style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-              {quickLinks.map((l) => (
+              {visibleQuickLinks.map((l) => (
                 <Link
                   key={l.label}
                   to={l.href}
@@ -201,7 +207,7 @@ export default function Footer() {
               {[
                 { label: 'Address', value: settings.address },
                 { label: 'Phone', value: settings.phone },
-                { label: 'Hours', value: `Monday – Sunday\n${settings.weekdayHours}` },
+                { label: 'Hours', value: `Monday – Sunday\n${settings.weekdayHours}\nClosed on the last Sunday of every month` },
               ].map((item) => (
                 <div key={item.label}>
                   <p

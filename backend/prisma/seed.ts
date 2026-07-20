@@ -4,7 +4,7 @@ import * as bcrypt from 'bcrypt';
 const prisma = new PrismaClient();
 
 const STORE_ADDRESS =
-  'New Darshan Jewellery\nMain Road\nNear Thana Chhak\nGhasipura\nAnandapur\nKeonjhar\nOdisha – 758015';
+  'New Darshan Jewellery\nThana Chhak\nGhasipura\nAnandapur\nKeonjhar\nOdisha – 758015';
 
 async function main() {
   console.log('🌱 Seeding database...');
@@ -92,8 +92,8 @@ async function main() {
     phone: '+91-9078333946',
     whatsapp: '919078333946',
     address: STORE_ADDRESS,
-    weekdayHours: '10:00 AM – 9:00 PM',
-    sundayHours: '10:00 AM – 9:00 PM',
+    weekdayHours: '10:00 AM – 8:30 PM',
+    sundayHours: '10:00 AM – 8:30 PM',
     googleMapsUrl: 'https://maps.google.com',
   };
 

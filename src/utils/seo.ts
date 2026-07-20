@@ -43,7 +43,7 @@ export function buildLocalBusinessJsonLd(settings: {
     email: settings.email || undefined,
     address: {
       '@type': 'PostalAddress',
-      streetAddress: 'Main Road, Near Thana Chhak',
+      streetAddress: 'Thana Chhak',
       addressLocality: 'Ghasipura',
       addressRegion: 'Odisha',
       postalCode: '758015',
@@ -66,7 +66,7 @@ export function buildLocalBusinessJsonLd(settings: {
         'Sunday',
       ],
       opens: '10:00',
-      closes: '21:00',
+      closes: '20:30',
       description: settings.weekdayHours,
     },
     hasMap: settings.googleMapsUrl || undefined,
@@ -133,7 +133,7 @@ export const STATIC_PAGE_META: Record<
   contact: {
     title: pageTitle('Contact — Ghasipura, Keonjhar Showroom'),
     description:
-      'Visit New Darshan Jewellery on Main Road, Near Thana Chhak, Ghasipura, Anandapur, Keonjhar, Odisha. Call or WhatsApp +91-9078333946.',
+      'Visit New Darshan Jewellery at Thana Chhak, Ghasipura, Anandapur, Keonjhar, Odisha. Call or WhatsApp +91-9078333946.',
     path: '/contact',
   },
   gallery: {

@@ -1,14 +1,13 @@
 import { motion } from 'framer-motion';
 import SectionLabel from '../ui/SectionLabel';
 import GoldDivider from '../ui/GoldDivider';
+import MapsDirectionsButton from '../ui/MapsDirectionsButton';
 import { useStoreSettings } from '../../context/StoreSettingsContext';
 import { STORE_PHOTOS } from '../../data/storeImages';
+import { STORE_LAT, STORE_LNG } from '../../utils/maps';
 
 const STORE_IMAGE = STORE_PHOTOS.findUs;
-const STORE_LAT = 21.213185;
-const STORE_LNG = 86.114279;
-const STORE_PIN = `${STORE_LAT},${STORE_LNG}`;
-const MAP_EMBED_URL = `https://maps.google.com/maps?q=${STORE_PIN}&z=17&output=embed`;
+const MAP_EMBED_URL = `https://maps.google.com/maps?q=${STORE_LAT},${STORE_LNG}&z=17&output=embed`;
 
 export default function VisitStore() {
   const settings = useStoreSettings();
@@ -32,7 +31,7 @@ export default function VisitStore() {
         </svg>
       ),
       label: 'Opening Hours',
-      value: `Monday – Sunday\n${settings.weekdayHours}`,
+      value: `Monday – Sunday\n${settings.weekdayHours}\nClosed on the last Sunday of every month`,
     },
     {
       icon: (
@@ -197,28 +196,54 @@ export default function VisitStore() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.15 }}
           transition={{ duration: 0.85, delay: 0.1 }}
-          style={{
-            marginTop: 72,
-            width: '100%',
-            height: 420,
-            border: '1px solid var(--color-divider)',
-            overflow: 'hidden',
-            backgroundColor: 'var(--color-bg)',
-          }}
+          style={{ marginTop: 72 }}
         >
-          <iframe
-            title="New Darshan Jewellery location"
-            src={MAP_EMBED_URL}
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: 16,
+              flexWrap: 'wrap',
+              marginBottom: 16,
+            }}
+          >
+            <p
+              style={{
+                fontFamily: 'var(--font-body)',
+                fontSize: '0.6875rem',
+                letterSpacing: '0.16em',
+                textTransform: 'uppercase',
+                color: 'var(--color-muted)',
+              }}
+            >
+              Store location
+            </p>
+            <MapsDirectionsButton />
+          </div>
+          <div
             style={{
               width: '100%',
-              height: '100%',
-              border: 0,
-              display: 'block',
+              height: 420,
+              border: '1px solid var(--color-divider)',
+              overflow: 'hidden',
+              backgroundColor: 'var(--color-bg)',
             }}
-            allowFullScreen
-          />
+          >
+            <iframe
+              title="New Darshan Jewellery location"
+              src={MAP_EMBED_URL}
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              style={{
+                width: '100%',
+                height: '100%',
+                border: 0,
+                display: 'block',
+              }}
+              allowFullScreen
+            />
+          </div>
         </motion.div>
       </div>
 

@@ -180,12 +180,20 @@ model StoreSettings {
   email          String   @default("admin@newdarshanjewellery.in")
   phone          String   @default("+91-9078333946")
   whatsapp       String   @default("919078333946")
-  address        String   @default("New Darshan Jewellery, Main Road, Near Thana Chhak, Ghasipura, Anandapur, Keonjhar, Odisha – 758015")
-  weekdayHours   String   @default("10:00 AM – 9:00 PM")
-  sundayHours    String   @default("10:00 AM – 9:00 PM")
+  address        String   @default("New Darshan Jewellery, Thana Chhak, Ghasipura, Anandapur, Keonjhar, Odisha – 758015")
+  weekdayHours   String   @default("10:00 AM – 8:30 PM")
+  sundayHours    String   @default("10:00 AM – 8:30 PM")
   instagramUrl   String?
   facebookUrl    String?
   googleMapsUrl  String?
+  showRates         Boolean  @default(true)
+  showBrandStory    Boolean  @default(true)
+  showCollections   Boolean  @default(true)
+  showCraftsmanship Boolean  @default(true)
+  showTestimonials  Boolean  @default(true)
+  showVisitStore    Boolean  @default(true)
+  showOffers        Boolean  @default(true)
+  showGallery       Boolean  @default(true)
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 

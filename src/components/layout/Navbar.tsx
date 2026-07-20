@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useScrolled } from '../../hooks/useScrolled';
 import { useSearch } from '../../context/SearchContext';
+import { useStoreSettings } from '../../context/StoreSettingsContext';
 import { NAV_LINKS } from '../../utils/constants';
 
 export default function Navbar() {
@@ -10,6 +11,19 @@ export default function Navbar() {
   const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
   const { openSearch } = useSearch();
+  const { showRates, showGallery } = useStoreSettings();
+
+  const isHome = location.pathname === '/';
+  /** Solid bar on inner pages and after scroll on home */
+  const solidNav = !isHome || scrolled;
+  /** On inner pages (and after scroll on home), enlarge + brighten the mark */
+  const emphasizeLogo = solidNav;
+
+  const links = NAV_LINKS.filter((link) => {
+    if (link.href === '/rates') return showRates;
+    if (link.href === '/gallery') return showGallery;
+    return true;
+  });
 
   return (
     <>
@@ -22,9 +36,9 @@ export default function Navbar() {
           right: 0,
           zIndex: 100,
           height: 'var(--navbar-height)',
-          backgroundColor: scrolled ? 'rgba(248,246,242,0.96)' : 'transparent',
-          borderBottom: scrolled ? '1px solid var(--color-divider)' : '1px solid transparent',
-          backdropFilter: scrolled ? 'blur(12px)' : 'none',
+          backgroundColor: solidNav ? 'rgba(248,246,242,0.96)' : 'transparent',
+          borderBottom: solidNav ? '1px solid var(--color-divider)' : '1px solid transparent',
+          backdropFilter: solidNav ? 'blur(12px)' : 'none',
           transition: 'background-color 0.6s ease, border-color 0.6s ease, backdrop-filter 0.6s ease',
         }}
       >
@@ -38,16 +52,39 @@ export default function Navbar() {
           }}
         >
           {/* Logo */}
-          <Link to="/" style={{ textDecoration: 'none', flexShrink: 0 }}>
+          <Link
+            to="/"
+            style={{
+              textDecoration: 'none',
+              flexShrink: 0,
+              display: 'flex',
+              alignItems: 'center',
+              gap: emphasizeLogo ? '14px' : '12px',
+              height: '100%',
+            }}
+            aria-label="New Darshan Jewellery — Home"
+          >
+            <img
+              src="/logo.png"
+              alt=""
+              style={{
+                height: emphasizeLogo ? 'clamp(68px, 9vw, 84px)' : 'clamp(58px, 8vw, 78px)',
+                width: 'auto',
+                display: 'block',
+                objectFit: 'contain',
+                filter: emphasizeLogo ? 'brightness(1.14) contrast(1.06) saturate(1.08)' : 'none',
+                transition: 'height 0.45s ease, filter 0.45s ease',
+              }}
+            />
             <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1 }}>
               <span
                 style={{
                   fontFamily: 'var(--font-heading)',
-                  fontSize: '1.375rem',
+                  fontSize: emphasizeLogo ? '1.5rem' : '1.375rem',
                   fontWeight: 500,
                   letterSpacing: '0.18em',
-                  color: scrolled ? 'var(--color-text)' : '#F8F6F2',
-                  transition: 'color 0.6s ease',
+                  color: solidNav ? 'var(--color-text)' : '#F8F6F2',
+                  transition: 'color 0.6s ease, font-size 0.45s ease',
                   textTransform: 'uppercase',
                 }}
               >
@@ -56,10 +93,10 @@ export default function Navbar() {
               <span
                 style={{
                   fontFamily: 'var(--font-body)',
-                  fontSize: '0.5625rem',
+                  fontSize: emphasizeLogo ? '0.625rem' : '0.5625rem',
                   letterSpacing: '0.3em',
-                  color: scrolled ? 'var(--color-gold)' : 'rgba(199,161,90,0.9)',
-                  transition: 'color 0.6s ease',
+                  color: solidNav ? 'var(--color-gold)' : 'rgba(199,161,90,0.9)',
+                  transition: 'color 0.6s ease, font-size 0.45s ease',
                   textTransform: 'uppercase',
                   marginTop: '3px',
                 }}
@@ -78,7 +115,7 @@ export default function Navbar() {
             }}
             className="desktop-nav"
           >
-            {NAV_LINKS.map((link) => {
+            {links.map((link) => {
               const active = location.pathname === link.href;
               return (
                 <Link
@@ -89,7 +126,7 @@ export default function Navbar() {
                     fontSize: '0.625rem',
                     letterSpacing: '0.22em',
                     textTransform: 'uppercase',
-                    color: scrolled
+                    color: solidNav
                       ? active
                         ? 'var(--color-gold)'
                         : 'var(--color-text)'
@@ -117,7 +154,7 @@ export default function Navbar() {
                 background: 'none',
                 border: 'none',
                 cursor: 'pointer',
-                color: scrolled ? 'var(--color-text)' : '#F8F6F2',
+                color: solidNav ? 'var(--color-text)' : '#F8F6F2',
                 transition: 'color 0.6s ease',
                 display: 'flex',
                 alignItems: 'center',
@@ -139,7 +176,7 @@ export default function Navbar() {
                 background: 'none',
                 border: 'none',
                 cursor: 'pointer',
-                color: scrolled ? 'var(--color-text)' : '#F8F6F2',
+                color: solidNav ? 'var(--color-text)' : '#F8F6F2',
                 transition: 'color 0.6s ease',
                 display: 'none',
                 flexDirection: 'column',
@@ -177,7 +214,7 @@ export default function Navbar() {
               gap: '28px',
             }}
           >
-            {NAV_LINKS.map((link, i) => (
+            {links.map((link, i) => (
               <motion.div
                 key={link.label}
                 initial={{ opacity: 0, x: -16 }}

@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { Navigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import PageTransition from '../components/ui/PageTransition';
 import Breadcrumb from '../components/ui/Breadcrumb';
@@ -10,11 +11,13 @@ import {
   type GalleryItem,
 } from '../data/galleryImages';
 import { STORE_PHOTOS } from '../data/storeImages';
+import { useStoreSettings } from '../context/StoreSettingsContext';
 import { STATIC_PAGE_META } from '../utils/seo';
 
 const HERO_IMAGE = STORE_PHOTOS.showroom;
 
 export default function GalleryPage() {
+  const { showGallery } = useStoreSettings();
   const [filter, setFilter] = useState<GalleryCategory>('all');
   const [preview, setPreview] = useState<GalleryItem | null>(null);
 
@@ -42,6 +45,8 @@ export default function GalleryPage() {
       document.body.style.overflow = '';
     };
   }, [preview, images]);
+
+  if (!showGallery) return <Navigate to="/" replace />;
 
   return (
     <PageTransition>

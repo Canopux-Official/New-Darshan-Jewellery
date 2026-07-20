@@ -64,7 +64,7 @@ export default function TermsOfServicePage() {
             title: 'Contact',
             body: (
               <p>
-                Questions about these terms can be directed to New Darshan Jewellery at Near Thana Chhak, Ghasipura, Anandapur, Keonjhar, Odisha – 758015, or{' '}
+                Questions about these terms can be directed to New Darshan Jewellery at Thana Chhak, Ghasipura, Anandapur, Keonjhar, Odisha – 758015, or{' '}
                 <a href="tel:+919078333946" style={{ color: 'var(--color-bronze)' }}>
                   +91-9078333946
                 </a>

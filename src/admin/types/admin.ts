@@ -105,6 +105,14 @@ export interface StoreSettings {
   instagramUrl?: string;
   facebookUrl?: string;
   googleMapsUrl?: string;
+  showRates: boolean;
+  showBrandStory: boolean;
+  showCollections: boolean;
+  showCraftsmanship: boolean;
+  showTestimonials: boolean;
+  showVisitStore: boolean;
+  showOffers: boolean;
+  showGallery: boolean;
 }
 
 // ─── Dashboard Stats ───────────────────────────────────────────

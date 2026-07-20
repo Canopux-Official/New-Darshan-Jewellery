@@ -13,6 +13,14 @@ export interface StoreSettings {
   instagramUrl?: string | null;
   facebookUrl?: string | null;
   googleMapsUrl?: string | null;
+  showRates?: boolean;
+  showBrandStory?: boolean;
+  showCollections?: boolean;
+  showCraftsmanship?: boolean;
+  showTestimonials?: boolean;
+  showVisitStore?: boolean;
+  showOffers?: boolean;
+  showGallery?: boolean;
 }
 
 export const settingsService = {
