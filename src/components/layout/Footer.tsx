@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useStoreSettings } from '../../context/StoreSettingsContext';
+import BisCredibility from '../ui/BisCredibility';
 
 const footerCollections = [
   { label: 'Bridal Collection', href: '/collections/bridal-collection' },
@@ -95,6 +96,11 @@ export default function Footer() {
             >
               Premium gold and silver jewellery from Ghasipura, Keonjhar — crafted with purity, trust, and care for every celebration.
             </p>
+            <BisCredibility
+              variant="dark"
+              compact
+              style={{ marginTop: '28px' }}
+            />
             {socialLinks.length > 0 && (
               <div style={{ display: 'flex', gap: '16px', marginTop: '32px' }}>
                 {socialLinks.map((s) => (

@@ -1,6 +1,7 @@
 import { motion, type Variants } from 'framer-motion';
 import SectionLabel from '../ui/SectionLabel';
 import GoldDivider from '../ui/GoldDivider';
+import BisCredibility from '../ui/BisCredibility';
 
 const STORY_IMAGE =
   'https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?w=900&q=80';
@@ -156,6 +157,17 @@ export default function BrandStory() {
                   </p>
                 </div>
               ))}
+            </motion.div>
+
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.3 }}
+              custom={0.65}
+              variants={fadeUp}
+              style={{ marginTop: '40px' }}
+            >
+              <BisCredibility />
             </motion.div>
           </div>
 

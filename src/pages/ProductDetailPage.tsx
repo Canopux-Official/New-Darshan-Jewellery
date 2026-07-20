@@ -7,6 +7,7 @@ import ProductGallery from '../components/product/ProductGallery';
 import RelatedProducts from '../components/product/RelatedProducts';
 import GoldDivider from '../components/ui/GoldDivider';
 import PageMeta from '../components/seo/PageMeta';
+import BisCredibility from '../components/ui/BisCredibility';
 import { publicProductsService, buildWhatsAppEnquiry } from '../services/publicApi';
 import { useStoreSettings } from '../context/StoreSettingsContext';
 import { resolveMediaUrl } from '../utils/cloudinary';
@@ -218,6 +219,10 @@ export default function ProductDetailPage() {
                 >
                   Book a Store Visit
                 </Link>
+              </div>
+
+              <div style={{ marginBottom: '36px' }}>
+                <BisCredibility compact />
               </div>
 
               <div style={{ borderTop: '1px solid var(--color-divider)' }}>
