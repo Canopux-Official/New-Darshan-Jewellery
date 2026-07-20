@@ -2,7 +2,7 @@ import type { Product } from '../types';
 import { STORE_PHOTOS } from './storeImages';
 
 const P = STORE_PHOTOS.products;
-const C = STORE_PHOTOS.collections;
+// const C = STORE_PHOTOS.collections;
 
 // ─── Image pools per category (original store photos) ───────────
 const IMG = {
