@@ -28,7 +28,6 @@ export default function AddProductModal({ open, onClose, onSaved }: AddProductMo
     price: '',
     description: '',
     makingStyle: '',
-    isFeatured: false,
     isNewArrival: false,
     stockStatus: 'in_stock' as StockStatus,
   });
@@ -53,7 +52,6 @@ export default function AddProductModal({ open, onClose, onSaved }: AddProductMo
       price: '',
       description: '',
       makingStyle: '',
-      isFeatured: false,
       isNewArrival: false,
       stockStatus: 'in_stock',
     });
@@ -83,7 +81,6 @@ export default function AddProductModal({ open, onClose, onSaved }: AddProductMo
 
       // Only send highlight flags when ON
       if (form.isNewArrival) fd.append('isNewArrival', '1');
-      if (form.isFeatured) fd.append('isFeatured', '1');
 
       images.forEach((f) => fd.append('images', f));
       await productsService.create(fd);
@@ -213,23 +210,12 @@ export default function AddProductModal({ open, onClose, onSaved }: AddProductMo
                   <FormField as="textarea" label="Description" rows={4} placeholder="Describe this piece..." value={form.description} onChange={(e) => set('description', e.target.value)} />
 
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                    <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.6875rem', color: 'var(--admin-text-3)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
-                      Optional highlights
-                    </p>
-                    <div style={{ display: 'flex', gap: '28px', flexWrap: 'wrap' }}>
-                      <Toggle
-                        label="Featured"
-                        hint="Show on homepage featured picks"
-                        value={form.isFeatured}
-                        onChange={(v) => set('isFeatured', v)}
-                      />
-                      <Toggle
-                        label="New Arrival"
-                        hint="Mark with a New Arrival badge"
-                        value={form.isNewArrival}
-                        onChange={(v) => set('isNewArrival', v)}
-                      />
-                    </div>
+                    <Toggle
+                      label="New Arrival"
+                      hint="Mark with a New Arrival badge on the website"
+                      value={form.isNewArrival}
+                      onChange={(v) => set('isNewArrival', v)}
+                    />
                     <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.75rem', color: 'var(--admin-text-2)', lineHeight: 1.5 }}>
                       Products are published to the website as soon as you save. To hide one later, use the eye icon in the Products list.
                     </p>
