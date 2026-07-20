@@ -101,9 +101,22 @@ export class ProductsService {
       throw new BadRequestException(`Maximum ${MAX_IMAGES} images per product`);
     }
 
-    const isAvailable = parseFormBool(rest.isAvailable, true) ?? true;
-    // In-stock / available pieces must never also be marked sold out
-    const isSoldOut = isAvailable ? false : (parseFormBool(rest.isSoldOut, false) ?? false);
+    let isAvailable = true;
+    let isSoldOut = false;
+    if (rest.stockStatus === 'made_to_order') {
+      isAvailable = false;
+      isSoldOut = false;
+    } else if (rest.stockStatus === 'sold_out') {
+      isAvailable = false;
+      isSoldOut = true;
+    } else if (rest.stockStatus === 'in_stock') {
+      isAvailable = true;
+      isSoldOut = false;
+    } else {
+      // Legacy boolean fields (only if stockStatus omitted)
+      isAvailable = parseFormBool(rest.isAvailable, true);
+      isSoldOut = isAvailable ? false : parseFormBool(rest.isSoldOut, false);
+    }
 
     const product = await this.prisma.product.create({
       data: {
@@ -115,11 +128,12 @@ export class ProductsService {
         priceValue: rest.priceValue,
         description: rest.description,
         makingStyle: rest.makingStyle,
-        isNewArrival: parseFormBool(rest.isNewArrival, false) ?? false,
-        isFeatured: parseFormBool(rest.isFeatured, false) ?? false,
+        isNewArrival: parseFormBool(rest.isNewArrival, false),
+        isFeatured: parseFormBool(rest.isFeatured, false),
         isAvailable,
         isSoldOut,
-        isHidden: parseFormBool(rest.isHidden, false) ?? false,
+        // Always publish on create — hide later from Products list
+        isHidden: false,
         tags: rest.tags ?? [],
         slug,
         purity,
@@ -167,11 +181,11 @@ export class ProductsService {
     if (rest.isAvailable !== undefined || rest.isSoldOut !== undefined) {
       const nextAvailable =
         rest.isAvailable !== undefined
-          ? (parseFormBool(rest.isAvailable, true) ?? true)
+          ? parseFormBool(rest.isAvailable, true)
           : undefined;
       const nextSoldOut =
         rest.isSoldOut !== undefined
-          ? (parseFormBool(rest.isSoldOut, false) ?? false)
+          ? parseFormBool(rest.isSoldOut, false)
           : undefined;
 
       if (nextAvailable !== undefined) data.isAvailable = nextAvailable;

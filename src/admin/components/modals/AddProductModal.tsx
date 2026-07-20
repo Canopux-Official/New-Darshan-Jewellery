@@ -30,7 +30,6 @@ export default function AddProductModal({ open, onClose, onSaved }: AddProductMo
     makingStyle: '',
     isFeatured: false,
     isNewArrival: false,
-    isHidden: false,
     stockStatus: 'in_stock' as StockStatus,
   });
   const [images, setImages] = useState<File[]>([]);
@@ -56,7 +55,6 @@ export default function AddProductModal({ open, onClose, onSaved }: AddProductMo
       makingStyle: '',
       isFeatured: false,
       isNewArrival: false,
-      isHidden: false,
       stockStatus: 'in_stock',
     });
     setImages([]);
@@ -70,9 +68,6 @@ export default function AddProductModal({ open, onClose, onSaved }: AddProductMo
     }
     setSaving(true);
     try {
-      const isAvailable = form.stockStatus === 'in_stock';
-      const isSoldOut = form.stockStatus === 'sold_out';
-
       const fd = new FormData();
       fd.append('name', form.name);
       fd.append('categoryId', form.categoryId);
@@ -83,12 +78,12 @@ export default function AddProductModal({ open, onClose, onSaved }: AddProductMo
       fd.append('description', form.description);
       if (form.makingStyle) fd.append('makingStyle', form.makingStyle);
 
-      // Send 1/0 — never the strings "true"/"false" (Nest implicit conversion bugs)
-      fd.append('isNewArrival', form.isNewArrival ? '1' : '0');
-      fd.append('isFeatured', form.isFeatured ? '1' : '0');
-      fd.append('isHidden', form.isHidden ? '1' : '0');
-      fd.append('isAvailable', isAvailable ? '1' : '0');
-      fd.append('isSoldOut', isSoldOut ? '1' : '0');
+      // Single stock field — avoids FormData boolean coercion bugs
+      fd.append('stockStatus', form.stockStatus);
+
+      // Only send highlight flags when ON
+      if (form.isNewArrival) fd.append('isNewArrival', '1');
+      if (form.isFeatured) fd.append('isFeatured', '1');
 
       images.forEach((f) => fd.append('images', f));
       await productsService.create(fd);
@@ -217,10 +212,27 @@ export default function AddProductModal({ open, onClose, onSaved }: AddProductMo
 
                   <FormField as="textarea" label="Description" rows={4} placeholder="Describe this piece..." value={form.description} onChange={(e) => set('description', e.target.value)} />
 
-                  <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
-                    <Toggle label="Featured" value={form.isFeatured} onChange={(v) => set('isFeatured', v)} />
-                    <Toggle label="New Arrival" value={form.isNewArrival} onChange={(v) => set('isNewArrival', v)} />
-                    <Toggle label="Hidden" value={form.isHidden} onChange={(v) => set('isHidden', v)} />
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                    <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.6875rem', color: 'var(--admin-text-3)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+                      Optional highlights
+                    </p>
+                    <div style={{ display: 'flex', gap: '28px', flexWrap: 'wrap' }}>
+                      <Toggle
+                        label="Featured"
+                        hint="Show on homepage featured picks"
+                        value={form.isFeatured}
+                        onChange={(v) => set('isFeatured', v)}
+                      />
+                      <Toggle
+                        label="New Arrival"
+                        hint="Mark with a New Arrival badge"
+                        value={form.isNewArrival}
+                        onChange={(v) => set('isNewArrival', v)}
+                      />
+                    </div>
+                    <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.75rem', color: 'var(--admin-text-2)', lineHeight: 1.5 }}>
+                      Products are published to the website as soon as you save. To hide one later, use the eye icon in the Products list.
+                    </p>
                   </div>
                 </div>
               </div>
@@ -241,11 +253,22 @@ export default function AddProductModal({ open, onClose, onSaved }: AddProductMo
   );
 }
 
-function Toggle({ label, value, onChange }: { label: string; value: boolean; onChange: (v: boolean) => void }) {
+function Toggle({
+  label,
+  hint,
+  value,
+  onChange,
+}: {
+  label: string;
+  hint?: string;
+  value: boolean;
+  onChange: (v: boolean) => void;
+}) {
   return (
-    <div>
+    <div style={{ maxWidth: '200px' }}>
       <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.75rem', fontWeight: 500, color: 'var(--admin-text-2)', marginBottom: '8px' }}>{label}</p>
       <button
+        type="button"
         onClick={() => onChange(!value)}
         role="switch"
         aria-checked={value}
@@ -274,6 +297,11 @@ function Toggle({ label, value, onChange }: { label: string; value: boolean; onC
           }}
         />
       </button>
+      {hint && (
+        <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.6875rem', color: 'var(--admin-text-3)', marginTop: '8px', lineHeight: 1.4 }}>
+          {hint}
+        </p>
+      )}
     </div>
   );
 }

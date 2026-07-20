@@ -19,24 +19,24 @@ export class ImageMetaDto {
 }
 
 /**
- * FormData sends booleans as "true"/"false" strings.
- * With enableImplicitConversion, Boolean("false") === true — so we must
- * parse explicitly. Never use `value === 'true' || value === true` alone
- * after an implicit cast has already flipped "false" → true.
+ * FormData boolean parsing.
+ * IMPORTANT: never treat bare `true` from Boolean("0") as intentional —
+ * only accept explicit true markers: true | 1 | '1' | 'true'.
+ * Absent / '0' / 'false' / false → false (or fallback).
  */
-export function parseFormBool(value: unknown, fallback?: boolean): boolean | undefined {
+export function parseFormBool(value: unknown, fallback = false): boolean {
+  if (value === undefined || value === null || value === '') return fallback;
   if (value === true || value === 1 || value === '1') return true;
   if (value === false || value === 0 || value === '0') return false;
   if (typeof value === 'string') {
     const v = value.trim().toLowerCase();
     if (v === 'true' || v === 'yes' || v === 'on') return true;
-    if (v === 'false' || v === 'no' || v === 'off' || v === '') return false;
+    if (v === 'false' || v === 'no' || v === 'off') return false;
   }
-  if (value === undefined || value === null) return fallback;
   return fallback;
 }
 
-const toBool = ({ value }: { value: unknown }) => parseFormBool(value);
+const toBool = ({ value }: { value: unknown }) => parseFormBool(value, false);
 
 export class CreateProductDto {
   @IsString()
@@ -97,6 +97,11 @@ export class CreateProductDto {
   @Transform(toBool)
   @IsBoolean()
   isHidden?: boolean;
+
+  /** Preferred over separate isAvailable/isSoldOut for FormData creates */
+  @IsOptional()
+  @IsString()
+  stockStatus?: 'in_stock' | 'made_to_order' | 'sold_out';
 
   @IsOptional()
   @IsArray()
