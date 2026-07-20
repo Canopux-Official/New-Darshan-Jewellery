@@ -146,7 +146,6 @@ export default function AdminDashboard() {
               {[
                 { label: 'Add New Product', icon: '＋', action: () => setAddOpen(true) },
                 { label: 'Update Gold Rates', icon: '↑', action: () => navigate('/admin/rates') },
-                { label: 'Upload Banner', icon: '⬆', action: () => navigate('/admin/banners') },
                 { label: 'Add Gallery Images', icon: '⊞', action: () => navigate('/admin/gallery') },
               ].map((a) => (
                 <button key={a.label} onClick={a.action} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 14px', borderRadius: '8px', border: '1px solid var(--admin-border)', backgroundColor: 'transparent', cursor: 'pointer', textAlign: 'left', transition: 'all 0.2s', width: '100%' }}

@@ -31,16 +31,6 @@ export interface AdminCategory {
   createdAt: string;
 }
 
-// ─── Banner ────────────────────────────────────────────────────
-export interface Banner {
-  id: string;
-  title: string;
-  subtitle?: string;
-  image: string;
-  isActive: boolean;
-  order: number;
-}
-
 // ─── Metal Rates ───────────────────────────────────────────────
 export interface AdminRates {
   gold24k: string;

@@ -1,5 +1,5 @@
 import type {
-  AdminProduct, AdminCategory, Banner,
+  AdminProduct, AdminCategory,
   AdminRates, AdminGalleryImage, AdminTestimonial,
   Offer, Activity, StoreSettings,
 } from '../types/admin';
@@ -36,13 +36,6 @@ export const adminCategories: AdminCategory[] = [
   { id: 'kids', name: 'Kids Collection', slug: 'kids-collection', productCount: 3, isActive: false, createdAt: '2026-03-01' },
   { id: 'daily', name: 'Daily Wear Collection', slug: 'daily-wear-collection', productCount: 0, isActive: false, createdAt: '2026-03-01' },
   { id: 'coins', name: 'Coins', slug: 'coins', productCount: 2, isActive: false, createdAt: '2026-02-01' },
-];
-
-// ─── Banners ───────────────────────────────────────────────────
-export const banners: Banner[] = [
-  { id: 'b1', title: 'Bridal Collection 2026', subtitle: 'Heirlooms for your most sacred day', image: u('1583391733956-6c78276477e2'), isActive: true, order: 1 },
-  { id: 'b2', title: 'Temple Jewellery', subtitle: 'Divine heritage in 22K gold', image: u('1535632066927-ab7c9ab60908'), isActive: true, order: 2 },
-  { id: 'b3', title: 'New Arrivals', subtitle: 'Fresh designs, hallmarked purity', image: u('1617038260897-41a1f14a8ca0'), isActive: false, order: 3 },
 ];
 
 // ─── Rates ─────────────────────────────────────────────────────

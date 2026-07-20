@@ -32,7 +32,6 @@ const AdminLayout = lazy(() => import('./admin/components/layout/AdminLayout'));
 const AdminDashboard = lazy(() => import('./admin/pages/AdminDashboard'));
 const AdminProducts = lazy(() => import('./admin/pages/AdminProducts'));
 const AdminCategories = lazy(() => import('./admin/pages/AdminCategories'));
-const AdminBanners = lazy(() => import('./admin/pages/AdminBanners'));
 const AdminRates = lazy(() => import('./admin/pages/AdminRates'));
 const AdminGallery = lazy(() => import('./admin/pages/AdminGallery'));
 const AdminTestimonials = lazy(() => import('./admin/pages/AdminTestimonials'));
@@ -83,7 +82,6 @@ function AnimatedRoutes() {
           <Route path="dashboard" element={<AdminDashboard />} />
           <Route path="products" element={<AdminProducts />} />
           <Route path="categories" element={<AdminCategories />} />
-          <Route path="banners" element={<AdminBanners />} />
           <Route path="rates" element={<AdminRates />} />
           <Route path="gallery" element={<AdminGallery />} />
           <Route path="testimonials" element={<AdminTestimonials />} />

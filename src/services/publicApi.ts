@@ -40,10 +40,6 @@ export const publicSettingsService = {
   get: () => publicApi.get('/settings').then((r) => r.data),
 };
 
-export const publicBannersService = {
-  getActive: () => publicApi.get('/banners', { params: { active: 'true' } }).then((r) => r.data),
-};
-
 export const publicOffersService = {
   getActive: () =>
     publicApi.get('/offers', { params: { public: 'true' } }).then((r) => r.data as PublicOffer[]),
