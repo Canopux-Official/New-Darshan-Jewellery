@@ -1,4 +1,4 @@
-import { IsString, IsBoolean, IsOptional, IsNumber, IsEnum, IsArray, MinLength, ValidateNested } from 'class-validator';
+import { IsString, IsBoolean, IsOptional, IsNumber, IsEnum, IsArray, MinLength } from 'class-validator';
 import { Transform, Type } from 'class-transformer';
 import { PartialType } from '@nestjs/mapped-types';
 
@@ -17,6 +17,26 @@ export class ImageMetaDto {
   order?: number;
   isFeatured?: boolean;
 }
+
+/**
+ * FormData sends booleans as "true"/"false" strings.
+ * With enableImplicitConversion, Boolean("false") === true — so we must
+ * parse explicitly. Never use `value === 'true' || value === true` alone
+ * after an implicit cast has already flipped "false" → true.
+ */
+export function parseFormBool(value: unknown, fallback?: boolean): boolean | undefined {
+  if (value === true || value === 1 || value === '1') return true;
+  if (value === false || value === 0 || value === '0') return false;
+  if (typeof value === 'string') {
+    const v = value.trim().toLowerCase();
+    if (v === 'true' || v === 'yes' || v === 'on') return true;
+    if (v === 'false' || v === 'no' || v === 'off' || v === '') return false;
+  }
+  if (value === undefined || value === null) return fallback;
+  return fallback;
+}
+
+const toBool = ({ value }: { value: unknown }) => parseFormBool(value);
 
 export class CreateProductDto {
   @IsString()
@@ -54,28 +74,28 @@ export class CreateProductDto {
   makingStyle?: string;
 
   @IsOptional()
+  @Transform(toBool)
   @IsBoolean()
-  @Transform(({ value }) => value === 'true' || value === true)
   isNewArrival?: boolean;
 
   @IsOptional()
+  @Transform(toBool)
   @IsBoolean()
-  @Transform(({ value }) => value === 'true' || value === true)
   isFeatured?: boolean;
 
   @IsOptional()
+  @Transform(toBool)
   @IsBoolean()
-  @Transform(({ value }) => value === 'true' || value === true)
   isAvailable?: boolean;
 
   @IsOptional()
+  @Transform(toBool)
   @IsBoolean()
-  @Transform(({ value }) => value === 'true' || value === true)
   isSoldOut?: boolean;
 
   @IsOptional()
+  @Transform(toBool)
   @IsBoolean()
-  @Transform(({ value }) => value === 'true' || value === true)
   isHidden?: boolean;
 
   @IsOptional()
@@ -103,7 +123,7 @@ export class ProductQueryDto {
   @IsOptional() @IsString() order?: 'asc' | 'desc';
   @IsOptional() @Type(() => Number) @IsNumber() page?: number = 1;
   @IsOptional() @Type(() => Number) @IsNumber() limit?: number = 10;
-  @IsOptional() @IsBoolean() @Transform(({ value }) => value === 'true' || value === true) featured?: boolean;
-  @IsOptional() @IsBoolean() @Transform(({ value }) => value === 'true' || value === true) available?: boolean;
-  @IsOptional() @IsBoolean() @Transform(({ value }) => value === 'true' || value === true) newArrival?: boolean;
+  @IsOptional() @Transform(toBool) @IsBoolean() featured?: boolean;
+  @IsOptional() @Transform(toBool) @IsBoolean() available?: boolean;
+  @IsOptional() @Transform(toBool) @IsBoolean() newArrival?: boolean;
 }

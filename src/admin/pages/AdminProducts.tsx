@@ -153,7 +153,10 @@ export default function AdminProducts() {
                     <td style={{ padding: '12px 16px' }}><span style={{ fontFamily: 'var(--font-body)', fontSize: '0.8125rem', color: 'var(--admin-text-2)', whiteSpace: 'nowrap' }}>{p.weight}</span></td>
                     <td style={{ padding: '12px 16px' }}><span style={{ fontFamily: 'var(--font-body)', fontSize: '0.8125rem', color: 'var(--admin-text)', whiteSpace: 'nowrap' }}>{p.price ?? '—'}</span></td>
                     <td style={{ padding: '12px 16px' }}>
-                      <StatusBadge variant={p.isHidden ? 'hidden' : p.isAvailable ? 'active' : 'pending'} label={p.isHidden ? 'Hidden' : p.isAvailable ? 'Active' : 'Made to Order'} />
+                      <StatusBadge
+                        variant={p.isHidden ? 'hidden' : p.isSoldOut ? 'pending' : p.isAvailable ? 'active' : 'pending'}
+                        label={p.isHidden ? 'Hidden' : p.isSoldOut ? 'Sold Out' : p.isAvailable ? 'In Stock' : 'Made to Order'}
+                      />
                     </td>
                     <td style={{ padding: '12px 16px' }}>
                       <div style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>

@@ -12,6 +12,7 @@ import { publicProductsService, buildWhatsAppEnquiry } from '../services/publicA
 import { useStoreSettings } from '../context/StoreSettingsContext';
 import { resolveMediaUrl } from '../utils/cloudinary';
 import { buildProductJsonLd, pageTitle, truncateMeta } from '../utils/seo';
+import { isProductSoldOut, stockLabel } from '../utils/stock';
 
 const INFO_SECTIONS = [
   {
@@ -32,9 +33,7 @@ const INFO_SECTIONS = [
 ];
 
 function availabilityLabel(product: any) {
-  if (product.isSoldOut) return 'Sold Out';
-  if (product.isAvailable) return 'In Stock';
-  return 'Made to Order (4–6 wks)';
+  return stockLabel(product);
 }
 
 export default function ProductDetailPage() {
@@ -149,7 +148,7 @@ export default function ProductDetailPage() {
                 {product.isNewArrival && (
                   <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.5625rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--color-gold)', border: '1px solid rgba(199,161,90,0.4)', padding: '3px 8px' }}>New Arrival</span>
                 )}
-                {product.isSoldOut && (
+                {isProductSoldOut(product) && (
                   <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.5625rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: '#DC2626', border: '1px solid rgba(220,38,38,0.3)', padding: '3px 8px' }}>Sold Out</span>
                 )}
               </div>
@@ -190,7 +189,7 @@ export default function ProductDetailPage() {
               </p>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '48px' }}>
-                {!product.isSoldOut && (
+                {!isProductSoldOut(product) && (
                   <a
                     href={whatsappUrl}
                     target="_blank"

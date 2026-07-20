@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { CreateProductDto, UpdateProductDto, ProductQueryDto, ImageMetaDto } from './dto/product.dto';
+import { CreateProductDto, UpdateProductDto, ProductQueryDto, ImageMetaDto, parseFormBool } from './dto/product.dto';
 import { ActivityLogService } from '../activity-log/activity-log.service';
 import { CloudinaryService } from '../uploads/cloudinary.service';
 import { Purity, Prisma } from '@prisma/client';
@@ -101,6 +101,10 @@ export class ProductsService {
       throw new BadRequestException(`Maximum ${MAX_IMAGES} images per product`);
     }
 
+    const isAvailable = parseFormBool(rest.isAvailable, true) ?? true;
+    // In-stock / available pieces must never also be marked sold out
+    const isSoldOut = isAvailable ? false : (parseFormBool(rest.isSoldOut, false) ?? false);
+
     const product = await this.prisma.product.create({
       data: {
         name: rest.name,
@@ -111,11 +115,11 @@ export class ProductsService {
         priceValue: rest.priceValue,
         description: rest.description,
         makingStyle: rest.makingStyle,
-        isNewArrival: rest.isNewArrival ?? false,
-        isFeatured: rest.isFeatured ?? false,
-        isAvailable: rest.isAvailable ?? true,
-        isSoldOut: rest.isSoldOut ?? false,
-        isHidden: rest.isHidden ?? false,
+        isNewArrival: parseFormBool(rest.isNewArrival, false) ?? false,
+        isFeatured: parseFormBool(rest.isFeatured, false) ?? false,
+        isAvailable,
+        isSoldOut,
+        isHidden: parseFormBool(rest.isHidden, false) ?? false,
         tags: rest.tags ?? [],
         slug,
         purity,
@@ -153,14 +157,33 @@ export class ProductsService {
       ...(rest.priceValue !== undefined && { priceValue: rest.priceValue }),
       ...(rest.description !== undefined && { description: rest.description }),
       ...(rest.makingStyle !== undefined && { makingStyle: rest.makingStyle }),
-      ...(rest.isNewArrival !== undefined && { isNewArrival: rest.isNewArrival }),
-      ...(rest.isFeatured !== undefined && { isFeatured: rest.isFeatured }),
-      ...(rest.isAvailable !== undefined && { isAvailable: rest.isAvailable }),
-      ...(rest.isSoldOut !== undefined && { isSoldOut: rest.isSoldOut }),
-      ...(rest.isHidden !== undefined && { isHidden: rest.isHidden }),
+      ...(rest.isNewArrival !== undefined && { isNewArrival: parseFormBool(rest.isNewArrival, false) }),
+      ...(rest.isFeatured !== undefined && { isFeatured: parseFormBool(rest.isFeatured, false) }),
+      ...(rest.isHidden !== undefined && { isHidden: parseFormBool(rest.isHidden, false) }),
       ...(rest.tags !== undefined && { tags: rest.tags }),
       ...(purity && { purity }),
     };
+
+    if (rest.isAvailable !== undefined || rest.isSoldOut !== undefined) {
+      const nextAvailable =
+        rest.isAvailable !== undefined
+          ? (parseFormBool(rest.isAvailable, true) ?? true)
+          : undefined;
+      const nextSoldOut =
+        rest.isSoldOut !== undefined
+          ? (parseFormBool(rest.isSoldOut, false) ?? false)
+          : undefined;
+
+      if (nextAvailable !== undefined) data.isAvailable = nextAvailable;
+      if (nextSoldOut !== undefined) data.isSoldOut = nextSoldOut;
+      // Available in-stock wins over sold-out when both would be true
+      if ((nextAvailable ?? true) === true && (nextSoldOut ?? false) === true) {
+        data.isSoldOut = false;
+      }
+      if (nextSoldOut === true && nextAvailable === undefined) {
+        data.isAvailable = false;
+      }
+    }
 
     // Append new images (do not wipe existing unless client sends replace flag via imagesMeta replace-all)
     if (imagesMeta?.length) {

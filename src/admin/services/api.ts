@@ -8,11 +8,19 @@ const api = axios.create({
   headers: { 'Content-Type': 'application/json' },
 });
 
-// ─── Request interceptor: attach JWT ──────────────────────────
+// ─── Request interceptor: attach JWT + fix FormData content-type ─
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('kj_access_token');
     if (token) config.headers.Authorization = `Bearer ${token}`;
+
+    // Let the browser set multipart boundary — a bare multipart header breaks field parsing
+    if (typeof FormData !== 'undefined' && config.data instanceof FormData) {
+      if (config.headers) {
+        delete (config.headers as any)['Content-Type'];
+        delete (config.headers as any)['content-type'];
+      }
+    }
     return config;
   },
   (error) => Promise.reject(error),

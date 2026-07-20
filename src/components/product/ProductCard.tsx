@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import Badge from '../ui/Badge';
 import type { Product } from '../../types';
+import { isProductInStock, isProductSoldOut } from '../../utils/stock';
 
 interface ProductCardProps {
   product: Product;
@@ -69,8 +70,8 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
             }}
           >
             {product.isNewArrival && <Badge variant="newArrival">New Arrival</Badge>}
-            {product.isSoldOut && <Badge variant="unavailable">Sold Out</Badge>}
-            {!product.isSoldOut && !product.isAvailable && <Badge variant="unavailable">Made to Order</Badge>}
+            {isProductSoldOut(product) && <Badge variant="unavailable">Sold Out</Badge>}
+            {!isProductSoldOut(product) && !isProductInStock(product) && <Badge variant="unavailable">Made to Order</Badge>}
           </div>
 
           {/* Hover overlay */}

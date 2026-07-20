@@ -17,10 +17,10 @@ export const productsService = {
   getById: (id: string) => api.get(`/products/${id}`).then((r) => r.data),
 
   create: (formData: FormData) =>
-    api.post('/products', formData, { headers: { 'Content-Type': 'multipart/form-data' } }).then((r) => r.data),
+    api.post('/products', formData).then((r) => r.data),
 
   update: (id: string, formData: FormData) =>
-    api.put(`/products/${id}`, formData, { headers: { 'Content-Type': 'multipart/form-data' } }).then((r) => r.data),
+    api.put(`/products/${id}`, formData).then((r) => r.data),
 
   toggleHidden: (id: string) => api.patch(`/products/${id}/toggle-hidden`).then((r) => r.data),
   toggleFeatured: (id: string) => api.patch(`/products/${id}/toggle-featured`).then((r) => r.data),
