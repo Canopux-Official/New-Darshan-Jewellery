@@ -11,7 +11,14 @@ export class CategoriesService {
     const categories = await this.prisma.category.findMany({
       where: activeOnly ? { isActive: true } : undefined,
       orderBy: { name: 'asc' },
-      include: { _count: { select: { products: true } } },
+      include: {
+        _count: {
+          select: {
+            // Public catalogue: only count products visible on the site
+            products: activeOnly ? { where: { isHidden: false } } : true,
+          },
+        },
+      },
     });
     return categories.map((c) => ({ ...c, productCount: c._count.products }));
   }
@@ -19,7 +26,11 @@ export class CategoriesService {
   async findOne(id: string) {
     const cat = await this.prisma.category.findUnique({
       where: { id },
-      include: { _count: { select: { products: true } } },
+      include: {
+        _count: {
+          select: { products: { where: { isHidden: false } } },
+        },
+      },
     });
     if (!cat) throw new NotFoundException('Category not found');
     return { ...cat, productCount: cat._count.products };

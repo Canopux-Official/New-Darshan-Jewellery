@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import PageTransition from '../components/ui/PageTransition';
 import Breadcrumb from '../components/ui/Breadcrumb';
@@ -7,11 +8,25 @@ import PageMeta from '../components/seo/PageMeta';
 import { COLLECTIONS } from '../data/mockCollections';
 import { STORE_PHOTOS } from '../data/storeImages';
 import { STATIC_PAGE_META } from '../utils/seo';
+import { publicCategoriesService } from '../services/publicApi';
+import { mergeCollectionsWithLiveCounts } from '../utils/collections';
+import type { Collection } from '../types';
 
 const HERO_IMAGE = STORE_PHOTOS.showroom;
 
 export default function CollectionsPage() {
   const meta = STATIC_PAGE_META.collections;
+  const [collections, setCollections] = useState<Collection[]>(COLLECTIONS);
+
+  useEffect(() => {
+    publicCategoriesService
+      .getAll()
+      .then((cats) => setCollections(mergeCollectionsWithLiveCounts(cats || [])))
+      .catch(() => {
+        /* keep curated fallback counts if API unavailable */
+      });
+  }, []);
+
   return (
     <PageTransition>
       <PageMeta title={meta.title} description={meta.description} path={meta.path} />
@@ -102,7 +117,7 @@ export default function CollectionsPage() {
                 transition={{ duration: 0.7 }}
                 style={{ fontFamily: 'var(--font-body)', fontSize: '0.625rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: 'var(--color-muted)', marginBottom: '10px' }}
               >
-                {COLLECTIONS.length} Categories
+                {collections.length} Categories
               </motion.p>
               <motion.h2
                 initial={{ opacity: 0, y: 20 }}
@@ -119,7 +134,7 @@ export default function CollectionsPage() {
         </div>
 
         <div className="container" style={{ paddingInline: 0 }}>
-          <CollectionMasonry collections={COLLECTIONS} />
+          <CollectionMasonry collections={collections} />
         </div>
       </section>
 
