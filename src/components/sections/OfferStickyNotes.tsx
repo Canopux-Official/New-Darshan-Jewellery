@@ -3,20 +3,38 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { publicOffersService, type PublicOffer } from '../../services/publicApi';
 
 const MAX_NOTES = 3;
+const MAX_NOTES_MOBILE = 1;
 
 const NOTE_STYLES = [
-  { bg: '#F3E6C8', rotate: -3.5, tape: 'rgba(199,161,90,0.55)' },
-  { bg: '#EDE4D4', rotate: 2.2, tape: 'rgba(139,115,85,0.45)' },
-  { bg: '#F0E8D2', rotate: -1.4, tape: 'rgba(199,161,90,0.4)' },
+  { bg: '#F3E6C8', rotate: -2.5, tape: 'rgba(199,161,90,0.55)' },
+  { bg: '#EDE4D4', rotate: 1.8, tape: 'rgba(139,115,85,0.45)' },
+  { bg: '#F0E8D2', rotate: -1.2, tape: 'rgba(199,161,90,0.4)' },
 ];
 
 /** Survives React remounts; cleared only on full page refresh. */
 const dismissedIds = new Set<string>();
 let lockedOfferIds: string[] | null = null;
 
+function useIsMobile(breakpoint = 700) {
+  const [mobile, setMobile] = useState(() =>
+    typeof window !== 'undefined' ? window.matchMedia(`(max-width: ${breakpoint}px)`).matches : false,
+  );
+
+  useEffect(() => {
+    const mq = window.matchMedia(`(max-width: ${breakpoint}px)`);
+    const onChange = () => setMobile(mq.matches);
+    onChange();
+    mq.addEventListener('change', onChange);
+    return () => mq.removeEventListener('change', onChange);
+  }, [breakpoint]);
+
+  return mobile;
+}
+
 export default function OfferStickyNotes() {
   const [offers, setOffers] = useState<PublicOffer[]>([]);
   const [, bump] = useState(0);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     let cancelled = false;
@@ -38,7 +56,8 @@ export default function OfferStickyNotes() {
     };
   }, []);
 
-  const visible = offers.filter((o) => !dismissedIds.has(o.id));
+  const limit = isMobile ? MAX_NOTES_MOBILE : MAX_NOTES;
+  const visible = offers.filter((o) => !dismissedIds.has(o.id)).slice(0, limit);
 
   const dismiss = (id: string) => {
     dismissedIds.add(id);
@@ -53,49 +72,47 @@ export default function OfferStickyNotes() {
       aria-label="Current offers"
       style={{
         position: 'fixed',
-        right: 20,
-        bottom: 24,
-        zIndex: 80,
+        zIndex: 95,
         display: 'flex',
         flexDirection: 'column-reverse',
         alignItems: 'flex-end',
-        gap: 14,
+        gap: 12,
         pointerEvents: 'none',
-        maxWidth: 'min(220px, calc(100vw - 40px))',
       }}
     >
       <AnimatePresence initial={false}>
         {visible.map((offer, i) => {
           const style = NOTE_STYLES[i % NOTE_STYLES.length];
+          const rotate = isMobile ? 0 : style.rotate;
           return (
             <motion.aside
               key={offer.id}
-              initial={{ opacity: 0, y: 28, scale: 0.9, rotate: style.rotate }}
-              animate={{ opacity: 1, y: 0, scale: 1, rotate: style.rotate }}
-              exit={{ opacity: 0, scale: 0.85, y: 16 }}
-              transition={{ duration: 0.45, delay: i * 0.08, ease: [0.25, 0.46, 0.45, 0.94] }}
-              whileHover={{ scale: 1.04, rotate: 0, zIndex: 2 }}
+              initial={{ opacity: 0, y: 20, scale: 0.94 }}
+              animate={{ opacity: 1, y: 0, scale: 1, rotate }}
+              exit={{ opacity: 0, scale: 0.9, y: 12 }}
+              transition={{ duration: 0.4, delay: i * 0.06, ease: [0.25, 0.46, 0.45, 0.94] }}
               style={{
                 pointerEvents: 'auto',
                 position: 'relative',
                 width: '100%',
                 backgroundColor: style.bg,
-                padding: '18px 14px 16px',
-                boxShadow: '2px 6px 18px rgba(24,24,24,0.14)',
+                padding: isMobile ? '16px 14px 14px' : '18px 14px 16px',
+                paddingTop: isMobile ? 20 : 18,
+                boxShadow: '2px 6px 18px rgba(24,24,24,0.16)',
                 border: '1px solid rgba(139,115,85,0.12)',
                 transformOrigin: 'center top',
+                overflow: 'visible',
               }}
             >
-              {/* Tape */}
               <span
                 aria-hidden
                 style={{
                   position: 'absolute',
-                  top: -8,
+                  top: -7,
                   left: '50%',
                   transform: 'translateX(-50%) rotate(-2deg)',
-                  width: 52,
-                  height: 16,
+                  width: 48,
+                  height: 14,
                   backgroundColor: style.tape,
                   opacity: 0.85,
                 }}
@@ -111,18 +128,23 @@ export default function OfferStickyNotes() {
                 }}
                 style={{
                   position: 'absolute',
-                  top: 8,
-                  right: 8,
-                  width: 22,
-                  height: 22,
+                  top: 6,
+                  right: 6,
+                  width: 28,
+                  height: 28,
                   border: 'none',
-                  background: 'transparent',
+                  borderRadius: 4,
+                  background: 'rgba(46,46,46,0.08)',
                   cursor: 'pointer',
-                  color: 'rgba(46,46,46,0.45)',
+                  color: 'rgba(46,46,46,0.7)',
                   fontFamily: 'var(--font-body)',
-                  fontSize: '0.875rem',
+                  fontSize: '1.125rem',
                   lineHeight: 1,
                   padding: 0,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  zIndex: 2,
                 }}
               >
                 ×
@@ -135,8 +157,8 @@ export default function OfferStickyNotes() {
                   letterSpacing: '0.16em',
                   textTransform: 'uppercase',
                   color: 'var(--color-bronze)',
-                  marginBottom: 8,
-                  paddingRight: 16,
+                  marginBottom: 6,
+                  paddingRight: 28,
                 }}
               >
                 Offer
@@ -145,11 +167,11 @@ export default function OfferStickyNotes() {
               <h3
                 style={{
                   fontFamily: 'var(--font-heading)',
-                  fontSize: '1.05rem',
+                  fontSize: isMobile ? '0.95rem' : '1.05rem',
                   fontWeight: 400,
                   color: 'var(--color-text)',
                   lineHeight: 1.25,
-                  marginBottom: 8,
+                  marginBottom: 6,
                   paddingRight: 8,
                 }}
               >
@@ -159,9 +181,9 @@ export default function OfferStickyNotes() {
               <p
                 style={{
                   fontFamily: 'var(--font-body)',
-                  fontSize: '0.75rem',
+                  fontSize: '0.72rem',
                   color: 'var(--color-muted)',
-                  lineHeight: 1.55,
+                  lineHeight: 1.5,
                 }}
               >
                 {offer.description}
@@ -172,11 +194,16 @@ export default function OfferStickyNotes() {
       </AnimatePresence>
 
       <style>{`
-        @media (max-width: 600px) {
+        .offer-sticky-stack {
+          right: max(16px, env(safe-area-inset-right));
+          bottom: max(24px, env(safe-area-inset-bottom));
+          max-width: min(220px, calc(100vw - 32px));
+        }
+        @media (max-width: 700px) {
           .offer-sticky-stack {
-            right: 12px !important;
-            bottom: 16px !important;
-            max-width: min(190px, calc(100vw - 24px)) !important;
+            right: max(12px, env(safe-area-inset-right));
+            bottom: max(56px, calc(env(safe-area-inset-bottom) + 48px));
+            max-width: min(168px, calc(100vw - 28px));
           }
         }
       `}</style>

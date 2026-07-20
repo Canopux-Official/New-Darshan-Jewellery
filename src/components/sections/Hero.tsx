@@ -7,10 +7,11 @@ const HERO_IMAGE = '/New-Darshan-Jewellery-Hero.png';
 export default function Hero() {
   return (
     <section
+      className="home-hero"
       style={{
         position: 'relative',
-        height: '100svh',
-        minHeight: '600px',
+        height: '100dvh',
+        minHeight: '560px',
         overflow: 'hidden',
         display: 'flex',
         alignItems: 'center',
@@ -18,9 +19,9 @@ export default function Hero() {
     >
       {/* Background image */}
       <motion.div
-        initial={{ scale: 1.06 }}
+        initial={{ scale: 1.04 }}
         animate={{ scale: 1 }}
-        transition={{ duration: 2.2, ease: 'easeOut' }}
+        transition={{ duration: 1.4, ease: 'easeOut' }}
         style={{
           position: 'absolute',
           inset: 0,
@@ -32,11 +33,12 @@ export default function Hero() {
           alt="Exquisite gold jewellery — New Darshan Jewellery"
           loading="eager"
           decoding="async"
+          fetchPriority="high"
           style={{
             width: '100%',
             height: '100%',
             objectFit: 'cover',
-            objectPosition: 'center 20%',
+            objectPosition: 'center 18%',
           }}
         />
       </motion.div>
@@ -54,7 +56,7 @@ export default function Hero() {
 
       {/* Content */}
       <div
-        className="container"
+        className="container home-hero-content"
         style={{
           position: 'relative',
           zIndex: 2,
@@ -231,6 +233,28 @@ export default function Hero() {
 
       {/* Closing notice ribbon */}
       <HeroNoticeRibbon />
+
+      <style>{`
+        @supports not (height: 100dvh) {
+          .home-hero { height: 100svh !important; }
+        }
+        @media (max-width: 700px) {
+          .home-hero {
+            min-height: 0 !important;
+            height: 100svh !important;
+            height: 100dvh !important;
+            align-items: flex-end !important;
+          }
+          .home-hero-content {
+            padding-bottom: 72px !important;
+            padding-right: 12px !important;
+            max-width: 100% !important;
+          }
+          .home-hero-content h1 {
+            font-size: clamp(2.1rem, 9vw, 2.75rem) !important;
+          }
+        }
+      `}</style>
     </section>
   );
 }

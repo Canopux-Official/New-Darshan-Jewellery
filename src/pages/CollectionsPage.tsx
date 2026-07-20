@@ -17,6 +17,7 @@ export default function CollectionsPage() {
       <PageMeta title={meta.title} description={meta.description} path={meta.path} />
       {/* ── Hero ── */}
       <section
+        className="collections-index-hero"
         style={{
           position: 'relative',
           height: '62vh',
@@ -121,6 +122,16 @@ export default function CollectionsPage() {
           <CollectionMasonry collections={COLLECTIONS} />
         </div>
       </section>
+
+      <style>{`
+        @media (max-width: 700px) {
+          .collections-index-hero {
+            height: 55svh !important;
+            min-height: 300px !important;
+            max-height: 480px !important;
+          }
+        }
+      `}</style>
     </PageTransition>
   );
 }

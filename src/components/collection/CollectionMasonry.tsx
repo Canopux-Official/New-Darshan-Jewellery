@@ -28,11 +28,11 @@ export default function CollectionMasonry({ collections }: CollectionMasonryProp
           .col-masonry { grid-template-columns: repeat(3, 1fr) !important; grid-auto-rows: 240px !important; }
         }
         @media (max-width: 768px) {
-          .col-masonry { grid-template-columns: repeat(2, 1fr) !important; grid-auto-rows: 220px !important; }
+          .col-masonry { grid-template-columns: repeat(2, 1fr) !important; grid-auto-rows: 240px !important; }
           .col-masonry > * { grid-column: span 1 !important; grid-row: span 1 !important; }
         }
         @media (max-width: 480px) {
-          .col-masonry { grid-template-columns: 1fr !important; grid-auto-rows: 280px !important; }
+          .col-masonry { grid-template-columns: 1fr !important; grid-auto-rows: min(72vw, 360px) !important; }
         }
       `}</style>
     </>
