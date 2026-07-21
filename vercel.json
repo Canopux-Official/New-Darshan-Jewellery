@@ -1,7 +1,38 @@
 {
+  "redirects": [
+    {
+      "source": "/admin",
+      "has": [{ "type": "host", "value": "newdarshanjewellery.com" }],
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/admin/:path*",
+      "has": [{ "type": "host", "value": "newdarshanjewellery.com" }],
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/admin",
+      "has": [{ "type": "host", "value": "www.newdarshanjewellery.com" }],
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/admin/:path*",
+      "has": [{ "type": "host", "value": "www.newdarshanjewellery.com" }],
+      "destination": "/",
+      "permanent": false
+    }
+  ],
   "rewrites": [
     {
-      "source": "/((?!assets/|images/|api/|favicon\\.svg|logo\\.png|BIS\\.png|robots\\.txt|sitemap\\.xml|New-Darshan-Jewellery-Hero\\.png|Hero-New_upscayl_3x_ultrasharp\\.png).*)",
+      "source": "/",
+      "has": [{ "type": "host", "value": "admin.newdarshanjewellery.com" }],
+      "destination": "/admin"
+    },
+    {
+      "source": "/((?!assets/|images/|api/|favicon\\.svg|robots\\.txt|sitemap\\.xml|New-Darshan-Jewellery-Hero\\.png).*)",
       "destination": "/index.html"
     }
   ],
