@@ -47,8 +47,15 @@ export class AuthService {
 
   async changePassword(userId: string, currentPassword: string, newPassword: string) {
     const user = await this.prisma.adminUser.findUnique({ where: { id: userId } });
+    if (!user) throw new UnauthorizedException();
+
     const matches = await bcrypt.compare(currentPassword, user.passwordHash);
     if (!matches) throw new BadRequestException('Current password is incorrect');
+
+    if (currentPassword === newPassword) {
+      throw new BadRequestException('New password must be different from the current password');
+    }
+
     const passwordHash = await bcrypt.hash(newPassword, 10);
     await this.prisma.adminUser.update({ where: { id: userId }, data: { passwordHash } });
     return { message: 'Password updated successfully' };

@@ -4,6 +4,7 @@ import PageHeader from '../components/ui/PageHeader';
 import AdminButton from '../components/ui/AdminButton';
 import FormField from '../components/ui/FormField';
 import { settingsService, type StoreSettings as ApiSettings } from '../services/settings.service';
+import { authService } from '../services/auth.service';
 import { useToast } from '../context/ToastContext';
 import { useAuth } from '../context/AuthContext';
 import type { StoreSettings } from '../types/admin';
@@ -189,6 +190,12 @@ export default function AdminSettings() {
   const [saved, setSaved] = useState<StoreSettings>(EMPTY);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [passwordForm, setPasswordForm] = useState({
+    currentPassword: '',
+    newPassword: '',
+    confirmPassword: '',
+  });
+  const [changingPassword, setChangingPassword] = useState(false);
 
   useEffect(() => {
     settingsService
@@ -205,6 +212,8 @@ export default function AdminSettings() {
   const isDirty = JSON.stringify(settings) !== JSON.stringify(saved);
   const set = (k: TextField, v: string) => setSettings((s) => ({ ...s, [k]: v }));
   const setToggle = (k: VisibilityKey, v: boolean) => setSettings((s) => ({ ...s, [k]: v }));
+  const setPassword = (k: keyof typeof passwordForm, v: string) =>
+    setPasswordForm((p) => ({ ...p, [k]: v }));
 
   const handleSave = async () => {
     setSaving(true);
@@ -221,6 +230,41 @@ export default function AdminSettings() {
       setSaving(false);
     }
   };
+
+  const handleChangePassword = async () => {
+    const { currentPassword, newPassword, confirmPassword } = passwordForm;
+    if (!currentPassword || !newPassword || !confirmPassword) {
+      toast.error('Please fill in all password fields');
+      return;
+    }
+    if (newPassword.length < 8) {
+      toast.error('New password must be at least 8 characters');
+      return;
+    }
+    if (newPassword !== confirmPassword) {
+      toast.error('New password and confirmation do not match');
+      return;
+    }
+    if (currentPassword === newPassword) {
+      toast.error('New password must be different from the current password');
+      return;
+    }
+
+    setChangingPassword(true);
+    try {
+      await authService.changePassword(currentPassword, newPassword);
+      setPasswordForm({ currentPassword: '', newPassword: '', confirmPassword: '' });
+      toast.success('Password updated successfully');
+    } catch (err: any) {
+      const msg = err?.response?.data?.message;
+      toast.error(Array.isArray(msg) ? msg[0] : msg || 'Failed to update password');
+    } finally {
+      setChangingPassword(false);
+    }
+  };
+
+  const passwordDirty =
+    !!passwordForm.currentPassword || !!passwordForm.newPassword || !!passwordForm.confirmPassword;
 
   return (
     <>
@@ -394,6 +438,77 @@ export default function AdminSettings() {
                 </div>
               ))}
             </div>
+
+            {section.title === 'Admin Account' && (
+              <div
+                style={{
+                  padding: '0 24px 24px',
+                  borderTop: '1px solid var(--admin-border)',
+                  marginTop: 4,
+                  paddingTop: 24,
+                }}
+              >
+                <p
+                  style={{
+                    fontFamily: 'var(--font-body)',
+                    fontSize: '0.8125rem',
+                    fontWeight: 600,
+                    color: 'var(--admin-text)',
+                    marginBottom: 4,
+                  }}
+                >
+                  Change Password
+                </p>
+                <p
+                  style={{
+                    fontFamily: 'var(--font-body)',
+                    fontSize: '0.75rem',
+                    color: 'var(--admin-text-2)',
+                    marginBottom: 18,
+                  }}
+                >
+                  Update your admin login password. You’ll use the new password next time you sign in.
+                </p>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 16 }}>
+                  <FormField
+                    label="Current Password"
+                    type="password"
+                    autoComplete="current-password"
+                    value={passwordForm.currentPassword}
+                    onChange={(e) => setPassword('currentPassword', e.target.value)}
+                    disabled={changingPassword}
+                  />
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 18 }}>
+                    <FormField
+                      label="New Password"
+                      type="password"
+                      autoComplete="new-password"
+                      placeholder="At least 8 characters"
+                      value={passwordForm.newPassword}
+                      onChange={(e) => setPassword('newPassword', e.target.value)}
+                      disabled={changingPassword}
+                    />
+                    <FormField
+                      label="Confirm New Password"
+                      type="password"
+                      autoComplete="new-password"
+                      value={passwordForm.confirmPassword}
+                      onChange={(e) => setPassword('confirmPassword', e.target.value)}
+                      disabled={changingPassword}
+                    />
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                    <AdminButton
+                      variant="primary"
+                      disabled={!passwordDirty || changingPassword}
+                      onClick={handleChangePassword}
+                    >
+                      {changingPassword ? 'Updating…' : 'Update Password'}
+                    </AdminButton>
+                  </div>
+                </div>
+              </div>
+            )}
           </motion.div>
         ))}
       </div>
