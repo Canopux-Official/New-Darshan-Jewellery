@@ -156,7 +156,14 @@ const VISIBILITY_TOGGLES: { key: VisibilityKey; label: string; hint: string }[] 
 ];
 
 function boolOr(value: unknown, fallback: boolean): boolean {
-  return typeof value === 'boolean' ? value : fallback;
+  if (typeof value === 'boolean') return value;
+  if (typeof value === 'number') return value === 1;
+  if (typeof value === 'string') {
+    const v = value.trim().toLowerCase();
+    if (v === 'true' || v === '1') return true;
+    if (v === 'false' || v === '0' || v === '') return false;
+  }
+  return fallback;
 }
 
 function fromApi(data: ApiSettings): StoreSettings {
@@ -211,7 +218,6 @@ export default function AdminSettings() {
 
   const isDirty = JSON.stringify(settings) !== JSON.stringify(saved);
   const set = (k: TextField, v: string) => setSettings((s) => ({ ...s, [k]: v }));
-  const setToggle = (k: VisibilityKey, v: boolean) => setSettings((s) => ({ ...s, [k]: v }));
   const setPassword = (k: keyof typeof passwordForm, v: string) =>
     setPasswordForm((p) => ({ ...p, [k]: v }));
 
@@ -226,6 +232,26 @@ export default function AdminSettings() {
       toast.success('Settings saved — refresh the website to see section changes');
     } catch {
       toast.error('Failed to save settings');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  /** Persist a single section toggle immediately so it can't be left unsaved. */
+  const handleVisibilityToggle = async (key: VisibilityKey) => {
+    const nextValue = !settings[key];
+    const next = { ...settings, [key]: nextValue };
+    setSettings(next);
+    setSaving(true);
+    try {
+      const updated = await settingsService.update(next);
+      const mapped = fromApi(updated);
+      setSettings(mapped);
+      setSaved(mapped);
+      toast.success(nextValue ? `${VISIBILITY_TOGGLES.find((t) => t.key === key)?.label || 'Section'} is now visible` : `${VISIBILITY_TOGGLES.find((t) => t.key === key)?.label || 'Section'} is now hidden`);
+    } catch {
+      setSettings(settings);
+      toast.error('Failed to update section visibility');
     } finally {
       setSaving(false);
     }
@@ -318,7 +344,7 @@ export default function AdminSettings() {
                 Website Sections
               </h3>
               <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.75rem', color: 'var(--admin-text-2)' }}>
-                Turn sections on or off for the public website.
+                Turn sections on or off — changes save immediately for the public site.
               </p>
             </div>
           </div>
@@ -351,19 +377,20 @@ export default function AdminSettings() {
                     type="button"
                     role="switch"
                     aria-checked={on}
-                    disabled={loading}
-                    onClick={() => setToggle(item.key, !on)}
+                    disabled={loading || saving}
+                    onClick={() => handleVisibilityToggle(item.key)}
                     style={{
                       width: 48,
                       height: 28,
                       borderRadius: 100,
                       border: 'none',
-                      cursor: loading ? 'not-allowed' : 'pointer',
+                      cursor: loading || saving ? 'not-allowed' : 'pointer',
                       backgroundColor: on ? 'var(--color-gold)' : 'var(--admin-border)',
                       position: 'relative',
                       flexShrink: 0,
                       transition: 'background-color 0.2s',
                       padding: 0,
+                      opacity: saving ? 0.7 : 1,
                     }}
                   >
                     <span

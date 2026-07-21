@@ -11,7 +11,7 @@ export default function Navbar() {
   const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
   const { openSearch } = useSearch();
-  const { showRates, showGallery } = useStoreSettings();
+  const { showRates, showGallery, isLoaded } = useStoreSettings();
 
   const isHome = location.pathname === '/';
   /** Solid bar on inner pages and after scroll on home */
@@ -20,6 +20,9 @@ export default function Navbar() {
   const emphasizeLogo = solidNav;
 
   const links = NAV_LINKS.filter((link) => {
+    if (!isLoaded) {
+      if (link.href === '/rates' || link.href === '/gallery') return false;
+    }
     if (link.href === '/rates') return showRates;
     if (link.href === '/gallery') return showGallery;
     return true;

@@ -29,9 +29,13 @@ export default function MetalRates() {
   useEffect(() => {
     publicRatesService.getCurrent()
       .then((data) => setRates(buildRateCards(data, data.lastUpdated || '')))
-      .catch(() => {/* keep empty — shows skeleton */})
+      .catch(() => {/* keep empty */})
       .finally(() => setLoading(false));
   }, []);
+
+  // Don't leave an empty dark shell when rates failed to load
+  if (!loading && rates.length === 0) return null;
+
   return (
     <section
       style={{

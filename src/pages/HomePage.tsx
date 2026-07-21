@@ -13,6 +13,7 @@ import { STATIC_PAGE_META } from '../utils/seo';
 export default function HomePage() {
   const meta = STATIC_PAGE_META.home;
   const {
+    isLoaded,
     showBrandStory,
     showRates,
     showCollections,
@@ -22,17 +23,20 @@ export default function HomePage() {
     showOffers,
   } = useStoreSettings();
 
+  // Wait for settings so toggled-off sections don't flash from defaults
+  const show = (flag: boolean) => isLoaded && flag;
+
   return (
     <main>
       <PageMeta title={meta.title} description={meta.description} path={meta.path} />
       <Hero />
-      {showBrandStory && <BrandStory />}
-      {showRates && <MetalRates />}
-      {showCollections && <Collections />}
-      {showCraftsmanship && <Craftsmanship />}
-      {showTestimonials && <Testimonials />}
-      {showVisitStore && <VisitStore />}
-      {showOffers && <OfferStickyNotes />}
+      {show(showBrandStory) && <BrandStory />}
+      {show(showRates) && <MetalRates />}
+      {show(showCollections) && <Collections />}
+      {show(showCraftsmanship) && <Craftsmanship />}
+      {show(showTestimonials) && <Testimonials />}
+      {show(showVisitStore) && <VisitStore />}
+      {show(showOffers) && <OfferStickyNotes />}
     </main>
   );
 }

@@ -12,7 +12,8 @@ const HERO_IMAGE = STORE_PHOTOS.showroom;
 
 export default function RatesPage() {
   const meta = STATIC_PAGE_META.rates;
-  const { showRates } = useStoreSettings();
+  const { showRates, isLoaded } = useStoreSettings();
+  if (!isLoaded) return null;
   if (!showRates) return <Navigate to="/" replace />;
 
   return (

@@ -35,6 +35,9 @@ export default function Footer() {
   ].filter((s) => !!s.href);
 
   const visibleQuickLinks = quickLinks.filter((l) => {
+    if (!settings.isLoaded) {
+      if (l.href === '/rates' || l.href === '/gallery') return false;
+    }
     if (l.href === '/rates') return settings.showRates;
     if (l.href === '/gallery') return settings.showGallery;
     return true;

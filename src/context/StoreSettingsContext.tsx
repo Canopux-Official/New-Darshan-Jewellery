@@ -23,6 +23,8 @@ export interface PublicStoreSettings extends SectionVisibility {
   facebookUrl?: string | null;
   googleMapsUrl?: string | null;
   email?: string;
+  /** True once the public settings request has settled (success or failure). */
+  isLoaded: boolean;
 }
 
 const VISIBILITY_DEFAULTS: SectionVisibility = {
@@ -46,10 +48,19 @@ const DEFAULTS: PublicStoreSettings = {
   sundayHours: '10:00 AM – 8:30 PM',
   googleMapsUrl: 'https://www.google.com/maps?q=21.213185,86.114279',
   ...VISIBILITY_DEFAULTS,
+  isLoaded: false,
 };
 
-function boolOrDefault(value: unknown, fallback: boolean): boolean {
-  return typeof value === 'boolean' ? value : fallback;
+/** Coerce API / JSON values — never treat the string "false" as truthy. */
+export function parseSettingBool(value: unknown, fallback: boolean): boolean {
+  if (typeof value === 'boolean') return value;
+  if (typeof value === 'number') return value === 1;
+  if (typeof value === 'string') {
+    const v = value.trim().toLowerCase();
+    if (v === 'true' || v === '1') return true;
+    if (v === 'false' || v === '0' || v === '') return false;
+  }
+  return fallback;
 }
 
 const StoreSettingsContext = createContext<PublicStoreSettings>(DEFAULTS);
@@ -72,18 +83,19 @@ export function StoreSettingsProvider({ children }: { children: ReactNode }) {
           facebookUrl: data.facebookUrl,
           googleMapsUrl: data.googleMapsUrl || DEFAULTS.googleMapsUrl,
           email: data.email,
-          showRates: boolOrDefault(data.showRates, true),
-          showBrandStory: boolOrDefault(data.showBrandStory, true),
-          showCollections: boolOrDefault(data.showCollections, true),
-          showCraftsmanship: boolOrDefault(data.showCraftsmanship, true),
-          showTestimonials: boolOrDefault(data.showTestimonials, true),
-          showVisitStore: boolOrDefault(data.showVisitStore, true),
-          showOffers: boolOrDefault(data.showOffers, true),
-          showGallery: boolOrDefault(data.showGallery, true),
+          showRates: parseSettingBool(data.showRates, true),
+          showBrandStory: parseSettingBool(data.showBrandStory, true),
+          showCollections: parseSettingBool(data.showCollections, true),
+          showCraftsmanship: parseSettingBool(data.showCraftsmanship, true),
+          showTestimonials: parseSettingBool(data.showTestimonials, true),
+          showVisitStore: parseSettingBool(data.showVisitStore, true),
+          showOffers: parseSettingBool(data.showOffers, true),
+          showGallery: parseSettingBool(data.showGallery, true),
+          isLoaded: true,
         }),
       )
       .catch(() => {
-        /* keep defaults */
+        setSettings((prev) => ({ ...prev, isLoaded: true }));
       });
   }, []);
 

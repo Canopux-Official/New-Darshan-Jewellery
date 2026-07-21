@@ -3,6 +3,7 @@ import { Transform } from 'class-transformer';
 
 const toBool = ({ value }: { value: unknown }) => {
   if (typeof value === 'boolean') return value;
+  if (typeof value === 'number') return value === 1;
   if (value === 'true' || value === '1') return true;
   if (value === 'false' || value === '0') return false;
   return value;
