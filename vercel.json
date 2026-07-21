@@ -36,6 +36,7 @@
       "destination": "/index.html"
     }
   ],
+  
   "headers": [
     {
       "source": "/robots.txt",
