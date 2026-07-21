@@ -23,7 +23,7 @@ export default function AdminLogin() {
       await login(email, password);
       navigate(from, { replace: true });
     } catch (err: any) {
-      const status = err?.response?.status;
+      // const status = err?.response?.status;
       const msg = err?.response?.data?.message;
       if (!err?.response) {
         setError('Cannot reach the server. Make sure the backend is running, then try again.');
