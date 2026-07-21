@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useSearch } from '../../../context/SearchContext';
 import { useAuth } from '../../context/AuthContext';
 
@@ -15,7 +14,6 @@ function getInitials(name: string): string {
 }
 
 export default function AdminTopbar({ collapsed, onMobileMenuOpen }: AdminTopbarProps) {
-  const [notifOpen, setNotifOpen] = useState(false);
   const { openSearch } = useSearch();
   const { user } = useAuth();
 
@@ -83,51 +81,6 @@ export default function AdminTopbar({ collapsed, onMobileMenuOpen }: AdminTopbar
           <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.75rem', color: 'var(--admin-text-3)', whiteSpace: 'nowrap' }}>Search…</span>
           <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.6rem', color: 'var(--admin-text-3)', border: '1px solid var(--admin-border)', borderRadius: '4px', padding: '1px 5px' }}>⌘K</span>
         </button>
-
-        {/* Notifications */}
-        <div style={{ position: 'relative' }}>
-          <button
-            onClick={() => setNotifOpen(!notifOpen)}
-            style={{
-              position: 'relative', width: '36px', height: '36px', borderRadius: '8px',
-              border: '1px solid var(--admin-border)', backgroundColor: 'transparent',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              cursor: 'pointer', color: 'var(--admin-text-2)',
-              transition: 'background-color 0.2s',
-            }}
-            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--admin-bg)'}
-            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
-          >
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" /><path d="M13.73 21a2 2 0 0 1-3.46 0" /></svg>
-            {/* Badge */}
-            <span style={{ position: 'absolute', top: '7px', right: '7px', width: '7px', height: '7px', borderRadius: '50%', backgroundColor: 'var(--color-gold)', border: '1.5px solid var(--admin-card)' }} />
-          </button>
-
-          {/* Dropdown */}
-          {notifOpen && (
-            <div style={{ position: 'absolute', top: '44px', right: 0, width: '300px', backgroundColor: 'var(--admin-card)', border: '1px solid var(--admin-border)', borderRadius: '10px', boxShadow: '0 8px 32px rgba(0,0,0,0.1)', zIndex: 200, overflow: 'hidden' }}>
-              <div style={{ padding: '14px 16px', borderBottom: '1px solid var(--admin-border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.8125rem', fontWeight: 600, color: 'var(--admin-text)' }}>Notifications</p>
-                <button onClick={() => setNotifOpen(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--admin-text-3)' }}>
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
-                </button>
-              </div>
-              {[
-                { msg: 'New review from Rina Joshi awaiting approval', time: '2h ago', dot: 'var(--admin-warning)' },
-                { msg: 'Gold rates updated successfully', time: '4h ago', dot: 'var(--admin-success)' },
-                { msg: 'Bridal Kundan Ring added to catalogue', time: 'Yesterday', dot: 'var(--color-gold)' },
-              ].map((n, i) => (
-                <div key={i} style={{ padding: '12px 16px', borderBottom: i < 2 ? '1px solid var(--admin-border)' : 'none', display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
-                  <div style={{ width: '7px', height: '7px', borderRadius: '50%', backgroundColor: n.dot, flexShrink: 0, marginTop: '5px' }} />
-                  <div>
-                    <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.8125rem', color: 'var(--admin-text)', lineHeight: 1.4, marginBottom: '2px' }}>{n.msg}</p>
-                    <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.6875rem', color: 'var(--admin-text-3)' }}>{n.time}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
 
         {/* Admin avatar */}
         <div
