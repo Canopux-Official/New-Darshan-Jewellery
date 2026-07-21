@@ -198,6 +198,7 @@ export default function Hero() {
 
       {/* Scroll indicator */}
       <motion.div
+        className="home-hero-scroll"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1, delay: 1.8 }}
@@ -255,12 +256,15 @@ export default function Hero() {
             align-items: flex-end !important;
           }
           .home-hero-content {
-            padding-bottom: 72px !important;
+            padding-bottom: calc(36px + 28px + env(safe-area-inset-bottom, 0px)) !important;
             padding-right: 12px !important;
             max-width: 100% !important;
           }
           .home-hero-content h1 {
             font-size: clamp(2.1rem, 9vw, 2.75rem) !important;
+          }
+          .home-hero-scroll {
+            display: none !important;
           }
         }
       `}</style>

@@ -208,6 +208,12 @@ function CollectionCard({ collection, index }: CollectionCardProps) {
         .collection-card:hover .collection-title {
           transform: translateY(0) !important;
         }
+        @media (hover: none) {
+          .collection-sub {
+            opacity: 1 !important;
+            transform: none !important;
+          }
+        }
         @media (max-width: 900px) {
           .collections-grid {
             grid-template-columns: repeat(2, 1fr) !important;

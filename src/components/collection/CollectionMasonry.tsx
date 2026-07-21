@@ -130,6 +130,9 @@ function CollectionMasonryCard({ collection, index }: { collection: Collection; 
       <style>{`
         .cm-card:hover .cm-sub { opacity: 1 !important; transform: translateY(0) !important; }
         .cm-card:hover .cm-title { transform: translateY(0) !important; }
+        @media (hover: none) {
+          .cm-sub { opacity: 1 !important; transform: none !important; }
+        }
         @media (max-width: 768px) {
           .cm-card .cm-title { font-size: 1.375rem !important; }
         }

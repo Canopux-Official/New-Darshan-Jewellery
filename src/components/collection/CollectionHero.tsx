@@ -126,9 +126,9 @@ export default function CollectionHero({ collection }: CollectionHeroProps) {
       <style>{`
         @media (max-width: 700px) {
           .collection-hero {
-            height: 72svh !important;
-            min-height: 340px !important;
-            max-height: 560px !important;
+            height: 55svh !important;
+            min-height: 300px !important;
+            max-height: 440px !important;
           }
         }
       `}</style>

@@ -47,12 +47,13 @@ export default function ImageViewer({
     >
       {/* Close */}
       <button
+        className="iv-close"
         onClick={onClose}
         aria-label="Close"
         style={{
           position: 'absolute',
-          top: '32px',
-          right: '40px',
+          top: 'max(16px, env(safe-area-inset-top))',
+          right: 'max(16px, env(safe-area-inset-right))',
           background: 'none',
           border: 'none',
           color: 'rgba(248,246,242,0.6)',
@@ -64,6 +65,7 @@ export default function ImageViewer({
           display: 'flex',
           alignItems: 'center',
           gap: '8px',
+          zIndex: 2,
         }}
       >
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -74,14 +76,16 @@ export default function ImageViewer({
 
       {/* Counter */}
       <p
+        className="iv-counter"
         style={{
           position: 'absolute',
-          top: '36px',
-          left: '40px',
+          top: 'max(20px, calc(env(safe-area-inset-top) + 8px))',
+          left: 'max(16px, env(safe-area-inset-left))',
           fontFamily: 'var(--font-body)',
           fontSize: '0.6875rem',
-          letterSpacing: '0.15em',
-          color: 'rgba(248,246,242,0.35)',
+          letterSpacing: '0.16em',
+          color: 'rgba(248,246,242,0.45)',
+          zIndex: 2,
         }}
       >
         {currentIndex + 1} / {images.length}
@@ -100,7 +104,7 @@ export default function ImageViewer({
           onClick={(e) => e.stopPropagation()}
           style={{
             maxHeight: '85vh',
-            maxWidth: '80vw',
+            maxWidth: 'min(80vw, 100%)',
             objectFit: 'contain',
             display: 'block',
             cursor: 'default',
@@ -112,11 +116,12 @@ export default function ImageViewer({
       {images.length > 1 && (
         <>
           <button
+            className="iv-prev"
             onClick={(e) => { e.stopPropagation(); onPrev(); }}
             aria-label="Previous image"
             style={{
               position: 'absolute',
-              left: '32px',
+              left: 'max(12px, env(safe-area-inset-left))',
               background: 'none',
               border: '1px solid rgba(248,246,242,0.15)',
               color: 'rgba(248,246,242,0.6)',
@@ -134,11 +139,12 @@ export default function ImageViewer({
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><polyline points="15 18 9 12 15 6" /></svg>
           </button>
           <button
+            className="iv-next"
             onClick={(e) => { e.stopPropagation(); onNext(); }}
             aria-label="Next image"
             style={{
               position: 'absolute',
-              right: '32px',
+              right: 'max(12px, env(safe-area-inset-right))',
               background: 'none',
               border: '1px solid rgba(248,246,242,0.15)',
               color: 'rgba(248,246,242,0.6)',
@@ -157,6 +163,17 @@ export default function ImageViewer({
           </button>
         </>
       )}
+
+      <style>{`
+        @media (max-width: 700px) {
+          .iv-prev, .iv-next {
+            bottom: max(24px, env(safe-area-inset-bottom));
+            top: auto;
+            width: 40px !important;
+            height: 40px !important;
+          }
+        }
+      `}</style>
     </motion.div>
   );
 }

@@ -43,6 +43,18 @@
   --navbar-height: 90px;
 }
 
+@media (max-width: 900px) {
+  :root {
+    --navbar-height: 68px;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --navbar-height: 60px;
+  }
+}
+
 html {
   font-size: 16px;
   scroll-behavior: smooth;
@@ -91,7 +103,7 @@ button {
   padding-inline: var(--space-8);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .container {
     padding-inline: var(--space-3);
   }
@@ -101,7 +113,7 @@ button {
   padding-block: var(--space-20);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .section-padding {
     padding-block: var(--space-12);
   }

@@ -107,6 +107,7 @@ export default function MetalRates() {
             : rates.map((rate, i) => (
             <motion.div
               key={rate.label}
+              className="rates-card"
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -286,6 +287,9 @@ export default function MetalRates() {
         @media (max-width: 900px) {
           .rates-grid {
             grid-template-columns: repeat(2, 1fr) !important;
+          }
+          .rates-card {
+            padding: 28px 20px !important;
           }
         }
         @media (max-width: 480px) {

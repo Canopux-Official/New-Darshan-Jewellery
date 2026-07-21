@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useScrolled } from '../../hooks/useScrolled';
@@ -25,6 +25,15 @@ export default function Navbar() {
     return true;
   });
 
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [menuOpen]);
+
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [location.pathname]);
+
   return (
     <>
       <motion.header
@@ -49,6 +58,7 @@ export default function Navbar() {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
+            gap: '12px',
           }}
         >
           {/* Logo */}
@@ -56,7 +66,8 @@ export default function Navbar() {
             to="/"
             style={{
               textDecoration: 'none',
-              flexShrink: 0,
+              flexShrink: 1,
+              minWidth: 0,
               display: 'flex',
               alignItems: 'center',
               gap: emphasizeLogo ? '14px' : '12px',
@@ -65,6 +76,7 @@ export default function Navbar() {
             aria-label="New Darshan Jewellery — Home"
           >
             <img
+              className="nav-logo-img"
               src="/logo.png"
               alt=""
               style={{
@@ -72,11 +84,12 @@ export default function Navbar() {
                 width: 'auto',
                 display: 'block',
                 objectFit: 'contain',
+                flexShrink: 0,
                 filter: emphasizeLogo ? 'brightness(1.14) contrast(1.06) saturate(1.08)' : 'none',
                 transition: 'height 0.45s ease, filter 0.45s ease',
               }}
             />
-            <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1 }}>
+            <div className="nav-wordmark" style={{ display: 'flex', flexDirection: 'column', lineHeight: 1, minWidth: 0 }}>
               <span
                 style={{
                   fontFamily: 'var(--font-heading)',
@@ -86,6 +99,7 @@ export default function Navbar() {
                   color: solidNav ? 'var(--color-text)' : '#F8F6F2',
                   transition: 'color 0.6s ease, font-size 0.45s ease',
                   textTransform: 'uppercase',
+                  whiteSpace: 'nowrap',
                 }}
               >
                 New Darshan
@@ -111,7 +125,7 @@ export default function Navbar() {
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '36px',
+              gap: '28px',
             }}
             className="desktop-nav"
           >
@@ -194,56 +208,78 @@ export default function Navbar() {
       {/* Mobile Menu */}
       <AnimatePresence>
         {menuOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.4, ease: 'easeInOut' }}
-            style={{
-              position: 'fixed',
-              top: 'var(--navbar-height)',
-              left: 0,
-              right: 0,
-              zIndex: 99,
-              backgroundColor: 'rgba(248,246,242,0.98)',
-              backdropFilter: 'blur(16px)',
-              borderBottom: '1px solid var(--color-divider)',
-              padding: '32px 24px 40px',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '28px',
-            }}
-          >
-            {links.map((link, i) => (
-              <motion.div
-                key={link.label}
-                initial={{ opacity: 0, x: -16 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.4, delay: i * 0.05, ease: 'easeInOut' }}
-              >
-                <Link
-                  to={link.href}
-                  onClick={() => setMenuOpen(false)}
-                  style={{
-                    fontFamily: 'var(--font-body)',
-                    fontSize: '0.75rem',
-                    letterSpacing: '0.22em',
-                    textTransform: 'uppercase',
-                    color: location.pathname === link.href ? 'var(--color-gold)' : 'var(--color-text)',
-                  }}
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.25 }}
+              onClick={() => setMenuOpen(false)}
+              style={{
+                position: 'fixed',
+                inset: 0,
+                zIndex: 98,
+                backgroundColor: 'rgba(24,24,24,0.45)',
+              }}
+            />
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.4, ease: 'easeInOut' }}
+              style={{
+                position: 'fixed',
+                top: 'var(--navbar-height)',
+                left: 0,
+                right: 0,
+                zIndex: 99,
+                backgroundColor: 'rgba(248,246,242,0.98)',
+                backdropFilter: 'blur(16px)',
+                borderBottom: '1px solid var(--color-divider)',
+                padding: '32px 24px 40px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '28px',
+                maxHeight: 'calc(100dvh - var(--navbar-height))',
+                overflowY: 'auto',
+              }}
+            >
+              {links.map((link, i) => (
+                <motion.div
+                  key={link.label}
+                  initial={{ opacity: 0, x: -16 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.4, delay: i * 0.05, ease: 'easeInOut' }}
                 >
-                  {link.label}
-                </Link>
-              </motion.div>
-            ))}
-          </motion.div>
+                  <Link
+                    to={link.href}
+                    onClick={() => setMenuOpen(false)}
+                    style={{
+                      fontFamily: 'var(--font-body)',
+                      fontSize: '0.8125rem',
+                      letterSpacing: '0.18em',
+                      textTransform: 'uppercase',
+                      color: location.pathname === link.href ? 'var(--color-gold)' : 'var(--color-text)',
+                    }}
+                  >
+                    {link.label}
+                  </Link>
+                </motion.div>
+              ))}
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
 
       <style>{`
-        @media (max-width: 768px) {
+        @media (max-width: 900px) {
           .desktop-nav { display: none !important; }
           .hamburger { display: flex !important; }
+          .nav-logo-img { height: 48px !important; }
+          .nav-wordmark { display: none !important; }
+        }
+        @media (max-width: 480px) {
+          .nav-logo-img { height: 44px !important; }
         }
       `}</style>
     </>

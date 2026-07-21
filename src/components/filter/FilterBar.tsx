@@ -269,6 +269,26 @@ export default function FilterBar({ filters, onChange, resultCount }: FilterBarP
                 </div>
               </div>
 
+              {/* Price */}
+              <div style={{ marginBottom: '28px' }}>
+                <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.625rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--color-muted)', marginBottom: '12px' }}>Price</p>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                  {PRICES.map((p) => (
+                    <button
+                      key={p.value}
+                      onClick={() => onChange({ ...filters, priceRange: p.value as FilterState['priceRange'] })}
+                      style={{
+                        fontFamily: 'var(--font-body)', fontSize: '0.875rem', textAlign: 'left',
+                        padding: '10px 0', background: 'none', cursor: 'pointer',
+                        borderBottom: `1px solid ${filters.priceRange === p.value ? 'var(--color-gold)' : 'var(--color-divider)'}`,
+                        color: filters.priceRange === p.value ? 'var(--color-gold)' : 'var(--color-text)',
+                        transition: 'all 0.25s',
+                      }}
+                    >{p.label}</button>
+                  ))}
+                </div>
+              </div>
+
               {/* Toggles */}
               <div style={{ marginBottom: '32px' }}>
                 <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.625rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--color-muted)', marginBottom: '12px' }}>Show</p>

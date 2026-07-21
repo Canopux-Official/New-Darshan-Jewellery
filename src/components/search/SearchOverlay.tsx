@@ -151,6 +151,7 @@ export default function SearchOverlay() {
   };
 
   return (
+    <>
     <AnimatePresence>
       {isOpen && (
         <>
@@ -358,5 +359,14 @@ export default function SearchOverlay() {
         </>
       )}
     </AnimatePresence>
+    <style>{`
+      @media (max-width: 700px) {
+        .search-idle-grid {
+          grid-template-columns: 1fr !important;
+          gap: 32px !important;
+        }
+      }
+    `}</style>
+    </>
   );
 }

@@ -171,6 +171,31 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
           >
             {product.name}
           </h3>
+          <div className="pc-meta-mobile" style={{ display: 'none', marginTop: '8px' }}>
+            <p
+              style={{
+                fontFamily: 'var(--font-body)',
+                fontSize: '0.6875rem',
+                letterSpacing: '0.06em',
+                color: 'var(--color-muted)',
+                marginBottom: product.price ? '4px' : 0,
+              }}
+            >
+              {[product.purity, product.weight].filter(Boolean).join(' · ')}
+            </p>
+            {product.price && (
+              <p
+                style={{
+                  fontFamily: 'var(--font-heading)',
+                  fontSize: '1.125rem',
+                  fontWeight: 400,
+                  color: 'var(--color-text)',
+                }}
+              >
+                {product.price}
+              </p>
+            )}
+          </div>
         </div>
       </Link>
 
@@ -181,6 +206,10 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
         .product-card-root:hover .pc-info {
           opacity: 1 !important;
           transform: translateY(0) !important;
+        }
+        @media (max-width: 900px), (hover: none) {
+          .pc-meta-mobile { display: block !important; }
+          .pc-overlay { display: none !important; }
         }
       `}</style>
     </motion.div>

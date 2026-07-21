@@ -113,6 +113,7 @@ export default function BrandStory() {
 
             {/* Stats row */}
             <motion.div
+              className="brand-story-stats"
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, amount: 0.3 }}
@@ -180,6 +181,7 @@ export default function BrandStory() {
             style={{ position: 'relative' }}
           >
             <div
+              className="brand-story-frame"
               style={{
                 position: 'absolute',
                 top: '-24px',
@@ -217,6 +219,7 @@ export default function BrandStory() {
 
             {/* Floating label */}
             <div
+              className="brand-story-float"
               style={{
                 position: 'absolute',
                 bottom: '32px',
@@ -261,6 +264,32 @@ export default function BrandStory() {
           .brand-story-grid {
             grid-template-columns: 1fr !important;
             gap: 56px !important;
+          }
+          .brand-story-frame {
+            top: -12px !important;
+            right: 0 !important;
+            width: calc(100% - 12px) !important;
+            height: calc(100% - 12px) !important;
+          }
+          .brand-story-float {
+            left: 16px !important;
+            bottom: 16px !important;
+            padding: 16px 20px !important;
+          }
+          .brand-story-stats {
+            flex-wrap: wrap !important;
+            gap: 24px 32px !important;
+            margin-top: 40px !important;
+          }
+        }
+        @media (max-width: 480px) {
+          .brand-story-stats {
+            display: grid !important;
+            grid-template-columns: 1fr 1fr 1fr !important;
+            gap: 16px !important;
+          }
+          .brand-story-stats p:first-child {
+            font-size: 1.5rem !important;
           }
         }
       `}</style>
