@@ -23,20 +23,20 @@
       "has": [{ "type": "host", "value": "www.newdarshanjewellery.com" }],
       "destination": "/",
       "permanent": false
-    }
-  ],
-  "rewrites": [
+    },
     {
       "source": "/",
       "has": [{ "type": "host", "value": "admin.newdarshanjewellery.com" }],
-      "destination": "/admin"
-    },
+      "destination": "/admin/login",
+      "permanent": false
+    }
+  ],
+  "rewrites": [
     {
       "source": "/((?!assets/|images/|api/|favicon\\.svg|robots\\.txt|sitemap\\.xml|New-Darshan-Jewellery-Hero\\.png).*)",
       "destination": "/index.html"
     }
   ],
-  
   "headers": [
     {
       "source": "/robots.txt",
