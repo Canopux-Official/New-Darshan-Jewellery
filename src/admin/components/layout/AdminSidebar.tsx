@@ -1,5 +1,6 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useAuth } from '../../context/AuthContext';
 
 interface SidebarItem {
   label: string;
@@ -27,6 +28,13 @@ interface AdminSidebarProps {
 
 export default function AdminSidebar({ collapsed, onToggle, mobileOpen, onMobileClose }: AdminSidebarProps) {
   const navigate = useNavigate();
+  const { logout } = useAuth();
+
+  const handleLogout = async () => {
+    onMobileClose?.();
+    await logout();
+    navigate('/admin/login', { replace: true });
+  };
 
   const SidebarContent = () => (
     <div
@@ -132,8 +140,10 @@ export default function AdminSidebar({ collapsed, onToggle, mobileOpen, onMobile
 
       {/* Bottom: collapse toggle + logout */}
       <div style={{ padding: '12px 8px', borderTop: '1px solid var(--admin-sidebar-border)', flexShrink: 0 }}>
-        {/* Logout placeholder */}
         <button
+          type="button"
+          onClick={handleLogout}
+          title={collapsed ? 'Logout' : undefined}
           style={{
             display: 'flex', alignItems: 'center', gap: '10px',
             width: '100%', padding: collapsed ? '10px 20px' : '10px 12px', borderRadius: '8px',
