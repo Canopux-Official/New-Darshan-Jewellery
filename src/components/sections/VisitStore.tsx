@@ -4,10 +4,10 @@ import GoldDivider from '../ui/GoldDivider';
 import MapsDirectionsButton from '../ui/MapsDirectionsButton';
 import { useStoreSettings } from '../../context/StoreSettingsContext';
 import { STORE_PHOTOS } from '../../data/storeImages';
-import { STORE_LAT, STORE_LNG } from '../../utils/maps';
+import { getStoreMapsEmbedUrl } from '../../utils/maps';
 
 const STORE_IMAGE = STORE_PHOTOS.findUs;
-const MAP_EMBED_URL = `https://maps.google.com/maps?q=${STORE_LAT},${STORE_LNG}&z=17&output=embed`;
+const MAP_EMBED_URL = getStoreMapsEmbedUrl();
 
 export default function VisitStore() {
   const settings = useStoreSettings();

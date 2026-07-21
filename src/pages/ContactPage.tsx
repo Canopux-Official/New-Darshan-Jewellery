@@ -8,20 +8,26 @@ import MapsDirectionsButton from '../components/ui/MapsDirectionsButton';
 import { useStoreSettings } from '../context/StoreSettingsContext';
 import { STORE_PHOTOS } from '../data/storeImages';
 import { STATIC_PAGE_META } from '../utils/seo';
-import { STORE_LAT, STORE_LNG } from '../utils/maps';
+import { getStoreMapsEmbedUrl, getStoreMapsUrl } from '../utils/maps';
 
 const HERO_IMAGE = STORE_PHOTOS.findUs;
-const STORE_PIN = `${STORE_LAT},${STORE_LNG}`;
 
 function toMapsEmbedUrl(): string {
-  return `https://maps.google.com/maps?q=${STORE_PIN}&z=17&output=embed`;
+  return getStoreMapsEmbedUrl();
 }
 
 function toMapsLinkUrl(mapsUrl: string | null | undefined): string {
-  if (mapsUrl && mapsUrl.includes('google.com/maps') && mapsUrl !== 'https://maps.google.com') {
+  if (
+    mapsUrl &&
+    mapsUrl.includes('google.com/maps') &&
+    mapsUrl !== 'https://maps.google.com' &&
+    !/^https?:\/\/(www\.)?google\.com\/maps\?q=\d+\.\d+,\d+\.\d+\/?$/i.test(mapsUrl.trim())
+  ) {
+    // Prefer a saved Place / search URL from settings; ignore bare lat,lng links
+    // (those reverse-geocode to whatever POI sits nearest the pin).
     return mapsUrl;
   }
-  return `https://www.google.com/maps?q=${STORE_PIN}`;
+  return getStoreMapsUrl();
 }
 
 export default function ContactPage() {

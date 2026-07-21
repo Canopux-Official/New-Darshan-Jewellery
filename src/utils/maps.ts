@@ -1,12 +1,35 @@
-const STORE_LAT = 21.213185;
-const STORE_LNG = 86.114279;
+const STORE_LAT = 21.213126;
+const STORE_LNG = 86.114193;
+const STORE_NAME = 'New Darshan Jewellery';
 
-/** Build a Google Maps directions URL to the store. */
+/** Exact pin — do not use a place-name query (Google fuzzy-matches “Darshan Jewellers”). */
+const STORE_COORDS = `${STORE_LAT},${STORE_LNG}`;
+
+/**
+ * Dropped-pin query with our label.
+ * Bare names resolve to the wrong Google Business listing nearby.
+ */
+const STORE_PIN_QUERY = `${STORE_COORDS} (${STORE_NAME})`;
+
+/** Public Google Maps link to our exact coordinates. */
+export function getStoreMapsUrl(): string {
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(STORE_PIN_QUERY)}`;
+}
+
+/** Embeddable map on our exact pin. */
+export function getStoreMapsEmbedUrl(): string {
+  return `https://maps.google.com/maps?q=${encodeURIComponent(STORE_PIN_QUERY)}&z=17&output=embed`;
+}
+
+/**
+ * Directions to the exact lat/lng.
+ * Using coordinates (not a place name) stops Google from routing to
+ * the nearby “Darshan Jewellers” listing.
+ */
 export function buildDirectionsUrl(origin?: { lat: number; lng: number }): string {
-  const destination = `${STORE_LAT},${STORE_LNG}`;
   const params = new URLSearchParams({
     api: '1',
-    destination,
+    destination: STORE_COORDS,
     travelmode: 'driving',
   });
   if (origin) {
@@ -16,9 +39,8 @@ export function buildDirectionsUrl(origin?: { lat: number; lng: number }): strin
 }
 
 /**
- * Opens Google Maps directions to the store.
- * Tries the user's GPS location as origin; falls back to destination-only
- * (Maps will usually start from the user's current location).
+ * Opens Google Maps directions to the store pin.
+ * Tries the user's GPS location as origin; falls back to destination-only.
  */
 export function openStoreDirections(): void {
   const fallback = () => {
@@ -43,4 +65,4 @@ export function openStoreDirections(): void {
   );
 }
 
-export { STORE_LAT, STORE_LNG };
+export { STORE_LAT, STORE_LNG, STORE_NAME, STORE_COORDS };

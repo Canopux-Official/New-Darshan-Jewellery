@@ -46,7 +46,7 @@ const DEFAULTS: PublicStoreSettings = {
     'New Darshan Jewellery\nThana Chhak\nGhasipura\nAnandapur\nKeonjhar\nOdisha – 758015',
   weekdayHours: '10:00 AM – 8:30 PM',
   sundayHours: '10:00 AM – 8:30 PM',
-  googleMapsUrl: 'https://www.google.com/maps?q=21.213185,86.114279',
+  googleMapsUrl: 'https://www.google.com/maps/search/?api=1&query=21.213126%2C86.114193%20(New%20Darshan%20Jewellery)',
   ...VISIBILITY_DEFAULTS,
   isLoaded: false,
 };

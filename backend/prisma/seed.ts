@@ -94,7 +94,7 @@ async function main() {
     address: STORE_ADDRESS,
     weekdayHours: '10:00 AM – 8:30 PM',
     sundayHours: '10:00 AM – 8:30 PM',
-    googleMapsUrl: 'https://maps.google.com',
+    googleMapsUrl: 'https://www.google.com/maps/search/?api=1&query=21.213126%2C86.114193%20(New%20Darshan%20Jewellery)',
   };
 
   if (existingSettings) {
