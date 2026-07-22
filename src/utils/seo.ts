@@ -1,5 +1,5 @@
 /** Site SEO helpers — canonical host for future .in domain. */
-export const SITE_URL = (import.meta.env.VITE_SITE_URL || 'https://newdarshanjewellery.in').replace(/\/$/, '');
+export const SITE_URL = (import.meta.env.VITE_SITE_URL || 'https://www.newdarshanjewellery.com').replace(/\/$/, '');
 export const SITE_NAME = 'New Darshan Jewellery';
 export const DEFAULT_OG_IMAGE = `${SITE_URL}/New-Darshan-Jewellery-Hero.png`;
 

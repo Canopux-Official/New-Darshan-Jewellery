@@ -2,31 +2,56 @@
   "redirects": [
     {
       "source": "/admin",
-      "has": [{ "type": "host", "value": "newdarshanjewellery.com" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "newdarshanjewellery.com"
+        }
+      ],
       "destination": "/",
       "permanent": false
     },
     {
       "source": "/admin/:path*",
-      "has": [{ "type": "host", "value": "newdarshanjewellery.com" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "newdarshanjewellery.com"
+        }
+      ],
       "destination": "/",
       "permanent": false
     },
     {
       "source": "/admin",
-      "has": [{ "type": "host", "value": "www.newdarshanjewellery.com" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "www.newdarshanjewellery.com"
+        }
+      ],
       "destination": "/",
       "permanent": false
     },
     {
       "source": "/admin/:path*",
-      "has": [{ "type": "host", "value": "www.newdarshanjewellery.com" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "www.newdarshanjewellery.com"
+        }
+      ],
       "destination": "/",
       "permanent": false
     },
     {
       "source": "/",
-      "has": [{ "type": "host", "value": "admin.newdarshanjewellery.com" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "admin.newdarshanjewellery.com"
+        }
+      ],
       "destination": "/admin/login",
       "permanent": false
     }
@@ -40,11 +65,36 @@
   "headers": [
     {
       "source": "/robots.txt",
-      "headers": [{ "key": "Content-Type", "value": "text/plain; charset=utf-8" }]
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "text/plain; charset=utf-8"
+        }
+      ]
     },
     {
       "source": "/sitemap.xml",
-      "headers": [{ "key": "Content-Type", "value": "application/xml; charset=utf-8" }]
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/xml; charset=utf-8"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "admin.newdarshanjewellery.com"
+        }
+      ],
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
     }
   ]
 }

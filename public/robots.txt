@@ -3,4 +3,4 @@ Allow: /
 Disallow: /admin
 Disallow: /admin/
 
-Sitemap: https://newdarshanjewellery.in/sitemap.xml
+Sitemap: https://www.newdarshanjewellery.com/sitemap.xml
