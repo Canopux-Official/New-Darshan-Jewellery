@@ -122,19 +122,8 @@ async function main() {
   }
 
   // ─── Gallery ─────────────────────────────────────────────────
-  const galleryCount = await prisma.galleryImage.count();
-  if (galleryCount === 0) {
-    const galleryImages = [
-      { url: 'https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=600&q=80', alt: 'Gold ring' },
-      { url: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=600&q=80', alt: 'Necklace' },
-      { url: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=600&q=80', alt: 'Chain' },
-      { url: 'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=600&q=80', alt: 'Bangles' },
-      { url: 'https://images.unsplash.com/photo-1573408301185-9519f94de11e?w=600&q=80', alt: 'Bracelet' },
-      { url: 'https://images.unsplash.com/photo-1630019852942-f89202989a59?w=600&q=80', alt: 'Earrings' },
-    ];
-    await prisma.galleryImage.createMany({ data: galleryImages.map((g, i) => ({ ...g, order: i })) });
-    console.log('✅ Gallery images seeded');
-  }
+  // Do not seed placeholder images — public gallery uses static assets +
+  // admin-uploaded Cloudinary media (avoids duplicate photos).
 
   // ─── Testimonials (refresh branding quotes) ──────────────────
   await prisma.testimonial.deleteMany();

@@ -122,14 +122,18 @@ model GoldRate {
 }
 
 model GalleryImage {
-  id        String   @id @default(cuid())
-  url       String
-  publicId  String?
-  alt       String?
-  width     Int?
-  height    Int?
-  order     Int      @default(0)
-  createdAt DateTime @default(now())
+  id           String   @id @default(cuid())
+  url          String
+  publicId     String?
+  alt          String?
+  width        Int?
+  height       Int?
+  order        Int      @default(0)
+  mediaType    String   @default("image") // "image" | "video"
+  format       String?
+  duration     Float?
+  thumbnailUrl String?
+  createdAt    DateTime @default(now())
 
   @@map("gallery_images")
 }

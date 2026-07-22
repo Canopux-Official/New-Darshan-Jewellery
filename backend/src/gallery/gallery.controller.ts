@@ -5,7 +5,7 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { Public } from '../common/decorators/public.decorator';
 import { CurrentUser } from '../common/decorators/user.decorator';
 import { CloudinaryService } from '../uploads/cloudinary.service';
-import { cloudinaryMulterOptions } from '../uploads/uploads.module';
+import { galleryMulterOptions } from '../uploads/uploads.module';
 import { IsArray, IsString } from 'class-validator';
 
 class ReorderDto {
@@ -24,19 +24,23 @@ export class GalleryController {
   }
 
   @Post('upload')
-  @UseInterceptors(FilesInterceptor('images', 20, cloudinaryMulterOptions))
+  @UseInterceptors(FilesInterceptor('images', 20, galleryMulterOptions))
   async uploadMany(
     @UploadedFiles() files: Express.Multer.File[],
     @Body('alt') alt: string,
     @CurrentUser('id') userId: string,
   ) {
-    const uploads = await this.cloudinary.uploadMany(files || [], 'gallery');
+    const uploads = await this.cloudinary.uploadMany(files || [], 'gallery', { allowVideo: true });
     const items = uploads.map((u) => ({
       url: u.secureUrl,
       publicId: u.publicId,
       alt: alt || undefined,
       width: u.width,
       height: u.height,
+      mediaType: u.resourceType as 'image' | 'video',
+      format: u.format,
+      duration: u.duration,
+      thumbnailUrl: u.thumbnailUrl,
     }));
     return this.galleryService.createMany(items, userId);
   }

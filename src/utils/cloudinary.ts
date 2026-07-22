@@ -50,3 +50,25 @@ export function resolveMediaUrl(url?: string | null): string {
   }
   return url;
 }
+
+/**
+ * Build a JPEG poster from a Cloudinary video URL.
+ * Uses 1s offset — frame 0 is often black on recorded clips.
+ */
+export function videoThumbnailUrl(
+  videoUrl?: string | null,
+  storedThumb?: string | null,
+): string {
+  const url = resolveMediaUrl(videoUrl);
+  if (url && isCloudinaryUrl(url) && url.includes('/video/upload/')) {
+    // Drop any existing transforms, keep optional version segment
+    const cleaned = url.replace(
+      /\/video\/upload\/(?:(?!v\d+\/)[^/]+\/)*(v\d+\/)?/,
+      '/video/upload/$1',
+    );
+    return cleaned
+      .replace('/video/upload/', '/video/upload/so_1,w_800,c_fill,q_auto,f_jpg/')
+      .replace(/\.(mp4|webm|mov|m4v)(\?.*)?$/i, '.jpg$2');
+  }
+  return resolveMediaUrl(storedThumb) || '';
+}

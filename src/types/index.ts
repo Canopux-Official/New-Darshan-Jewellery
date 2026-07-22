@@ -88,4 +88,6 @@ export interface GalleryImage {
   src: string;
   alt: string;
   span?: 'tall' | 'wide' | 'normal';
+  mediaType?: 'image' | 'video';
+  thumbnailUrl?: string;
 }

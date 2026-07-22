@@ -11,12 +11,17 @@ export interface CloudinaryUploadResult {
   height: number;
   format: string;
   bytes: number;
+  resourceType: 'image' | 'video';
+  duration?: number;
+  thumbnailUrl?: string;
 }
 
 export type CloudinaryFolder = 'products' | 'banners' | 'gallery';
 
-const ALLOWED_MIME = new Set(['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif', 'image/avif']);
-const MAX_FILE_SIZE = 8 * 1024 * 1024; // 8 MB
+const IMAGE_MIME = new Set(['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif', 'image/avif']);
+const VIDEO_MIME = new Set(['video/mp4', 'video/webm', 'video/quicktime']);
+const MAX_IMAGE_SIZE = 8 * 1024 * 1024; // 8 MB
+const MAX_VIDEO_SIZE = 80 * 1024 * 1024; // 80 MB
 
 @Injectable()
 export class CloudinaryService {
@@ -47,37 +52,73 @@ export class CloudinaryService {
     }
   }
 
-  validateFile(file: Express.Multer.File) {
+  isVideo(mime: string) {
+    return VIDEO_MIME.has(mime) || mime.startsWith('video/');
+  }
+
+  isImage(mime: string) {
+    return IMAGE_MIME.has(mime);
+  }
+
+  validateFile(file: Express.Multer.File, opts: { allowVideo?: boolean } = {}) {
     if (!file) throw new BadRequestException('No file provided');
-    if (!ALLOWED_MIME.has(file.mimetype)) {
-      throw new BadRequestException(`Invalid file type "${file.mimetype}". Allowed: JPEG, PNG, WebP, GIF, AVIF`);
+    const allowVideo = opts.allowVideo === true;
+    const okImage = this.isImage(file.mimetype);
+    const okVideo = allowVideo && this.isVideo(file.mimetype);
+
+    if (!okImage && !okVideo) {
+      throw new BadRequestException(
+        allowVideo
+          ? `Invalid file type "${file.mimetype}". Allowed: JPEG, PNG, WebP, GIF, AVIF, MP4, WebM, MOV`
+          : `Invalid file type "${file.mimetype}". Allowed: JPEG, PNG, WebP, GIF, AVIF`,
+      );
     }
-    if (file.size > MAX_FILE_SIZE) {
-      throw new BadRequestException(`File exceeds maximum size of ${MAX_FILE_SIZE / (1024 * 1024)}MB`);
+
+    const max = okVideo ? MAX_VIDEO_SIZE : MAX_IMAGE_SIZE;
+    if (file.size > max) {
+      throw new BadRequestException(`File exceeds maximum size of ${max / (1024 * 1024)}MB`);
     }
   }
 
-  async uploadBuffer(file: Express.Multer.File, folder: CloudinaryFolder): Promise<CloudinaryUploadResult> {
+  async uploadBuffer(
+    file: Express.Multer.File,
+    folder: CloudinaryFolder,
+    opts: { allowVideo?: boolean } = {},
+  ): Promise<CloudinaryUploadResult> {
     this.assertConfigured();
-    this.validateFile(file);
+    this.validateFile(file, opts);
 
+    const isVideo = this.isVideo(file.mimetype);
+    const resourceType = isVideo ? 'video' : 'image';
     const folderPath = `${this.baseFolder}/${folder}`;
 
     return new Promise((resolve, reject) => {
       const stream = cloudinary.uploader.upload_stream(
         {
           folder: folderPath,
-          resource_type: 'image',
+          resource_type: resourceType,
           overwrite: false,
-          // Store originals; optimize on delivery via URL transforms
-          quality: 'auto:good',
-          fetch_format: 'auto',
+          ...(isVideo
+            ? {}
+            : { quality: 'auto:good', fetch_format: 'auto' }),
         },
         (error, result: UploadApiResponse) => {
           if (error || !result) {
             this.logger.error(`Cloudinary upload failed: ${error?.message}`);
-            return reject(new BadRequestException(error?.message || 'Image upload failed'));
+            return reject(new BadRequestException(error?.message || 'Upload failed'));
           }
+
+          let thumbnailUrl: string | undefined;
+          if (isVideo) {
+            // Skip the opening frame — many clips start black/faded
+            thumbnailUrl = cloudinary.url(result.public_id, {
+              resource_type: 'video',
+              format: 'jpg',
+              secure: true,
+              transformation: [{ start_offset: '1', width: 800, crop: 'fill', quality: 'auto' }],
+            });
+          }
+
           resolve({
             url: result.secure_url,
             secureUrl: result.secure_url,
@@ -86,6 +127,9 @@ export class CloudinaryService {
             height: result.height,
             format: result.format,
             bytes: result.bytes,
+            resourceType,
+            duration: typeof result.duration === 'number' ? result.duration : undefined,
+            thumbnailUrl,
           });
         },
       );
@@ -94,18 +138,22 @@ export class CloudinaryService {
     });
   }
 
-  async uploadMany(files: Express.Multer.File[], folder: CloudinaryFolder): Promise<CloudinaryUploadResult[]> {
+  async uploadMany(
+    files: Express.Multer.File[],
+    folder: CloudinaryFolder,
+    opts: { allowVideo?: boolean } = {},
+  ): Promise<CloudinaryUploadResult[]> {
     const results: CloudinaryUploadResult[] = [];
     for (const file of files) {
-      results.push(await this.uploadBuffer(file, folder));
+      results.push(await this.uploadBuffer(file, folder, opts));
     }
     return results;
   }
 
-  async deleteByPublicId(publicId: string): Promise<void> {
+  async deleteByPublicId(publicId: string, resourceType: 'image' | 'video' = 'image'): Promise<void> {
     if (!publicId || !this.configured) return;
     try {
-      await cloudinary.uploader.destroy(publicId, { resource_type: 'image' });
+      await cloudinary.uploader.destroy(publicId, { resource_type: resourceType });
     } catch (err) {
       this.logger.warn(`Failed to delete Cloudinary asset ${publicId}: ${(err as Error).message}`);
     }
@@ -116,7 +164,6 @@ export class CloudinaryService {
     if (!this.configured) return urlOrPublicId;
     const { width, height, quality = 'auto' } = opts;
 
-    // If it's already a full Cloudinary URL with transforms, return as-is for now
     if (urlOrPublicId.startsWith('http') && !urlOrPublicId.includes('res.cloudinary.com')) {
       return urlOrPublicId;
     }
@@ -127,10 +174,6 @@ export class CloudinaryService {
 
     if (!publicId) return urlOrPublicId;
 
-    const transforms: string[] = ['f_auto', `q_${quality}`];
-    if (width) transforms.push(`w_${width}`);
-    if (height) transforms.push(`h_${height}`, 'c_fill');
-
     return cloudinary.url(publicId, {
       secure: true,
       transformation: [{ fetch_format: 'auto', quality, ...(width && { width }), ...(height && { height, crop: 'fill' }) }],
@@ -138,7 +181,6 @@ export class CloudinaryService {
   }
 
   private extractPublicId(url: string): string | null {
-    // e.g. https://res.cloudinary.com/demo/image/upload/v123/folder/name.jpg
     const match = url.match(/\/upload\/(?:v\d+\/)?(.+)\.[a-zA-Z0-9]+$/);
     return match ? match[1] : null;
   }

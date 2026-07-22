@@ -2,6 +2,7 @@ import type { GalleryImage } from '../types';
 
 export type GalleryCategory =
   | 'all'
+  | 'videos'
   | 'store'
   | 'bridal'
   | 'necklaces'
@@ -105,6 +106,7 @@ export const GALLERY_PAGE_IMAGES: GalleryItem[] = [
 
 export const GALLERY_FILTERS: { id: GalleryCategory; label: string }[] = [
   { id: 'all', label: 'All' },
+  { id: 'videos', label: 'Videos' },
   { id: 'store', label: 'Store' },
   { id: 'bridal', label: 'Bridal' },
   { id: 'necklaces', label: 'Necklaces' },
@@ -119,7 +121,8 @@ export const GALLERY_FILTERS: { id: GalleryCategory; label: string }[] = [
   { id: 'highlights', label: 'Highlights' },
 ];
 
-export function getGalleryByCategory(category: GalleryCategory): GalleryItem[] {
-  if (category === 'all') return GALLERY_PAGE_IMAGES;
-  return GALLERY_PAGE_IMAGES.filter((img) => img.category === category);
+export function getGalleryByCategory(category: GalleryCategory, items: GalleryItem[] = GALLERY_PAGE_IMAGES): GalleryItem[] {
+  if (category === 'all') return items;
+  if (category === 'videos') return items.filter((img) => img.mediaType === 'video');
+  return items.filter((img) => img.category === category);
 }

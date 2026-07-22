@@ -6,6 +6,7 @@ import Breadcrumb from '../components/ui/Breadcrumb';
 import PageMeta from '../components/seo/PageMeta';
 import {
   GALLERY_FILTERS,
+  GALLERY_PAGE_IMAGES,
   getGalleryByCategory,
   type GalleryCategory,
   type GalleryItem,
@@ -13,15 +14,86 @@ import {
 import { STORE_PHOTOS } from '../data/storeImages';
 import { useStoreSettings } from '../context/StoreSettingsContext';
 import { STATIC_PAGE_META } from '../utils/seo';
+import { publicGalleryService } from '../services/publicApi';
+import { resolveMediaUrl, videoThumbnailUrl } from '../utils/cloudinary';
 
 const HERO_IMAGE = STORE_PHOTOS.showroom;
+
+type ApiGalleryRow = {
+  id: string;
+  url: string;
+  alt?: string | null;
+  mediaType?: string;
+  thumbnailUrl?: string | null;
+};
+
+function mapApiToItems(rows: ApiGalleryRow[]): GalleryItem[] {
+  return rows
+    // Local /images/* paths are already in GALLERY_PAGE_IMAGES — skip to avoid doubles
+    .filter((row) => {
+      const url = (row.url || '').trim();
+      return url.length > 0 && !url.startsWith('/images/');
+    })
+    .map((row) => {
+      const isVideo = row.mediaType === 'video';
+      return {
+        id: `api-${row.id}`,
+        src: resolveMediaUrl(row.url),
+        alt: row.alt || (isVideo ? 'Gallery video' : 'Gallery photo'),
+        category: (isVideo ? 'videos' : 'highlights') as GalleryItem['category'],
+        span: 'normal' as const,
+        mediaType: (isVideo ? 'video' : 'image') as 'image' | 'video',
+        thumbnailUrl: isVideo ? videoThumbnailUrl(row.url, row.thumbnailUrl) : undefined,
+      };
+    });
+}
+
+function galleryDedupeKey(src: string): string {
+  const clean = src.split('?')[0].toLowerCase();
+  try {
+    if (clean.startsWith('http')) {
+      const path = new URL(clean).pathname;
+      // Cloudinary: ignore version folders
+      return path.replace(/\/v\d+\//, '/');
+    }
+  } catch {
+    /* ignore */
+  }
+  return clean;
+}
+
+function dedupeGalleryItems(items: GalleryItem[]): GalleryItem[] {
+  const seen = new Set<string>();
+  return items.filter((item) => {
+    const key = galleryDedupeKey(item.src);
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
 
 export default function GalleryPage() {
   const { showGallery } = useStoreSettings();
   const [filter, setFilter] = useState<GalleryCategory>('all');
   const [preview, setPreview] = useState<GalleryItem | null>(null);
+  const [apiItems, setApiItems] = useState<GalleryItem[]>([]);
 
-  const images = useMemo(() => getGalleryByCategory(filter), [filter]);
+  useEffect(() => {
+    publicGalleryService
+      .getAll()
+      .then((rows: ApiGalleryRow[]) => setApiItems(mapApiToItems(Array.isArray(rows) ? rows : [])))
+      .catch(() => setApiItems([]));
+  }, []);
+
+  const allItems = useMemo(() => {
+    // Admin-uploaded Cloudinary media first, then static catalogue (deduped)
+    return dedupeGalleryItems([...apiItems, ...GALLERY_PAGE_IMAGES]);
+  }, [apiItems]);
+
+  const images = useMemo(() => getGalleryByCategory(filter, allItems), [filter, allItems]);
+
+  const photoCount = images.filter((i) => i.mediaType !== 'video').length;
+  const videoCount = images.filter((i) => i.mediaType === 'video').length;
 
   useEffect(() => {
     if (!preview) return;
@@ -206,7 +278,9 @@ export default function GalleryPage() {
               whiteSpace: 'nowrap',
             }}
           >
-            {images.length} photos
+            {videoCount > 0
+              ? `${photoCount} photos · ${videoCount} video${videoCount === 1 ? '' : 's'}`
+              : `${images.length} photos`}
           </span>
         </div>
       </div>
@@ -246,20 +320,65 @@ export default function GalleryPage() {
                 height: '100%',
               }}
             >
-              <motion.img
-                src={img.src}
-                alt={img.alt}
-                loading="lazy"
-                decoding="async"
-                whileHover={{ scale: 1.05 }}
-                transition={{ duration: 0.75, ease: 'easeInOut' }}
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  display: 'block',
-                }}
-              />
+              {img.mediaType === 'video' ? (
+                <>
+                  <img
+                    src={img.thumbnailUrl || img.src}
+                    alt={img.alt}
+                    loading="lazy"
+                    decoding="async"
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      display: 'block',
+                    }}
+                  />
+                  <div
+                    style={{
+                      position: 'absolute',
+                      inset: 0,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      background: 'rgba(24,24,24,0.28)',
+                      pointerEvents: 'none',
+                    }}
+                  >
+                    <span
+                      style={{
+                        width: 52,
+                        height: 52,
+                        borderRadius: '50%',
+                        backgroundColor: 'rgba(248,246,242,0.92)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        boxShadow: '0 8px 24px rgba(0,0,0,0.25)',
+                      }}
+                    >
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="var(--color-text)">
+                        <polygon points="6 4 20 12 6 20 6 4" />
+                      </svg>
+                    </span>
+                  </div>
+                </>
+              ) : (
+                <motion.img
+                  src={img.src}
+                  alt={img.alt}
+                  loading="lazy"
+                  decoding="async"
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ duration: 0.75, ease: 'easeInOut' }}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    display: 'block',
+                  }}
+                />
+              )}
               <div
                 className="gallery-item-overlay"
                 style={{
@@ -299,7 +418,7 @@ export default function GalleryPage() {
               paddingBlock: 80,
             }}
           >
-            No photos in this category yet.
+            No media in this category yet.
           </p>
         )}
       </div>
@@ -338,18 +457,37 @@ export default function GalleryPage() {
               }}
             >
               <div style={{ position: 'relative', maxWidth: 'min(1100px, 94vw)', maxHeight: '88vh', pointerEvents: 'auto' }}>
-                <img
-                  src={preview.src}
-                  alt={preview.alt}
-                  style={{
-                    maxWidth: '100%',
-                    maxHeight: '80vh',
-                    objectFit: 'contain',
-                    display: 'block',
-                    borderRadius: '2px',
-                    boxShadow: '0 40px 100px rgba(0,0,0,0.5)',
-                  }}
-                />
+                {preview.mediaType === 'video' ? (
+                  <video
+                    key={preview.id}
+                    src={preview.src}
+                    controls
+                    autoPlay
+                    playsInline
+                    style={{
+                      maxWidth: '100%',
+                      maxHeight: '80vh',
+                      display: 'block',
+                      borderRadius: '2px',
+                      boxShadow: '0 40px 100px rgba(0,0,0,0.5)',
+                      background: '#000',
+                      marginInline: 'auto',
+                    }}
+                  />
+                ) : (
+                  <img
+                    src={preview.src}
+                    alt={preview.alt}
+                    style={{
+                      maxWidth: '100%',
+                      maxHeight: '80vh',
+                      objectFit: 'contain',
+                      display: 'block',
+                      borderRadius: '2px',
+                      boxShadow: '0 40px 100px rgba(0,0,0,0.5)',
+                    }}
+                  />
+                )}
                 <p
                   style={{
                     fontFamily: 'var(--font-body)',

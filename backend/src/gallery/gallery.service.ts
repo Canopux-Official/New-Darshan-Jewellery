@@ -3,6 +3,18 @@ import { PrismaService } from '../prisma/prisma.service';
 import { ActivityLogService } from '../activity-log/activity-log.service';
 import { CloudinaryService } from '../uploads/cloudinary.service';
 
+export type GalleryMediaInput = {
+  url: string;
+  publicId?: string;
+  alt?: string;
+  width?: number;
+  height?: number;
+  mediaType?: 'image' | 'video';
+  format?: string;
+  duration?: number;
+  thumbnailUrl?: string;
+};
+
 @Injectable()
 export class GalleryService {
   constructor(
@@ -17,14 +29,11 @@ export class GalleryService {
 
   async findOne(id: string) {
     const img = await this.prisma.galleryImage.findUnique({ where: { id } });
-    if (!img) throw new NotFoundException('Gallery image not found');
+    if (!img) throw new NotFoundException('Gallery item not found');
     return img;
   }
 
-  async createMany(
-    items: { url: string; publicId?: string; alt?: string; width?: number; height?: number }[],
-    userId?: string,
-  ) {
+  async createMany(items: GalleryMediaInput[], userId?: string) {
     const count = await this.prisma.galleryImage.count();
     const images = await this.prisma.$transaction(
       items.map((f, i) =>
@@ -35,12 +44,24 @@ export class GalleryService {
             alt: f.alt,
             width: f.width,
             height: f.height,
+            mediaType: f.mediaType || 'image',
+            format: f.format,
+            duration: f.duration,
+            thumbnailUrl: f.thumbnailUrl,
             order: count + i,
           },
         }),
       ),
     );
-    await this.activityLog.log('gallery', 'Image Uploaded', `${items.length} gallery image(s) uploaded`, userId);
+    const videos = items.filter((i) => i.mediaType === 'video').length;
+    const imgs = items.length - videos;
+    const label =
+      videos && imgs
+        ? `${imgs} image(s) and ${videos} video(s) uploaded`
+        : videos
+          ? `${videos} gallery video(s) uploaded`
+          : `${items.length} gallery image(s) uploaded`;
+    await this.activityLog.log('gallery', 'Media Uploaded', label, userId);
     return images;
   }
 
@@ -54,9 +75,17 @@ export class GalleryService {
 
   async remove(id: string, userId?: string) {
     const img = await this.findOne(id);
-    if (img.publicId) await this.cloudinary.deleteByPublicId(img.publicId);
+    if (img.publicId) {
+      const resourceType = img.mediaType === 'video' ? 'video' : 'image';
+      await this.cloudinary.deleteByPublicId(img.publicId, resourceType);
+    }
     await this.prisma.galleryImage.delete({ where: { id } });
-    await this.activityLog.log('gallery', 'Image Deleted', 'Gallery image removed', userId);
-    return { message: 'Image deleted' };
+    await this.activityLog.log(
+      'gallery',
+      'Media Deleted',
+      img.mediaType === 'video' ? 'Gallery video removed' : 'Gallery image removed',
+      userId,
+    );
+    return { message: 'Deleted' };
   }
 }
