@@ -298,6 +298,46 @@ export default function Footer() {
               >
                 Ghasipura · Keonjhar · Odisha
               </p>
+              <span
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                }}
+              >
+                <span
+                  style={{
+                    fontFamily: 'var(--font-body)',
+                    fontSize: '0.6875rem',
+                    letterSpacing: '0.08em',
+                    color: 'rgba(248,246,242,0.35)',
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  Maintained by
+                </span>
+                <a
+                  href="https://canopux.org"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Canopux"
+                  style={{ display: 'inline-flex', lineHeight: 0 }}
+                >
+                  <img
+                    src="/CANOPUX.png"
+                    alt="Canopux"
+                    style={{
+                      height: '14px',
+                      width: 'auto',
+                      display: 'block',
+                      opacity: 0.55,
+                      transition: 'opacity 0.25s',
+                    }}
+                    onMouseEnter={(e) => { e.currentTarget.style.opacity = '0.95'; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.opacity = '0.55'; }}
+                  />
+                </a>
+              </span>
             </div>
           </div>
         </div>
